@@ -3196,6 +3196,54 @@ body.admin-bar .jp-pillbar {
 }
 
 /* ==========================================================================
+   Footer legal band
+   --------------------------------------------------------------------------
+   The regulatory block is emitted on wp_footer, so it lands after </footer>.
+   It was painted on --jp-surface, which put a light slab under a dark footer
+   and made the disclaimer look like it had fallen off the page. It now shares
+   the footer's background family and reads as the last band of the footer.
+   CSS ONLY - not one word of the disclaimer is touched.
+   ========================================================================== */
+
+.jp-regulatory {
+	background: var(--jp-ink);
+	border-top: 1px solid rgba(250, 249, 246, .16);
+	padding: 2.1rem clamp(1rem, 4vw, 3rem) 2.6rem;
+}
+
+.jp-regulatory p {
+	font-size: .74rem;
+	line-height: 1.7;
+	/* Lower contrast than footer body copy, but measured against #1C1C1A a
+	   neutral grey needs to be at least #838383 to clear AA at this size.
+	   This sits well above that. */
+	color: #A8A49D;
+}
+
+.jp-regulatory-lead {
+	color: var(--jp-copper-light) !important;
+}
+
+.jp-regulatory-links {
+	border-top: 1px solid rgba(250, 249, 246, .12);
+}
+
+.jp-regulatory-links a {
+	color: var(--jp-copper-light);
+}
+
+.jp-regulatory-links a:hover,
+.jp-regulatory-links a:focus-visible {
+	color: var(--jp-paper);
+	text-decoration: underline;
+}
+
+.jp-regulatory-links a:focus-visible {
+	outline: 2px solid var(--jp-copper-light);
+	outline-offset: 2px;
+}
+
+/* ==========================================================================
    Motion preferences + small screens
    ========================================================================== */
 
