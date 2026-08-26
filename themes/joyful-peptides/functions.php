@@ -16,7 +16,7 @@ function joyful_peptides_setup() {
 add_action( 'after_setup_theme', 'joyful_peptides_setup' );
 
 function joyful_peptides_styles() {
-	wp_enqueue_style( 'joyful-peptides', get_stylesheet_uri(), array(), '2.0.0' );
+	wp_enqueue_style( 'joyful-peptides', get_stylesheet_uri(), array(), '2.1.0' );
 }
 add_action( 'wp_enqueue_scripts', 'joyful_peptides_styles' );
 
