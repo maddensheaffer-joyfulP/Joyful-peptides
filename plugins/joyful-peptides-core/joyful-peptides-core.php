@@ -1292,12 +1292,17 @@ function jp_render_product_tile( $product ) {
 	echo '<article class="jp-tile">';
 	echo '<a class="jp-tile-link" href="' . esc_url( $product->get_permalink() ) . '">';
 	echo '<span class="jp-tile-media">' . $img . '</span>';
+	/* Badge slot. Always rendered, usually empty - reserving the corner keeps
+	   every card identical whether or not it carries a badge, and gives real
+	   product photography a fixed place to sit behind. */
+	echo '<span class="jp-tile-badges">';
 	if ( $verified ) {
 		echo '<span class="jp-tile-badge">&#10003; Verified</span>';
 	}
 	if ( ! $product->is_in_stock() ) {
 		echo '<span class="jp-tile-badge jp-tile-badge-out">Unavailable</span>';
 	}
+	echo '</span>';
 	echo '<span class="jp-tile-name">' . esc_html( $product->get_name() ) . '</span>';
 	$size = $product->get_meta( '_jp_size_mg' );
 	if ( $size ) {

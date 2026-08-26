@@ -2932,6 +2932,153 @@ form.jp-subscribe button:hover {
 }
 
 /* ==========================================================================
+   Product cards + carousel
+   --------------------------------------------------------------------------
+   The image area is built as a LAYER, not a background: a gradient surface
+   that a transparent product PNG composites onto. The grey placeholder is
+   just what currently sits on that surface - swapping in real photography
+   changes nothing else.
+   ========================================================================== */
+
+/* --- Track: room for shadows, deliberate peek, fade mask ---------------- */
+.jp-shelf-track {
+	/* overflow-x:auto forces overflow-y to auto, which was clipping the
+	   level-2 card shadows top and bottom. This gives them room. */
+	padding: 14px 4px 26px;
+	margin: 0 -4px;
+	scroll-padding-inline: 4px;
+	/* The last card peeks by a fixed amount and fades out, instead of being
+	   sliced mid-frame and looking broken. */
+	-webkit-mask-image: linear-gradient(to right, #000 calc(100% - 56px), rgba(0, 0, 0, 0) 100%);
+	mask-image: linear-gradient(to right, #000 calc(100% - 56px), rgba(0, 0, 0, 0) 100%);
+}
+
+/* --- Image area: gradient surface, ready for a transparent PNG ---------- */
+.jp-tile-media {
+	position: relative;
+	background:
+		radial-gradient(ellipse at 50% 16%, rgba(255, 255, 255, .95) 0%, rgba(255, 255, 255, 0) 62%),
+		linear-gradient(165deg, #F7F4EE 0%, #F2EEE7 55%, #ECE7DF 100%);
+	border-radius: 8px;
+}
+
+.jp-tile-media img {
+	width: 100%;
+	height: 100%;
+	/* contain, not cover: a 1400x1800 transparent PNG must sit whole on the
+	   surface rather than being cropped to the square. */
+	object-fit: contain;
+	padding: 8px;
+	box-sizing: border-box;
+	mix-blend-mode: multiply;
+}
+
+/* Real photography arrives with its own transparency, so it must not be
+   multiplied against the surface - only the flat placeholder needs that. */
+.jp-tile-media img[src$=".png"],
+.jp-tile-media img[src$=".webp"] {
+	mix-blend-mode: normal;
+}
+
+/* --- Badge slot -------------------------------------------------------- */
+.jp-tile-badges {
+	position: absolute;
+	top: .95rem;
+	left: .95rem;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: .25rem;
+	z-index: 2;
+	pointer-events: none;
+}
+
+.jp-tile-badge {
+	position: static;
+}
+
+/* --- Title: always two lines so everything below aligns ---------------- */
+.jp-tile-name {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	min-height: 2.5em;
+}
+
+/* --- Add to cart: a real button, not an underlined link ---------------- */
+.woocommerce a.button.jp-tile-add,
+.jp-tile-add {
+	display: block;
+	background: var(--jp-ink);
+	color: var(--jp-paper);
+	font-weight: 600;
+	letter-spacing: .01em;
+	text-decoration: none;
+	border: 1px solid var(--jp-ink);
+	margin-top: auto;
+	transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.woocommerce a.button.jp-tile-add:hover,
+.jp-tile-add:hover {
+	background: var(--jp-copper-dark);
+	border-color: var(--jp-copper-dark);
+	color: #fff;
+}
+
+.woocommerce a.button.jp-tile-add:focus-visible,
+.jp-tile-add:focus-visible {
+	outline: 2px solid var(--jp-copper);
+	outline-offset: 2px;
+}
+
+/* Price sits directly above the button, which is pinned to the card foot. */
+.jp-tile-price {
+	margin-bottom: .1rem;
+}
+
+/* --- Carousel controls: bigger, real states, visible focus ------------- */
+.jp-shelf-btn {
+	width: 40px;
+	height: 40px;
+	font-size: 1rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: var(--jp-elev-1);
+}
+
+.jp-shelf-btn:hover:not(:disabled) {
+	background: var(--jp-ink);
+	border-color: var(--jp-ink);
+	color: var(--jp-paper);
+	box-shadow: var(--jp-elev-2);
+}
+
+.jp-shelf-btn:focus-visible {
+	outline: 2px solid var(--jp-copper);
+	outline-offset: 2px;
+}
+
+.jp-shelf-btn:disabled {
+	opacity: .35;
+	cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.jp-shelf-track {
+		scroll-behavior: auto;
+	}
+
+	.woocommerce a.button.jp-tile-add,
+	.jp-tile-add,
+	.jp-shelf-btn {
+		transition: none;
+	}
+}
+
+/* ==========================================================================
    Motion preferences + small screens
    ========================================================================== */
 
