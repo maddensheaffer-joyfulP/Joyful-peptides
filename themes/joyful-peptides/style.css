@@ -96,6 +96,13 @@ Text Domain: joyful-peptides
 	--jp-card-face-inv-hover: linear-gradient(180deg, rgba(250, 249, 246, .16) 0%, rgba(250, 249, 246, .08) 100%);
 	--jp-card-edge-inv: rgba(250, 249, 246, .16);
 	--jp-elev-inv: inset 0 1px 0 rgba(250, 249, 246, .22);
+
+	/* Level 2 for a DARK object floating on a LIGHT ground - the outer shadows
+	   go deeper (a dark object casts harder) and the top highlight inverts. */
+	--jp-elev-2-dark:
+		0 2px 4px rgba(28, 28, 26, .14),
+		0 8px 24px rgba(28, 28, 26, .18),
+		inset 0 1px 0 rgba(250, 249, 246, .18);
 }
 
 /* Marketing CTAs: pill shape + animated arrow (Fitish-inspired, our palette) */
@@ -2841,6 +2848,87 @@ form.jp-subscribe button:hover {
 		border-right-color: transparent;
 		border-bottom-color: var(--jp-hairline-inv);
 	}
+}
+
+/* ==========================================================================
+   Hero atmosphere
+   --------------------------------------------------------------------------
+   Four layers, back to front: grain over the hero ground, a backlight glow
+   behind the vial, a grounded contact shadow beneath it, and the floating
+   tags lifted onto their own elevation level.
+   ========================================================================== */
+
+/* Grain. Inline SVG turbulence as a data URI - no image request. */
+.jp-hero::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	opacity: .03;
+	background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27160%27%20height%3D%27160%27%3E%3Cfilter%20id%3D%27n%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%270.85%27%20numOctaves%3D%274%27%20stitchTiles%3D%27stitch%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27160%27%20height%3D%27160%27%20filter%3D%27url%28%23n%29%27%2F%3E%3C%2Fsvg%3E");
+	background-size: 160px 160px;
+}
+
+/* The panel clips the glow to its own rounded shape. */
+.jp-vial-scene {
+	overflow: hidden;
+}
+
+/* Backlight: a large soft glow so the vial reads as lit from behind rather
+   than pasted on. A white core for the light source, a copper halo around it. */
+.jp-vial-scene::before {
+	content: "";
+	position: absolute;
+	top: 46%;
+	left: 50%;
+	width: 440px;
+	height: 440px;
+	margin: 0;
+	transform: translate(-50%, -50%);
+	border-radius: 50%;
+	background:
+		radial-gradient(circle, rgba(255, 253, 250, .9) 0%, rgba(255, 253, 250, 0) 52%),
+		radial-gradient(circle, rgba(181, 101, 29, .24) 0%, rgba(181, 101, 29, 0) 68%);
+	pointer-events: none;
+}
+
+/* Contact shadow. Deliberately NOT animated: the vial floats, the shadow it
+   sits in does not, which is what makes the float read as height. */
+.jp-vial-scene::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	bottom: 62px;
+	width: 236px;
+	height: 38px;
+	transform: translateX(-50%);
+	border-radius: 50%;
+	background: radial-gradient(ellipse at center,
+		rgba(52, 37, 28, .46) 0%,
+		rgba(52, 37, 28, .26) 42%,
+		rgba(52, 37, 28, .08) 66%,
+		rgba(52, 37, 28, 0) 78%);
+	filter: blur(7px);
+	pointer-events: none;
+}
+
+/* The vial sits above the glow and its own contact shadow. Its drop-shadow is
+   now form shading only - the grounding is done by the ellipse above. */
+.jp-vial {
+	position: relative;
+	z-index: 1;
+	filter: drop-shadow(0 10px 14px rgba(28, 28, 26, .13));
+}
+
+/* Tags float above the panel instead of sitting on it. */
+.jp-vial-chip {
+	z-index: 2;
+	box-shadow: var(--jp-elev-2);
+}
+
+.jp-vial-tag {
+	z-index: 2;
+	box-shadow: var(--jp-elev-2-dark);
 }
 
 /* ==========================================================================
