@@ -175,6 +175,14 @@ em {
    Header + brand lockup
    ========================================================================== */
 
+/* The block template-part wrapper is a box roughly 208px tall, and a sticky
+   element can only stick inside its own containing block - so the "sticky"
+   header scrolled away with the wrapper and never actually stuck. Removing
+   the wrapper's box makes the page the containing block instead. */
+header.wp-block-template-part {
+	display: contents;
+}
+
 header.wp-block-group.jp-header {
 	position: sticky;
 	top: 0;
@@ -3075,6 +3083,115 @@ form.jp-subscribe button:hover {
 	.jp-tile-add,
 	.jp-shelf-btn {
 		transition: none;
+	}
+}
+
+/* ==========================================================================
+   Density signals: header ticker + sticky category pills
+   ========================================================================== */
+
+/* Ticker. Sits BELOW the RUO banner deliberately - the compliance line stays
+   the topmost thing on the page - and above the header, styled to match. */
+.jp-ticker {
+	overflow: hidden;
+	background: var(--jp-dark-espresso);
+	border-top: 1px solid rgba(181, 101, 29, .28);
+	border-bottom: 1px solid rgba(181, 101, 29, .28);
+	padding: .42rem 0;
+}
+
+.jp-ticker-track {
+	display: flex;
+	width: max-content;
+	animation: jp-ticker 46s linear infinite;
+}
+
+.jp-ticker:hover .jp-ticker-track,
+.jp-ticker:focus-within .jp-ticker-track {
+	animation-play-state: paused;
+}
+
+.jp-ticker-item {
+	font-family: var(--jp-mono);
+	font-size: .63rem;
+	letter-spacing: .16em;
+	color: var(--jp-muted-inv);
+	white-space: nowrap;
+	padding: 0 1.6rem;
+	position: relative;
+}
+
+.jp-ticker-item::after {
+	content: "";
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 3px;
+	height: 3px;
+	border-radius: 50%;
+	background: var(--jp-copper);
+}
+
+@keyframes jp-ticker {
+	from { transform: translateX(0); }
+	to   { transform: translateX(-50%); }
+}
+
+/* Sticky category pills, directly under the sticky header.
+   --jp-header-h is measured and set by the theme script. */
+.jp-pillbar {
+	position: sticky;
+	top: var(--jp-header-h, 74px);
+	z-index: 99;
+	background: rgba(250, 249, 246, .92);
+	-webkit-backdrop-filter: saturate(1.4) blur(10px);
+	backdrop-filter: saturate(1.4) blur(10px);
+	border-bottom: 1px solid var(--jp-hairline);
+}
+
+body.admin-bar .jp-pillbar {
+	top: calc(var(--jp-header-h, 74px) + 32px);
+}
+
+.jp-pillbar-track {
+	display: flex;
+	gap: .45rem;
+	align-items: center;
+	overflow-x: auto;
+	scrollbar-width: none;
+	padding: .5rem 2rem;
+}
+
+.jp-pillbar-track::-webkit-scrollbar {
+	display: none;
+}
+
+.jp-pillbar .jp-pill {
+	white-space: nowrap;
+	flex: 0 0 auto;
+}
+
+.jp-pillbar .jp-pill:focus-visible {
+	outline: 2px solid var(--jp-copper);
+	outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.jp-ticker-track {
+		animation: none;
+	}
+
+	/* With the animation off the duplicate half is unreachable, so let the
+	   user scroll the strip instead of silently hiding half of it. */
+	.jp-ticker {
+		overflow-x: auto;
+	}
+}
+
+@media (max-width: 781px) {
+	.jp-pillbar-track {
+		padding: .45rem 1rem;
 	}
 }
 

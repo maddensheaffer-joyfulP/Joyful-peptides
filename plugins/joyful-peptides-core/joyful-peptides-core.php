@@ -1233,6 +1233,75 @@ add_action( 'admin_menu', function () {
 } );
 
 /* -------------------------------------------------------------------------
+ * Density signals: header ticker + sticky category pills.
+ *
+ * EVERY ticker string is either a live figure from this database or a phrase
+ * already approved and published elsewhere on the site (jp_trust_claims() and
+ * jp_regulatory_statements()). Nothing here is newly written marketing, which
+ * matters because this bar sits above the RUO banner's fold on every page.
+ * ---------------------------------------------------------------------- */
+
+function jp_ticker_items() {
+	$count = (int) wp_count_posts( 'product' )->publish;
+	$items = array(
+		'IN VITRO RESEARCH USE ONLY',
+		'THIRD-PARTY TESTED',
+		'PUBLIC, LOT-MATCHED COAs',
+		'FAILURES PUBLISHED TOO',
+		'US SHIPPING ONLY ' . html_entity_decode( '&middot;' ) . ' 21+ ADULT SIGNATURE',
+	);
+	if ( $count > 0 ) {
+		array_splice( $items, 1, 0, sprintf( '%d RESEARCH COMPOUNDS IN CATALOG', $count ) );
+	}
+	return $items;
+}
+
+add_shortcode( 'jp_ticker', function () {
+	$items = jp_ticker_items();
+	if ( ! $items ) {
+		return '';
+	}
+	$one = '';
+	foreach ( $items as $i ) {
+		$one .= '<span class="jp-ticker-item">' . esc_html( $i ) . '</span>';
+	}
+	/* Duplicated once so the -50% keyframe loops seamlessly. aria-hidden
+	   because it is decorative repetition of content stated elsewhere. */
+	return '<div class="jp-ticker" aria-hidden="true"><div class="jp-ticker-track">'
+		. $one . $one . '</div></div>';
+} );
+
+add_shortcode( 'jp_header_pills', function () {
+	$terms = get_terms( array( 'taxonomy' => 'product_cat', 'hide_empty' => true ) );
+	if ( is_wp_error( $terms ) || count( $terms ) < 2 ) {
+		return '';
+	}
+	$current = is_product_category() ? get_queried_object_id() : 0;
+	$shop    = wc_get_page_permalink( 'shop' );
+	$on_shop = ( function_exists( 'is_shop' ) && is_shop() );
+
+	$out  = '<nav class="jp-pillbar" aria-label="Product categories">';
+	$out .= '<div class="jp-pillbar-track">';
+	$out .= sprintf(
+		'<a class="jp-pill%s" href="%s">All</a>',
+		$on_shop && ! $current ? ' jp-pill-on' : '',
+		esc_url( $shop )
+	);
+	foreach ( $terms as $t ) {
+		$out .= sprintf(
+			'<a class="jp-pill%s" href="%s"%s>%s <span class="jp-pill-count">%d</span></a>',
+			$current === $t->term_id ? ' jp-pill-on' : '',
+			esc_url( get_term_link( $t ) ),
+			$current === $t->term_id ? ' aria-current="page"' : '',
+			esc_html( $t->name ),
+			(int) $t->count
+		);
+	}
+	$out .= '</div></nav>';
+	return $out;
+} );
+
+/* -------------------------------------------------------------------------
  * Shop archive: category filter pills
  * ---------------------------------------------------------------------- */
 

@@ -169,6 +169,22 @@ function joyful_peptides_scripts() {
 			watcher.observe(form);
 		}
 	})();
+
+	/* Measure the sticky header so the pill bar can sit exactly beneath it.
+	   Set before first paint of the sticky state and kept in sync on resize,
+	   so the bar never overlaps the nav and never leaves a gap. */
+	(function () {
+		var header = document.querySelector('header.jp-header');
+		if (!header) { return; }
+		var apply = function () {
+			document.documentElement.style.setProperty(
+				'--jp-header-h', Math.round(header.getBoundingClientRect().height) + 'px'
+			);
+		};
+		apply();
+		window.addEventListener('resize', apply);
+		if ('ResizeObserver' in window) { new ResizeObserver(apply).observe(header); }
+	})();
 	</script>
 	<?php
 }
