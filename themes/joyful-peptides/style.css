@@ -54,6 +54,33 @@ Text Domain: joyful-peptides
 	--jp-measure-lead: 60ch;
 	--jp-measure-display: 20ch;
 
+	/* Elevation. Each level stacks TWO shadows - a tight dark one for contact
+	   with the surface below, and a wide very soft one for ambient occlusion -
+	   plus a 1px inset highlight so the top edge catches light. A card defined
+	   by shadow reads as a physical surface; a card defined by a 1px border
+	   reads as a rectangle. */
+	--jp-elev-1:
+		0 1px 2px rgba(28, 28, 26, .05),
+		0 2px 8px rgba(28, 28, 26, .04),
+		inset 0 1px 0 rgba(255, 255, 255, .65);
+	--jp-elev-2:
+		0 2px 4px rgba(28, 28, 26, .07),
+		0 8px 24px rgba(28, 28, 26, .06),
+		inset 0 1px 0 rgba(255, 255, 255, .8);
+	--jp-elev-3:
+		0 4px 9px rgba(28, 28, 26, .09),
+		0 16px 40px rgba(28, 28, 26, .10),
+		inset 0 1px 0 rgba(255, 255, 255, .9);
+	--jp-elev-4:
+		0 8px 17px rgba(28, 28, 26, .11),
+		0 30px 64px rgba(28, 28, 26, .14),
+		inset 0 1px 0 rgba(255, 255, 255, 1);
+
+	/* Card face: a very subtle vertical gradient, lighter at the top, so the
+	   surface has a direction of light instead of reading as a flat fill. */
+	--jp-card-face: linear-gradient(180deg, #FFFFFF 0%, #FAF9F7 100%);
+	--jp-card-edge: rgba(28, 28, 26, .06);
+	--jp-lift: -2px;
 }
 
 /* Marketing CTAs: pill shape + animated arrow (Fitish-inspired, our palette) */
@@ -2637,6 +2664,73 @@ form.jp-subscribe button:hover {
 
 .jp-front .jp-panel-dark .wp-block-buttons {
 	margin-top: var(--jp-space-32);
+}
+
+/* ==========================================================================
+   Elevation system
+   --------------------------------------------------------------------------
+   Component classes (.jp-tile, .jp-trustbar) are treated everywhere they
+   appear so the same component does not look different on the shop page.
+   Generic block classes (.wp-block-column, .wp-block-details) are scoped to
+   .jp-front so this pass stays on the front page.
+   ========================================================================== */
+
+.jp-tile,
+.jp-trustbar,
+.jp-front .jp-home-verify .wp-block-column,
+.jp-front .jp-home-steps .wp-block-column,
+.jp-front .wp-block-details {
+	background: var(--jp-card-face);
+	border: 1px solid var(--jp-card-edge);
+	box-shadow: var(--jp-elev-2);
+	transition:
+		box-shadow 150ms ease,
+		transform 150ms ease,
+		border-color 150ms ease;
+}
+
+.jp-tile:hover,
+.jp-tile:focus-within,
+.jp-trustbar:hover,
+.jp-front .jp-home-verify .wp-block-column:hover,
+.jp-front .jp-home-steps .wp-block-column:hover,
+.jp-front .wp-block-details:hover,
+.jp-front .wp-block-details[open] {
+	box-shadow: var(--jp-elev-3);
+	transform: translateY(var(--jp-lift));
+	border-color: rgba(181, 101, 29, .3);
+}
+
+/* The trust bar's cells are segments of one surface, not separate cards, so
+   the bar carries the elevation and the cells keep their divider + tint. */
+.jp-trustbar-item {
+	background: transparent;
+}
+
+/* An open FAQ row should not also be lifted while the pointer is elsewhere -
+   it stays raised, but the translate only belongs to pointer interaction. */
+.jp-front .wp-block-details[open]:not(:hover) {
+	transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.jp-tile,
+	.jp-trustbar,
+	.jp-front .jp-home-verify .wp-block-column,
+	.jp-front .jp-home-steps .wp-block-column,
+	.jp-front .wp-block-details {
+		transition: none;
+	}
+
+	.jp-tile:hover,
+	.jp-tile:focus-within,
+	.jp-trustbar:hover,
+	.jp-front .jp-home-verify .wp-block-column:hover,
+	.jp-front .jp-home-steps .wp-block-column:hover,
+	.jp-front .wp-block-details:hover,
+	.jp-front .wp-block-details[open] {
+		transform: none;
+	}
 }
 
 /* ==========================================================================
