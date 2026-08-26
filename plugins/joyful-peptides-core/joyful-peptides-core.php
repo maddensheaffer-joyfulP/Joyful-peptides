@@ -1125,30 +1125,57 @@ add_action( 'woocommerce_single_product_summary', function () {
  * records exactly what must be true before it can be enabled.
  * ---------------------------------------------------------------------- */
 
+/**
+ * Stroke line icons for the trust bar. Kept as paths on a shared 24x24 grid so
+ * every icon has identical weight and cap style - the previous set used mixed
+ * Unicode glyphs, two of which said the wrong thing (an ENVELOPE for adult
+ * signature delivery, a WARNING TRIANGLE for publishing failed batches).
+ */
+function jp_line_icon( $name ) {
+	$paths = array(
+		/* independent laboratory */
+		'flask'    => '<path d="M9 3h6M10 3v6.2L5.2 18A2 2 0 0 0 7 21h10a2 2 0 0 0 1.8-2.8L14 9.2V3"/><path d="M7.6 15.2h8.8"/>',
+		/* a published certificate */
+		'doc'      => '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13.5h6M9 17h4"/>',
+		/* a certificate recording a FAILED batch, still published */
+		'doc-fail' => '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9.6 13.6l4.8 4.8M14.4 13.6l-4.8 4.8"/>',
+		/* a signature on delivery */
+		'sign'     => '<path d="M4 19h16"/><path d="M5.5 15.4c2.4-4.6 3.9-6.9 4.6-6.9.9 0 .6 3.2 1.6 3.2 1.1 0 2-4.8 3.4-4.8 1.1 0 1.3 2.6 1.8 4.2.3 1 .8 1.9 1.6 2.4"/>',
+		/* quality practices held to a standard */
+		'shield'   => '<path d="M12 3l7 2.8v5.4c0 4.3-2.9 7.9-7 9.4-4.1-1.5-7-5.1-7-9.4V5.8z"/><path d="M9.1 12.1l2.2 2.2 4.1-4.5"/>',
+	);
+	if ( empty( $paths[ $name ] ) ) {
+		return '';
+	}
+	return '<svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor"'
+		. ' stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+		. $paths[ $name ] . '</svg>';
+}
+
 function jp_trust_claims() {
 	return array(
 		/* ---- Enabled: verifiable from this site's own data / model ---- */
 		array(
 			'on'    => true,
-			'icon'  => '&#9673;',
+			'icon'  => jp_line_icon( 'flask' ),
 			'title' => 'Third-party tested',
 			'copy'  => 'Every batch is tested by an independent laboratory before release. No in-house numbers.',
 		),
 		array(
 			'on'    => true,
-			'icon'  => '&#9636;',
+			'icon'  => jp_line_icon( 'doc' ),
 			'title' => 'Public, lot-matched COAs',
 			'copy'  => 'Each batch has a published certificate of analysis tied to the batch number on the vial.',
 		),
 		array(
 			'on'    => true,
-			'icon'  => '&#9888;',
+			'icon'  => jp_line_icon( 'doc-fail' ),
 			'title' => 'Failures published too',
 			'copy'  => 'Batches that fail testing are never released, and their records stay public.',
 		),
 		array(
 			'on'    => true,
-			'icon'  => '&#9993;',
+			'icon'  => jp_line_icon( 'sign' ),
 			'title' => 'Adult signature delivery',
 			'copy'  => 'US shipping only, 21+ adult signature required, recipient name matched to the account.',
 		),
@@ -1157,7 +1184,7 @@ function jp_trust_claims() {
 		 * Set 'on' => true only when the 'requires' condition is satisfied. -- */
 		array(
 			'on'    => true,
-			'icon'  => '&#9634;',
+			'icon'  => jp_line_icon( 'shield' ),
 			'title' => 'cGMP-aligned manufacturing',
 			'copy'  => 'Produced through qualified partners that follow cGMP-aligned quality practices, with process and quality controls applied across the portfolio.',
 		),
