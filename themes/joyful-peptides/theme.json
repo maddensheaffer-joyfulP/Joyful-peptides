@@ -100,7 +100,7 @@
 		"typography": {
 			"fontFamily": "var(--wp--preset--font-family--body)",
 			"fontSize": "var(--wp--preset--font-size--medium)",
-			"lineHeight": "1.68"
+			"lineHeight": "1.6"
 		},
 		"spacing": {
 			"blockGap": "1.5rem"
@@ -120,7 +120,7 @@
 				"typography": {
 					"fontFamily": "var(--wp--preset--font-family--heading)",
 					"fontWeight": "580",
-					"lineHeight": "1.12",
+					"lineHeight": "1.1",
 					"letterSpacing": "-0.015em"
 				},
 				"color": {

@@ -1,10 +1,10 @@
 <!-- wp:template-part {"slug":"header","tagName":"header"} /-->
 
-<!-- wp:group {"tagName":"main"} -->
-<main id="jp-main" class="wp-block-group">
+<!-- wp:group {"tagName":"main","className":"jp-front"} -->
+<main id="jp-main" class="wp-block-group jp-front">
 
-	<!-- wp:group {"tagName":"section","className":"jp-hero","style":{"spacing":{"padding":{"top":"6rem","bottom":"6rem","left":"2rem","right":"2rem"}}}} -->
-	<section class="wp-block-group jp-hero" style="padding-top:6rem;padding-right:2rem;padding-bottom:6rem;padding-left:2rem">
+	<!-- wp:group {"tagName":"section","className":"jp-hero"} -->
+	<section class="wp-block-group jp-hero">
 		<!-- wp:columns {"verticalAlignment":"center"} -->
 		<div class="wp-block-columns are-vertically-aligned-center">
 
@@ -19,7 +19,7 @@
 				<!-- /wp:html -->
 
 				<!-- wp:paragraph {"fontSize":"large","textColor":"muted"} -->
-				<p class="has-muted-color has-text-color has-large-font-size">For research use only. Every batch independently tested, with results published for verification before you order.</p>
+				<p class="has-muted-color has-text-color has-large-font-size jp-lead">For research use only. Every batch independently tested, with results published for verification before you order.</p>
 				<!-- /wp:paragraph -->
 
 				<!-- wp:buttons -->
@@ -92,24 +92,24 @@
 	</div>
 	<!-- /wp:html -->
 
-	<!-- wp:group {"tagName":"section","className":"jp-trustbar-section","style":{"spacing":{"padding":{"top":"4rem","bottom":"4rem","left":"2rem","right":"2rem"}}},"backgroundColor":"background"} -->
-	<section class="wp-block-group jp-trustbar-section has-background-background-color has-background" style="padding-top:4rem;padding-right:2rem;padding-bottom:4rem;padding-left:2rem">
+	<!-- wp:group {"tagName":"section","className":"jp-trustbar-section","backgroundColor":"background"} -->
+	<section class="wp-block-group jp-trustbar-section has-background-background-color has-background">
 		<!-- wp:shortcode -->
 		[jp_trust_bar]
 		<!-- /wp:shortcode -->
 	</section>
 	<!-- /wp:group -->
 
-	<!-- wp:group {"tagName":"section","className":"jp-home-verify","anchor":"jp-standards","style":{"spacing":{"padding":{"top":"5rem","bottom":"5rem","left":"2rem","right":"2rem"}}},"backgroundColor":"blush"} -->
-	<section id="jp-standards" class="wp-block-group jp-home-verify has-blush-background-color has-background" style="padding-top:5rem;padding-right:2rem;padding-bottom:5rem;padding-left:2rem">
+	<!-- wp:group {"tagName":"section","className":"jp-home-verify","anchor":"jp-standards","backgroundColor":"blush"} -->
+	<section id="jp-standards" class="wp-block-group jp-home-verify has-blush-background-color has-background">
 		<!-- wp:html --><p class="jp-kicker">01 &mdash; STANDARDS</p><!-- /wp:html -->
 
 		<!-- wp:heading {"level":2,"fontSize":"x-large","style":{"spacing":{"margin":{"bottom":"0.5rem"}}}} -->
-		<h2 class="has-x-large-font-size" style="margin-bottom:0.5rem">The verification standard</h2>
+		<h2 class="has-x-large-font-size">The verification standard</h2>
 		<!-- /wp:heading -->
 
 		<!-- wp:paragraph {"textColor":"muted","style":{"spacing":{"margin":{"bottom":"2rem"}}}} -->
-		<p class="has-muted-color has-text-color" style="margin-bottom:2rem">Three rules, applied to every batch, with no exceptions.</p>
+		<p class="has-muted-color has-text-color jp-lead">Three rules, applied to every batch, with no exceptions.</p>
 		<!-- /wp:paragraph -->
 
 		<!-- wp:columns -->
@@ -156,16 +156,16 @@
 	</section>
 	<!-- /wp:group -->
 
-	<!-- wp:group {"tagName":"section","style":{"spacing":{"padding":{"top":"5rem","bottom":"5rem","left":"2rem","right":"2rem"}}},"backgroundColor":"background"} -->
-	<section class="wp-block-group has-background-background-color has-background" style="padding-top:5rem;padding-right:2rem;padding-bottom:5rem;padding-left:2rem">
+	<!-- wp:group {"tagName":"section","backgroundColor":"background","className":"jp-home-catalog"} -->
+	<section class="wp-block-group has-background-background-color has-background jp-home-catalog">
 		<!-- wp:html --><p class="jp-kicker">02 &mdash; CATALOG</p><!-- /wp:html -->
 
 		<!-- wp:heading {"level":2,"fontSize":"x-large","style":{"spacing":{"margin":{"bottom":"0.5rem"}}}} -->
-		<h2 class="has-x-large-font-size" style="margin-bottom:0.5rem">From the catalog</h2>
+		<h2 class="has-x-large-font-size">From the catalog</h2>
 		<!-- /wp:heading -->
 
 		<!-- wp:paragraph {"textColor":"muted","style":{"spacing":{"margin":{"bottom":"1.5rem"}}}} -->
-		<p class="has-muted-color has-text-color" style="margin-bottom:1.5rem">A sample across research areas. Every listing is supplied for in vitro research use only, and each batch carries its own certificate of analysis.</p>
+		<p class="has-muted-color has-text-color jp-lead">A sample across research areas. Every listing is supplied for in vitro research use only, and each batch carries its own certificate of analysis.</p>
 		<!-- /wp:paragraph -->
 
 		<!-- wp:shortcode -->
@@ -181,8 +181,8 @@
 	</section>
 	<!-- /wp:html -->
 
-	<!-- wp:group {"tagName":"section","className":"jp-panel-dark","style":{"spacing":{"padding":{"top":"4.5rem","bottom":"5rem","left":"2rem","right":"2rem"}}},"backgroundColor":"foreground","textColor":"background"} -->
-	<section class="wp-block-group jp-panel-dark has-background-color has-text-color has-foreground-background-color has-background" style="padding-top:4.5rem;padding-right:2rem;padding-bottom:5rem;padding-left:2rem">
+	<!-- wp:group {"tagName":"section","className":"jp-panel-dark","backgroundColor":"foreground","textColor":"background"} -->
+	<section class="wp-block-group jp-panel-dark has-background-color has-text-color has-foreground-background-color has-background">
 		<!-- wp:group {"layout":{"type":"constrained","contentSize":"860px"}} -->
 		<div class="wp-block-group">
 			<!-- wp:html --><p class="jp-kicker jp-kicker-light">03 &mdash; TRANSPARENCY</p><!-- /wp:html -->
@@ -192,7 +192,7 @@
 			<!-- /wp:heading -->
 
 			<!-- wp:paragraph -->
-			<p>Every vial we ship carries a batch number on its label. Enter it in our COA library to see the independent lab's full report for that exact batch &mdash; test date, lab, purity, and the certificate itself as a downloadable PDF. Failed batches stay in the library too. That's the point.</p>
+			<p class="jp-lead">Every vial we ship carries a batch number on its label. Enter it in our COA library to see the independent lab's full report for that exact batch &mdash; test date, lab, purity, and the certificate itself as a downloadable PDF. Failed batches stay in the library too. That's the point.</p>
 			<!-- /wp:paragraph -->
 
 			<!-- wp:shortcode -->
@@ -211,12 +211,12 @@
 	</section>
 	<!-- /wp:group -->
 
-	<!-- wp:group {"tagName":"section","className":"jp-home-steps","style":{"spacing":{"padding":{"top":"5rem","bottom":"5rem","left":"2rem","right":"2rem"}}},"backgroundColor":"blush"} -->
-	<section class="wp-block-group jp-home-steps has-blush-background-color has-background" style="padding-top:5rem;padding-right:2rem;padding-bottom:5rem;padding-left:2rem">
+	<!-- wp:group {"tagName":"section","className":"jp-home-steps","backgroundColor":"blush"} -->
+	<section class="wp-block-group jp-home-steps has-blush-background-color has-background">
 		<!-- wp:html --><p class="jp-kicker">04 &mdash; PROCESS</p><!-- /wp:html -->
 
 		<!-- wp:heading {"level":2,"fontSize":"x-large","style":{"spacing":{"margin":{"bottom":"2rem"}}}} -->
-		<h2 class="has-x-large-font-size" style="margin-bottom:2rem">How ordering works</h2>
+		<h2 class="has-x-large-font-size">How ordering works</h2>
 		<!-- /wp:heading -->
 
 		<!-- wp:columns -->
@@ -263,14 +263,14 @@
 	</section>
 	<!-- /wp:group -->
 
-	<!-- wp:group {"tagName":"section","style":{"spacing":{"padding":{"top":"5rem","bottom":"5rem","left":"2rem","right":"2rem"}}},"backgroundColor":"background"} -->
-	<section class="wp-block-group has-background-background-color has-background" style="padding-top:5rem;padding-right:2rem;padding-bottom:5rem;padding-left:2rem">
+	<!-- wp:group {"tagName":"section","backgroundColor":"background","className":"jp-home-faq"} -->
+	<section class="wp-block-group has-background-background-color has-background jp-home-faq">
 		<!-- wp:group {"layout":{"type":"constrained","contentSize":"760px"}} -->
 		<div class="wp-block-group">
 			<!-- wp:html --><p class="jp-kicker">05 &mdash; QUESTIONS</p><!-- /wp:html -->
 
 			<!-- wp:heading {"level":2,"fontSize":"x-large","style":{"spacing":{"margin":{"bottom":"1.5rem"}}}} -->
-			<h2 class="has-x-large-font-size" style="margin-bottom:1.5rem">Common questions</h2>
+			<h2 class="has-x-large-font-size">Common questions</h2>
 			<!-- /wp:heading -->
 
 			<!-- wp:details -->
@@ -292,7 +292,7 @@
 			<!-- /wp:details -->
 
 			<!-- wp:buttons {"style":{"spacing":{"margin":{"top":"1.5rem"}}}} -->
-			<div class="wp-block-buttons" style="margin-top:1.5rem">
+			<div class="wp-block-buttons">
 				<!-- wp:button {"className":"is-style-outline"} -->
 				<div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="/faq/">Read all FAQs</a></div>
 				<!-- /wp:button -->
@@ -303,8 +303,8 @@
 	</section>
 	<!-- /wp:group -->
 
-	<!-- wp:group {"tagName":"section","style":{"spacing":{"padding":{"top":"5rem","bottom":"5rem","left":"2rem","right":"2rem"}}},"backgroundColor":"surface"} -->
-	<section class="wp-block-group has-surface-background-color has-background" style="padding-top:5rem;padding-right:2rem;padding-bottom:5rem;padding-left:2rem">
+	<!-- wp:group {"tagName":"section","backgroundColor":"surface","className":"jp-home-education"} -->
+	<section class="wp-block-group has-surface-background-color has-background jp-home-education">
 		<!-- wp:group {"layout":{"type":"constrained","contentSize":"760px"}} -->
 		<div class="wp-block-group">
 			<!-- wp:html --><p class="jp-kicker">06 &mdash; EDUCATION</p><!-- /wp:html -->
@@ -314,7 +314,7 @@
 			<!-- /wp:heading -->
 
 			<!-- wp:paragraph -->
-			<p>The Learn section covers how to read a certificate of analysis, what third-party testing does and doesn't tell you, and how to vet any research peptide vendor &mdash; including this one. No hype, no outcome claims: just the verification tools a careful buyer should demand from every supplier.</p>
+			<p class="jp-lead">The Learn section covers how to read a certificate of analysis, what third-party testing does and doesn't tell you, and how to vet any research peptide vendor &mdash; including this one. No hype, no outcome claims: just the verification tools a careful buyer should demand from every supplier.</p>
 			<!-- /wp:paragraph -->
 
 			<!-- wp:buttons -->

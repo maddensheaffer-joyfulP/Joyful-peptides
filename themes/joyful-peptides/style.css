@@ -30,6 +30,29 @@ Text Domain: joyful-peptides
 	--jp-shadow-lift: 0 14px 40px rgba(28, 28, 26, .13);
 	--jp-radius: 10px;
 	--jp-radius-pill: 999px;
+
+	/* Spacing scale. Every vertical gap on the front page comes from this list
+	   rather than a per-section guess, so rhythm stays consistent. */
+	--jp-space-4: 4px;
+	--jp-space-8: 8px;
+	--jp-space-12: 12px;
+	--jp-space-16: 16px;
+	--jp-space-24: 24px;
+	--jp-space-32: 32px;
+	--jp-space-48: 48px;
+	--jp-space-64: 64px;
+	--jp-space-96: 96px;
+	--jp-space-128: 128px;
+
+	/* One section padding, applied to every front-page section. */
+	--jp-section-y: var(--jp-space-96);
+	--jp-section-x: var(--jp-space-32);
+
+	/* Reading measure. Body prose stops at 68ch; leads are shorter so they read
+	   as a step above body; display headings break into deliberate lines. */
+	--jp-measure-body: 68ch;
+	--jp-measure-lead: 60ch;
+	--jp-measure-display: 20ch;
 }
 
 /* Marketing CTAs: pill shape + animated arrow (Fitish-inspired, our palette) */
@@ -577,7 +600,7 @@ h2 em, .jp-404-title em {
    two states. Space the CTA off the copy explicitly rather than relying on the
    grid being there to separate them. */
 .jp-panel-dark .wp-block-buttons {
-	margin-top: 2.25rem;
+	margin-top: var(--jp-space-32);
 }
 
 .jp-stats {
@@ -2477,6 +2500,131 @@ form.jp-subscribe button:hover {
 
 .woocommerce .woocommerce-breadcrumb a:hover {
 	color: var(--jp-copper);
+}
+
+/* ==========================================================================
+   Front-page typography: measure, optical sizing, rhythm
+   --------------------------------------------------------------------------
+   Scoped to .jp-front (the <main> wrapper on the front page) so this pass
+   cannot leak into shop, article or legal templates.
+   ========================================================================== */
+
+/* Section padding: one value everywhere, not a per-section guess. The old
+   inline paddings (6rem / 5rem / 4.5rem / 4rem) have been removed from
+   front-page.html so this rule is the single source. */
+.jp-hero,
+.jp-trustbar-section,
+.jp-home-verify,
+.jp-home-catalog,
+.jp-panel-dark,
+.jp-home-steps,
+.jp-home-faq,
+.jp-home-education {
+	padding: var(--jp-section-y) var(--jp-section-x);
+}
+
+/* --- Reading measure ---------------------------------------------------- */
+.jp-front p,
+.jp-front li {
+	max-width: var(--jp-measure-body);
+}
+
+.jp-front .jp-lead {
+	max-width: var(--jp-measure-lead);
+}
+
+.jp-front h1,
+.jp-front h2,
+.jp-front .jp-hero-title,
+.jp-front .jp-cta-title,
+.jp-front .jp-manifesto-quote {
+	max-width: var(--jp-measure-display);
+}
+
+/* A measure would left-align text in the centred sections; keep them centred. */
+.jp-front .jp-cta-band p,
+.jp-front .jp-cta-title,
+.jp-front .jp-manifesto-quote,
+.jp-front .has-text-align-center {
+	margin-inline: auto;
+}
+
+/* --- Optical sizing ----------------------------------------------------- */
+/* Display sizes (48px+) need tighter tracking and leading than the heading
+   default, or they read loose and unset. */
+.jp-front .jp-hero-title,
+.jp-front .jp-cta-title,
+.jp-front .jp-manifesto-quote,
+.jp-front .has-xx-large-font-size {
+	letter-spacing: -.02em;
+	line-height: 1.05;
+}
+
+.jp-front h2 {
+	letter-spacing: -.015em;
+	line-height: 1.1;
+}
+
+/* Mono eyebrows go the other way: small caps need air, not tightening. */
+.jp-kicker,
+.jp-hero-kicker {
+	letter-spacing: .12em;
+	text-transform: uppercase;
+}
+
+/* --- Tabular numerals --------------------------------------------------- */
+/* Digits share one advance width so prices and figures align in columns. */
+.jp-tile-price,
+.jp-stat-num,
+.jp-step-num,
+.jp-verify-num,
+.woocommerce-Price-amount,
+.jp-coa-table td {
+	font-variant-numeric: tabular-nums;
+	font-feature-settings: "tnum" 1;
+}
+
+/* --- Widow control ------------------------------------------------------ */
+/* @supports so browsers without text-wrap simply keep normal wrapping. */
+@supports (text-wrap: balance) {
+	.jp-front h1,
+	.jp-front h2,
+	.jp-front h3,
+	.jp-front .jp-hero-title,
+	.jp-front .jp-cta-title,
+	.jp-front .jp-manifesto-quote {
+		text-wrap: balance;
+	}
+}
+
+@supports (text-wrap: pretty) {
+	.jp-front p,
+	.jp-front li {
+		text-wrap: pretty;
+	}
+}
+
+/* --- Vertical rhythm ---------------------------------------------------- */
+/* Every gap below comes from the spacing scale in :root. */
+.jp-front .jp-kicker,
+.jp-front .jp-hero-kicker {
+	margin-bottom: var(--jp-space-16);
+}
+
+.jp-front h2 {
+	margin-bottom: var(--jp-space-16);
+}
+
+.jp-front .jp-lead {
+	margin-bottom: var(--jp-space-32);
+}
+
+.jp-front .wp-block-buttons {
+	margin-top: var(--jp-space-24);
+}
+
+.jp-front .jp-panel-dark .wp-block-buttons {
+	margin-top: var(--jp-space-32);
 }
 
 /* ==========================================================================
