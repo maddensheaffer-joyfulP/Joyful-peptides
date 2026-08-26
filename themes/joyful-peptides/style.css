@@ -81,6 +81,21 @@ Text Domain: joyful-peptides
 	--jp-card-face: linear-gradient(180deg, #FFFFFF 0%, #FAF9F7 100%);
 	--jp-card-edge: rgba(28, 28, 26, .06);
 	--jp-lift: -2px;
+
+	/* Inverted surface set. Any section that goes dark uses these instead of
+	   one-off overrides, so the next dark section costs nothing to build.
+	   Shadows are invisible on dark ground, so elevation there is carried by a
+	   lighter surface fill plus a 1px top highlight - never by --jp-elev-*. */
+	--jp-dark-espresso: #3A2A21;
+	--jp-ink-inv: #FAF9F6;
+	/* #C8C5BF measured 4.40:1 where the copper radial peaks - below AA.
+	   #D6D3CD measures 5.08:1 at that same worst point. */
+	--jp-muted-inv: #D6D3CD;
+	--jp-hairline-inv: rgba(250, 249, 246, .14);
+	--jp-card-face-inv: linear-gradient(180deg, rgba(250, 249, 246, .10) 0%, rgba(250, 249, 246, .05) 100%);
+	--jp-card-face-inv-hover: linear-gradient(180deg, rgba(250, 249, 246, .16) 0%, rgba(250, 249, 246, .08) 100%);
+	--jp-card-edge-inv: rgba(250, 249, 246, .16);
+	--jp-elev-inv: inset 0 1px 0 rgba(250, 249, 246, .22);
 }
 
 /* Marketing CTAs: pill shape + animated arrow (Fitish-inspired, our palette) */
@@ -2730,6 +2745,101 @@ form.jp-subscribe button:hover {
 	.jp-front .wp-block-details:hover,
 	.jp-front .wp-block-details[open] {
 		transform: none;
+	}
+}
+
+/* ==========================================================================
+   Section rhythm
+   --------------------------------------------------------------------------
+   Front-page order and background value:
+     hero            paper          light
+     trust strip     espresso       DARK   <- breaks the long light run early
+     01 standards    warm cream     light
+     02 catalog      paper          light
+     manifesto       surface        light
+     03 transparency graphite       DARK
+     04 how it works warm cream     light
+     05 FAQ          paper          light
+     06 education    surface        light
+     final CTA       graphite       DARK
+     footer + legal  graphite       DARK
+   Every dark surface is a radial gradient over a base, never a flat fill.
+   Adjacent light sections are separated by a rust hairline.
+   ========================================================================== */
+
+/* Hero: paper base, existing gradients deepened slightly. */
+.jp-hero {
+	background-color: var(--jp-paper);
+	background-image:
+		radial-gradient(ellipse at 78% 18%, rgba(181, 101, 29, .17) 0%, rgba(181, 101, 29, 0) 58%),
+		radial-gradient(ellipse at 8% 88%, rgba(58, 42, 33, .10) 0%, rgba(58, 42, 33, 0) 55%),
+		radial-gradient(rgba(28, 28, 26, .07) 1px, transparent 1px);
+	background-size: auto, auto, 26px 26px;
+}
+
+/* Trust strip: the new dark band. */
+.jp-trustbar-section {
+	background-color: var(--jp-dark-espresso);
+	background-image:
+		radial-gradient(ellipse at 18% -10%, rgba(181, 101, 29, .28) 0%, rgba(181, 101, 29, 0) 58%),
+		radial-gradient(ellipse at 88% 120%, rgba(20, 14, 11, .55) 0%, rgba(20, 14, 11, 0) 60%);
+}
+
+/* Manifesto sits between two paper sections, so it takes the surface value. */
+.jp-manifesto {
+	background-color: var(--jp-surface);
+	background-image: radial-gradient(ellipse at 50% 120%, rgba(181, 101, 29, .09) 0%, rgba(181, 101, 29, 0) 60%);
+}
+
+/* Rust hairline wherever two light sections meet. */
+.jp-home-catalog,
+.jp-manifesto,
+.jp-home-faq,
+.jp-home-education {
+	border-top: 1px solid rgba(181, 101, 29, .16);
+}
+
+/* --- Inverted card treatment on dark sections --------------------------- */
+/* Elevation here is a lighter fill + a top highlight. The level-2 shadow is
+   explicitly cleared so it is not left doing nothing. */
+.jp-trustbar-section .jp-trustbar {
+	background: var(--jp-card-face-inv);
+	border: 1px solid var(--jp-card-edge-inv);
+	box-shadow: var(--jp-elev-inv);
+}
+
+.jp-trustbar-section .jp-trustbar:hover {
+	background: var(--jp-card-face-inv-hover);
+	box-shadow: var(--jp-elev-inv);
+	border-color: rgba(217, 154, 98, .45);
+}
+
+.jp-trustbar-section .jp-trustbar-item {
+	border-right-color: var(--jp-hairline-inv);
+}
+
+.jp-trustbar-section .jp-trustbar-item:hover {
+	background: rgba(250, 249, 246, .07);
+}
+
+.jp-trustbar-section .jp-trustbar-title {
+	color: var(--jp-ink-inv);
+}
+
+.jp-trustbar-section .jp-trustbar-copy {
+	color: var(--jp-muted-inv);
+}
+
+.jp-trustbar-section .jp-trustbar-icon {
+	background: rgba(181, 101, 29, .22);
+	border-color: rgba(217, 154, 98, .45);
+	color: var(--jp-copper-light);
+}
+
+@media (max-width: 781px) {
+	.jp-trustbar-section .jp-trustbar-item {
+		border-right-color: transparent;
+		border-bottom-color: var(--jp-hairline-inv);
 	}
 }
 
