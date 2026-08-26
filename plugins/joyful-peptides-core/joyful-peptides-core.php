@@ -587,7 +587,23 @@ add_action( 'wp_footer', function () {
 /* -------------------------------------------------------------------------
  * Live COA stats: [jp_coa_stats] renders stat tiles computed from the real
  * batch records - never hand-typed numbers, so they can't drift from truth.
+ *
+ * Below JP_COA_STATS_MIN_BATCHES published records the grid does not render
+ * at all. A truthful number can still be a damaging one: with two records on
+ * file the tiles read "2 batches published / 0 passed testing", which tells a
+ * visitor that nothing we have tested has passed. That is an artifact of a
+ * near-empty library, not a fact about our quality - the missing batch is
+ * 'pending', a third result state that is counted in the total but is neither
+ * a pass nor a fail. Rather than fake or round the numbers, we withhold the
+ * grid until there is enough data for it to mean anything, and let the
+ * surrounding copy and the "Look up a batch" CTA carry the section.
+ *
+ * Raise or lower the threshold here (or define it in wp-config.php).
  * ---------------------------------------------------------------------- */
+
+if ( ! defined( 'JP_COA_STATS_MIN_BATCHES' ) ) {
+	define( 'JP_COA_STATS_MIN_BATCHES', 10 );
+}
 
 add_shortcode( 'jp_coa_stats', function () {
 	$batches = get_posts( array(
@@ -596,6 +612,12 @@ add_shortcode( 'jp_coa_stats', function () {
 		'posts_per_page' => -1,
 	) );
 	$total = count( $batches );
+
+	/* Too few records for the tiles to be meaningful - render nothing. */
+	if ( $total < JP_COA_STATS_MIN_BATCHES ) {
+		return '';
+	}
+
 	$pass  = 0;
 	$fail  = 0;
 	$labs  = array();

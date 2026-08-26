@@ -571,7 +571,15 @@ h2 em, .jp-404-title em {
 	margin-bottom: .5rem;
 }
 
-/* Stat tiles (dark band) */
+/* Stat tiles (dark band).
+   The grid is withheld below JP_COA_STATS_MIN_BATCHES published batch records
+   (see jp_coa_stats in joyful-peptides-core.php), so this section renders in
+   two states. Space the CTA off the copy explicitly rather than relying on the
+   grid being there to separate them. */
+.jp-panel-dark .wp-block-buttons {
+	margin-top: 2.25rem;
+}
+
 .jp-stats {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
