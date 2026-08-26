@@ -100,7 +100,17 @@ function joyful_peptides_scripts() {
 				var h = document.documentElement.scrollHeight - window.innerHeight;
 				bar.style.width = (h > 0 ? Math.min(100, (y / h) * 100) : 0) + '%';
 			}
-			if (top) { top.classList.toggle('jp-top-in', y > 700); }
+			if (top) { top.classList.toggle('jp-top-in', y > 700 && !nearFooter()); }
+		}
+
+		/* Hide the button once the footer/legal band is on screen, so it never
+		   sits on top of the disclaimer or the policy links. Measured per
+		   scroll rather than via IntersectionObserver: the observer's first
+		   callback races page layout, which left the button stuck off. */
+		var footZone = document.querySelector('.jp-regulatory') || document.querySelector('.jp-footer');
+		function nearFooter() {
+			if (!footZone) { return false; }
+			return footZone.getBoundingClientRect().top < window.innerHeight - 8;
 		}
 		window.addEventListener('scroll', onScroll, { passive: true });
 		onScroll();

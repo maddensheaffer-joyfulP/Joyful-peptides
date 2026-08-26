@@ -3244,6 +3244,111 @@ body.admin-bar .jp-pillbar {
 }
 
 /* ==========================================================================
+   QA fixes
+   ========================================================================== */
+
+/* Back-to-top: safe-area aware offset. Collision with the footer is handled
+   in the theme script, which drops .jp-top-in once the legal band is on
+   screen so the button never covers the disclaimer. */
+.jp-top {
+	right: max(1.25rem, env(safe-area-inset-right, 0px));
+	bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
+}
+
+.jp-top:focus-visible {
+	outline: 2px solid var(--jp-copper);
+	outline-offset: 2px;
+}
+
+/* Kickers were --jp-copper (#B5651D) on cream: measured 3.84:1 on warm cream
+   and 4.12:1 on the hero, both under the 4.5:1 AA threshold at 11.5px.
+   --jp-copper-dark is already in the palette, so this is a swap within the
+   brand colours rather than a new one. Light-on-dark kickers are unaffected. */
+.jp-kicker,
+.jp-hero-kicker {
+	color: var(--jp-copper-dark);
+}
+
+.jp-kicker-light {
+	color: var(--jp-copper-light);
+}
+
+/* Primary CTAs were white on --jp-copper (#B5651D): 4.34:1, just under the
+   4.5:1 AA threshold. --jp-copper-dark takes it clear. Both are existing
+   palette colours - the palette itself is unchanged. */
+.wp-block-button__link,
+.wp-element-button,
+.jp-cta-btn {
+	background-color: var(--jp-copper-dark);
+}
+
+.jp-cta-btn-ghost {
+	background-color: transparent;
+}
+
+/* Global fallback first: an enumerated list of components will always miss
+   something (it missed the mobile menu toggles, the mini-cart button, the
+   newsletter input and WooCommerce's own buttons). Everything focusable gets
+   a ring; the rules below only refine offset and colour. */
+:focus-visible {
+	outline: 2px solid var(--jp-copper);
+	outline-offset: 2px;
+}
+
+/* Focus rings on everything interactive that did not already have one. */
+.jp-front a:focus-visible,
+.jp-header a:focus-visible,
+.jp-footer a:focus-visible,
+.jp-topbar a:focus-visible,
+.jp-tile-link:focus-visible,
+.wp-block-button__link:focus-visible,
+.jp-cta-btn:focus-visible,
+.jp-scroll-cue:focus-visible,
+.wp-block-details summary:focus-visible {
+	outline: 2px solid var(--jp-copper);
+	outline-offset: 3px;
+	border-radius: 4px;
+}
+
+.jp-panel-dark a:focus-visible,
+.jp-cta-band a:focus-visible,
+.jp-regulatory a:focus-visible,
+.jp-trustbar-section a:focus-visible {
+	outline-color: var(--jp-copper-light);
+}
+
+/* The pill row is horizontally scrollable; on narrow screens it must not
+   push the page sideways. */
+@media (max-width: 781px) {
+	.jp-pillbar-track {
+		max-width: 100vw;
+	}
+
+	.jp-shelf-track {
+		-webkit-mask-image: linear-gradient(to right, #000 calc(100% - 28px), rgba(0, 0, 0, 0) 100%);
+		mask-image: linear-gradient(to right, #000 calc(100% - 28px), rgba(0, 0, 0, 0) 100%);
+	}
+}
+
+/* Nothing animates under reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+	.jp-vial,
+	.jp-vial-tag,
+	.jp-vial-chip,
+	.jp-ticker-track,
+	.jp-top,
+	.jp-tile,
+	.jp-trustbar {
+		animation: none !important;
+		transition: none !important;
+	}
+
+	.jp-top {
+		transform: none;
+	}
+}
+
+/* ==========================================================================
    Motion preferences + small screens
    ========================================================================== */
 
