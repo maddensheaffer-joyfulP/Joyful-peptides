@@ -3385,6 +3385,76 @@ body.admin-bar .jp-pillbar {
 }
 
 /* ==========================================================================
+   Header utility bar
+   --------------------------------------------------------------------------
+   Order above the masthead: RUO banner (topmost, never moves) -> ticker ->
+   utility bar -> masthead. Espresso ground with the inverted token set.
+   ========================================================================== */
+
+.jp-utility {
+	background: var(--jp-dark-espresso);
+	border-bottom: 1px solid rgba(181, 101, 29, .28);
+}
+
+.jp-utility-inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	flex-wrap: wrap;
+	max-width: 1400px;
+	margin: 0 auto;
+	padding: .46rem 2rem;
+}
+
+.jp-utility-side {
+	margin: 0;
+	font-family: var(--jp-mono);
+	font-size: .68rem;
+	letter-spacing: .07em;
+	color: var(--jp-muted-inv);
+	max-width: none;
+}
+
+.jp-utility-phone {
+	color: var(--jp-paper);
+	text-decoration: none;
+	font-weight: 600;
+}
+
+a.jp-utility-phone:hover {
+	color: var(--jp-copper-light);
+	text-decoration: underline;
+}
+
+.jp-utility-sep {
+	padding: 0 .55rem;
+	color: var(--jp-copper-light);
+}
+
+/* Under 768px the bar becomes a single centred line. */
+@media (max-width: 767px) {
+	.jp-utility-inner {
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: .18rem;
+		padding: .42rem 1rem;
+		text-align: center;
+	}
+
+	.jp-utility-side {
+		text-align: center;
+	}
+
+	/* The shipping detail is stated in full on /shipping-returns/ and on the
+	   About page cards; the phone is the one thing that must survive here. */
+	.jp-utility-right {
+		display: none;
+	}
+}
+
+/* ==========================================================================
    Motion preferences + small screens
    ========================================================================== */
 
