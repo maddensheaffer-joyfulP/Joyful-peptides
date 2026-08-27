@@ -204,9 +204,36 @@ body.admin-bar header.wp-block-group.jp-header {
 	text-decoration: none;
 }
 
+/* The mark is painted from a custom property, never from a path in this file.
+   Both slots are published in the head by jp_logo_uri():
+     --jp-logo-dark   the DARK mark, for LIGHT grounds  (masthead)
+     --jp-logo-light  the LIGHT mark, for DARK grounds   (footer, CTA, strip) */
 .jp-brand-mark {
 	flex-shrink: 0;
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	background-image: var(--jp-logo-dark);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
 	transition: transform .3s ease;
+}
+
+.jp-brand-mark-sm {
+	width: 26px;
+	height: 26px;
+}
+
+/* Every dark ground on the site takes the light mark. */
+.jp-footer .jp-brand-mark,
+.jp-cta-band .jp-brand-mark,
+.jp-trustbar-section .jp-brand-mark,
+.jp-panel-dark .jp-brand-mark,
+.jp-home-education .jp-brand-mark,
+.jp-utility .jp-brand-mark,
+.jp-topbar .jp-brand-mark {
+	background-image: var(--jp-logo-light);
 }
 
 .jp-brand:hover .jp-brand-mark {

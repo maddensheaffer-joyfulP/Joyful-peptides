@@ -34,6 +34,25 @@ any unfilled placeholder is still in the theme:
 Exit `0` means clean. Exit `1` prints every file and line still awaiting a real
 value.
 
+### Logo
+
+`logo_dark` and `logo_light` are the only place a logo asset is named. Header,
+footer and favicon all resolve through `jp_logo_uri()`, so dropping the real
+renders into `assets/img/` and changing those two lines updates every instance.
+
+`logo_dark` is the **dark** mark, used on **light** grounds (the masthead).
+`logo_light` is the **light** mark, used on **dark** grounds (footer, CTA band,
+trust strip).
+
+Both currently point at disposable placeholders whose filenames contain
+`logo-placeholder`, so this check refuses to let one ship:
+
+    ! grep -rn --exclude=README.md -e '\[\[ ' wp-content/themes/joyful-peptides \
+      && ! grep -n 'logo-placeholder' wp-content/themes/joyful-peptides/inc/site-info.php
+
+Use that command as the pre-launch gate — it covers unfilled values **and** a
+placeholder logo in a single pass.
+
 The site also ships an in-admin scan at **Tools → Pre-Launch Check**, which
 covers sample data, the placeholder gateway and unreviewed legal pages. The
 grep above covers what that cannot see.

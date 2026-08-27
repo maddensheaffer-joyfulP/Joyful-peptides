@@ -424,3 +424,46 @@ add_shortcode( 'jp_about_cards', function () {
 	<?php
 	return ob_get_clean();
 } );
+
+/* -------------------------------------------------------------------------
+ * Logo.
+ *
+ * The path lives only in inc/site-info.php. Everything that needs a logo -
+ * masthead, footer, favicon, the CSS custom properties - resolves through
+ * jp_logo_uri(), so replacing the real files is a two-line change in one file.
+ * ---------------------------------------------------------------------- */
+
+/**
+ * Absolute URL for a logo slot.
+ *
+ * @param string $slot 'dark' (mark for LIGHT grounds) or 'light' (for DARK).
+ */
+function jp_logo_uri( $slot = 'dark' ) {
+	$key  = ( 'light' === $slot ) ? 'logo_light' : 'logo_dark';
+	$path = ltrim( jp_info_raw( $key ), '/' );
+	if ( '' === $path || jp_info_is_placeholder( $key ) ) {
+		return '';
+	}
+	return get_theme_file_uri( $path );
+}
+
+/**
+ * Publish both slots as custom properties, once, in the document head.
+ * Templates reference var(--jp-logo-dark) / var(--jp-logo-light) and never a
+ * path, which is what keeps the asset named in exactly one file.
+ */
+add_action( 'wp_head', function () {
+	$dark  = jp_logo_uri( 'dark' );
+	$light = jp_logo_uri( 'light' );
+	if ( ! $dark && ! $light ) {
+		return;
+	}
+	echo "<style id=\"jp-logo-slots\">:root{";
+	if ( $dark ) {
+		echo '--jp-logo-dark:url("' . esc_url( $dark ) . '");';
+	}
+	if ( $light ) {
+		echo '--jp-logo-light:url("' . esc_url( $light ) . '");';
+	}
+	echo "}</style>\n";
+}, 2 );

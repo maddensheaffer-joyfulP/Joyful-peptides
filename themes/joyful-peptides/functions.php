@@ -25,10 +25,17 @@ function joyful_peptides_styles() {
 add_action( 'wp_enqueue_scripts', 'joyful_peptides_styles' );
 
 /**
- * SVG favicon (copper hexagon mark) + font preloads for fast first paint.
+ * Favicon + font preloads for fast first paint.
+ *
+ * The favicon resolves through jp_logo_uri() like every other logo instance,
+ * so the asset is still named in exactly one file (inc/site-info.php). It was
+ * previously a hardcoded data URI, which made it a third place to update.
  */
 function joyful_peptides_head_extras() {
-	echo '<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Cpath d=%22M16 2 L28 9 L28 23 L16 30 L4 23 L4 9 Z%22 fill=%22%23B5651D%22/%3E%3Ccircle cx=%2216%22 cy=%2216%22 r=%225%22 fill=%22%23FAF9F6%22/%3E%3C/svg%3E">' . "\n";
+	$icon = function_exists( 'jp_logo_uri' ) ? jp_logo_uri( 'dark' ) : '';
+	if ( $icon ) {
+		echo '<link rel="icon" type="image/svg+xml" href="' . esc_url( $icon ) . '">' . "\n";
+	}
 	foreach ( array( 'fraunces-var.woff2', 'inter-var.woff2', 'jetbrains-mono-var.woff2' ) as $font ) {
 		echo '<link rel="preload" href="' . esc_url( get_theme_file_uri( 'assets/fonts/' . $font ) ) . '" as="font" type="font/woff2" crossorigin>' . "\n";
 	}

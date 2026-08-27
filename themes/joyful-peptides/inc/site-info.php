@@ -42,6 +42,18 @@ function jp_site_info() {
 		   marks the damaged / defective / incorrect rule as NOT finalised. The
 		   About summary must not assert one the policy page does not state. */
 		'returns_damaged'         => '[[ INPUT DAMAGED DEFECTIVE OR INCORRECT ITEM POLICY HERE ]]',
+
+		/* Logo. Theme-relative paths, and the ONLY place a logo asset is named -
+		   header, footer and favicon all resolve through jp_logo_uri().
+		     logo_dark  = the DARK mark, used ON light grounds (masthead)
+		     logo_light = the LIGHT mark, used ON dark grounds (footer, CTA band,
+		                  trust strip)
+		   Both currently point at disposable placeholder files, whose names carry
+		   a marker token that the pre-launch check in README.md greps for, so a
+		   stand-in logo cannot ship. Drop the real renders into assets/img/ and
+		   change these two lines. */
+		'logo_dark'               => 'assets/img/logo-placeholder-dark.svg',
+		'logo_light'              => 'assets/img/logo-placeholder-light.svg',
 		/* Pre-filled: /learn/ already exists, and a bracketed string in an href
 		   would produce a broken link rather than a visible placeholder. */
 		'learn_destination'       => '/learn/',
