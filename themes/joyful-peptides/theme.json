@@ -18,47 +18,47 @@
 				{
 					"slug": "background",
 					"name": "Paper",
-					"color": "#FAF9F6"
+					"color": "#F7F9FB"
 				},
 				{
 					"slug": "surface",
 					"name": "Surface",
-					"color": "#F1EFEA"
+					"color": "#EDF0F3"
 				},
 				{
 					"slug": "ground-tint",
 					"name": "Ground Tint",
-					"color": "#FBEFE5"
+					"color": "#E4F0FB"
 				},
 				{
 					"slug": "ground-deep",
 					"name": "Ground Deep",
-					"color": "#3A2A21"
+					"color": "#17304A"
 				},
 				{
 					"slug": "ground-ink",
 					"name": "Ground Ink",
-					"color": "#1C1C1A"
+					"color": "#10161C"
 				},
 				{
 					"slug": "muted",
 					"name": "Muted",
-					"color": "#6B6B68"
+					"color": "#4A5A68"
 				},
 				{
 					"slug": "accent",
 					"name": "Accent",
-					"color": "#B5651D"
+					"color": "#17539E"
 				},
 				{
 					"slug": "accent-strong",
 					"name": "Accent Strong",
-					"color": "#8C4E15"
+					"color": "#17304A"
 				},
 				{
 					"slug": "accent-on-dark",
 					"name": "Accent On Dark",
-					"color": "#D99A62"
+					"color": "#97D2FB"
 				},
 				{
 					"slug": "white",

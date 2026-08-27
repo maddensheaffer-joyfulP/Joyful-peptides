@@ -155,29 +155,29 @@ function jp_render_ruo_box() {
 add_action( 'wp_head', function () {
 	?>
 <style>
-.jp-specs{margin:1.25rem 0;padding:1rem 1.25rem;background:var(--wp--preset--color--surface,#f4f2ee);border:1px solid rgba(0,0,0,.08)}
+.jp-specs{margin:1.25rem 0;padding:1rem 1.25rem;background:var(--wp--preset--color--surface,#EDF0F3);border:1px solid rgba(0,0,0,.08)}
 .jp-specs h3{margin:0 0 .5rem;font-size:1.05rem}
 .jp-specs table{width:100%;border-collapse:collapse;font-size:.95rem}
 .jp-specs th{text-align:left;padding:.3rem .75rem .3rem 0;font-weight:600;white-space:nowrap;vertical-align:top}
 .jp-specs td{padding:.3rem 0}
-.jp-coa-link{font-weight:600;color:var(--wp--preset--color--accent-strong,#8C4E15)}
-.jp-coa-missing{font-size:.9rem;color:#6B6B68}
-.jp-ruo-box{margin:1.25rem 0;padding:.85rem 1rem;border-left:4px solid var(--wp--preset--color--accent,#B5651D);background:var(--wp--preset--color--surface,#f4f2ee);font-size:.92rem}
-.jp-attestation{margin:1rem 0;padding:1rem;border:1px solid var(--wp--preset--color--accent,#B5651D);background:var(--wp--preset--color--surface,#f4f2ee)}
+.jp-coa-link{font-weight:600;color:var(--wp--preset--color--accent-strong,#17304A)}
+.jp-coa-missing{font-size:.9rem;color:#4A5A68}
+.jp-ruo-box{margin:1.25rem 0;padding:.85rem 1rem;border-left:4px solid var(--wp--preset--color--accent,#17539E);background:var(--wp--preset--color--surface,#EDF0F3);font-size:.92rem}
+.jp-attestation{margin:1rem 0;padding:1rem;border:1px solid var(--wp--preset--color--accent,#17539E);background:var(--wp--preset--color--surface,#EDF0F3)}
 .jp-attestation label{display:flex;gap:.6rem;align-items:flex-start;font-size:.92rem;line-height:1.5}
 .jp-attestation input{margin-top:.25rem}
-.jp-asr-note{font-size:.85rem;color:#6B6B68;margin:0 0 .75rem;padding-bottom:.75rem;border-bottom:1px dashed rgba(28,28,26,.15)}
-#jp-age-gate{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(28,28,26,.97);padding:1.5rem}
-.jp-age-card{background:#FAF9F6;max-width:520px;width:100%;padding:2.25rem 2rem;border-radius:3px;border-top:4px solid #B5651D;text-align:center}
-.jp-age-card h2{font-family:ui-serif,Georgia,"Times New Roman",serif;font-size:1.5rem;margin:0 0 1rem;color:#1C1C1A}
-.jp-age-card p{font-size:.95rem;line-height:1.6;color:#3A3A36;margin:0 0 1rem}
-.jp-age-card .jp-age-fine{font-size:.8rem;color:#6B6B68}
+.jp-asr-note{font-size:.85rem;color:#4A5A68;margin:0 0 .75rem;padding-bottom:.75rem;border-bottom:1px dashed rgba(18,24,31,.15)}
+#jp-age-gate{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(18,24,31,.97);padding:1.5rem}
+.jp-age-card{background:#F7F9FB;max-width:520px;width:100%;padding:2.25rem 2rem;border-radius:3px;border-top:4px solid #17539E;text-align:center}
+.jp-age-card h2{font-family:ui-serif,Georgia,"Times New Roman",serif;font-size:1.5rem;margin:0 0 1rem;color:#12181F}
+.jp-age-card p{font-size:.95rem;line-height:1.6;color:#22303D;margin:0 0 1rem}
+.jp-age-card .jp-age-fine{font-size:.8rem;color:#4A5A68}
 .jp-age-buttons{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:1.25rem}
 .jp-age-buttons button{cursor:pointer;font-size:1rem;font-weight:600;padding:.8rem 1.6rem;border-radius:2px;border:none}
-#jp-age-enter{background:#B5651D;color:#fff}
-#jp-age-enter:hover{background:#8C4E15}
-#jp-age-exit{background:transparent;color:#1C1C1A;border:1px solid rgba(28,28,26,.35)}
-#jp-age-exit:hover{background:#F1EFEA}
+#jp-age-enter{background:#17539E;color:#fff}
+#jp-age-enter:hover{background:#17304A}
+#jp-age-exit{background:transparent;color:#12181F;border:1px solid rgba(18,24,31,.35)}
+#jp-age-exit:hover{background:#EDF0F3}
 </style>
 	<?php
 } );
@@ -1649,8 +1649,8 @@ add_action( 'wp_dashboard_setup', function () {
 		echo '<ul style="margin:0">';
 		foreach ( $rows as $r ) {
 			printf(
-				'<li style="padding:.35rem 0;border-bottom:1px solid #f0f0f1"><strong style="font-size:1.25em;color:%s">%d</strong> %s &mdash; <a href="%s">view</a></li>',
-				$r[3] ? '#b5651d' : '#1d2327',
+				'<li style="padding:.35rem 0;border-bottom:1px solid #EDF0F3"><strong style="font-size:1.25em;color:%s">%d</strong> %s &mdash; <a href="%s">view</a></li>',
+				$r[3] ? '#17539E' : '#1d2327',
 				$r[0],
 				esc_html( $r[1] ),
 				esc_url( $r[2] )

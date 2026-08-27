@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
-	<rect width="600" height="600" fill="#F1EFEA"/>
+	<rect width="600" height="600" fill="#EDF0F3"/>
 	<rect width="600" height="600" fill="url(#g)" opacity="0.5"/>
 	<defs>
 		<radialGradient id="g" cx="0.5" cy="0.42" r="0.6">
-			<stop offset="0" stop-color="#FAF9F6"/>
-			<stop offset="1" stop-color="#F1EFEA" stop-opacity="0"/>
+			<stop offset="0" stop-color="#F7F9FB"/>
+			<stop offset="1" stop-color="#EDF0F3" stop-opacity="0"/>
 		</radialGradient>
 	</defs>
-	<path d="M300 170 L390 222 L390 326 L300 378 L210 326 L210 222 Z" fill="none" stroke="#B5651D" stroke-width="7" opacity="0.85"/>
-	<circle cx="300" cy="274" r="30" fill="#B5651D" opacity="0.85"/>
-	<text x="300" y="452" text-anchor="middle" font-family="JetBrains Mono, SFMono-Regular, Menlo, monospace" font-size="17" letter-spacing="4" fill="#6B6B68">PHOTOGRAPHY IN PROGRESS</text>
-	<text x="300" y="482" text-anchor="middle" font-family="JetBrains Mono, SFMono-Regular, Menlo, monospace" font-size="13" letter-spacing="3" fill="#9B9995">JOYFUL PEPTIDES</text>
+	<path d="M300 170 L390 222 L390 326 L300 378 L210 326 L210 222 Z" fill="none" stroke="#17539E" stroke-width="7" opacity="0.85"/>
+	<circle cx="300" cy="274" r="30" fill="#17539E" opacity="0.85"/>
+	<text x="300" y="452" text-anchor="middle" font-family="JetBrains Mono, SFMono-Regular, Menlo, monospace" font-size="17" letter-spacing="4" fill="#4A5A68">PHOTOGRAPHY IN PROGRESS</text>
+	<text x="300" y="482" text-anchor="middle" font-family="JetBrains Mono, SFMono-Regular, Menlo, monospace" font-size="13" letter-spacing="3" fill="#4A5A68">JOYFUL PEPTIDES</text>
 </svg>
