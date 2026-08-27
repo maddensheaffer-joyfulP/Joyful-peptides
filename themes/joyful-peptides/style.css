@@ -94,6 +94,12 @@ Text Domain: joyful-peptides
 	   #C3D2DE measures 5.08:1 at that same worst point. */
 	--jp-muted-inv: #C3D2DE;
 	--jp-hairline-inv: rgba(245, 248, 250, .14);
+
+	/* Placeholder-outline status pair. Deliberately OUTSIDE the blue system:
+	   an unfilled value must look wrong. One value cannot serve both grounds.
+	   Not for decorative use. */
+	--jp-status-warn-light-bg: #B42318;
+	--jp-status-warn-dark-bg: #F59E0B;
 	--jp-card-face-inv: linear-gradient(180deg, rgba(245, 248, 250, .10) 0%, rgba(245, 248, 250, .05) 100%);
 	--jp-card-face-inv-hover: linear-gradient(180deg, rgba(245, 248, 250, .16) 0%, rgba(245, 248, 250, .08) 100%);
 	--jp-card-edge-inv: rgba(245, 248, 250, .16);
@@ -485,7 +491,11 @@ h2 em, .jp-404-title em {
 	left: 0;
 	right: 0;
 	height: 36%;
-	background: linear-gradient(rgba(151, 210, 251, .35), rgba(23, 83, 158, .5));
+	/* Lyophilized product is POWDER. A translucent gradient reads as a
+	   reconstituted solution, which contradicts the LYOPHILIZED label printed
+	   on this illustration. Opaque surface fill instead - see HANDOFF.md, the
+	   rule governs real photography too. */
+	background: var(--jp-surface);
 	border-radius: 40% 40% 0 0 / 14px 14px 0 0;
 }
 
@@ -1343,7 +1353,7 @@ table.jp-coa-table tr:nth-child(even) td {
 	background:
 		radial-gradient(ellipse at 15% 0%, rgba(23, 83, 158, .3) 0%, rgba(23, 83, 158, 0) 55%),
 		radial-gradient(ellipse at 90% 110%, rgba(23, 48, 74, .35) 0%, rgba(23, 48, 74, 0) 55%),
-		var(--jp-ink);
+		var(--jp-ground-ink);
 	padding: 5rem 2rem;
 	text-align: center;
 }
@@ -3365,10 +3375,10 @@ body.admin-bar .jp-pillbar {
 
 .jp-placeholder {
 	display: inline-block;
-	outline: 1px dashed var(--jp-accent-strong);
+	outline: 1px dashed var(--jp-status-warn-light-bg);
 	outline-offset: 1px;
-	background: rgba(23, 83, 158, .10);
-	color: var(--jp-accent-strong);
+	background: rgba(180, 35, 24, .08);
+	color: var(--jp-status-warn-light-bg);
 	font-family: var(--jp-mono);
 	font-size: .92em;
 	letter-spacing: .02em;
@@ -3386,9 +3396,9 @@ body.admin-bar .jp-pillbar {
 .jp-footer .jp-placeholder,
 .jp-trustbar-section .jp-placeholder,
 .jp-split-panel .jp-placeholder {
-	outline-color: var(--jp-accent-on-dark);
-	background: rgba(151, 210, 251, .16);
-	color: var(--jp-accent-on-dark);
+	outline-color: var(--jp-status-warn-dark-bg);
+	background: rgba(245, 158, 11, .14);
+	color: var(--jp-status-warn-dark-bg);
 }
 
 /* ==========================================================================
