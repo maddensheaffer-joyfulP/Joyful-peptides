@@ -160,7 +160,7 @@ add_action( 'wp_head', function () {
 .jp-specs table{width:100%;border-collapse:collapse;font-size:.95rem}
 .jp-specs th{text-align:left;padding:.3rem .75rem .3rem 0;font-weight:600;white-space:nowrap;vertical-align:top}
 .jp-specs td{padding:.3rem 0}
-.jp-coa-link{font-weight:600;color:var(--wp--preset--color--accent-dark,#8C4E15)}
+.jp-coa-link{font-weight:600;color:var(--wp--preset--color--accent-strong,#8C4E15)}
 .jp-coa-missing{font-size:.9rem;color:#6B6B68}
 .jp-ruo-box{margin:1.25rem 0;padding:.85rem 1rem;border-left:4px solid var(--wp--preset--color--accent,#B5651D);background:var(--wp--preset--color--surface,#f4f2ee);font-size:.92rem}
 .jp-attestation{margin:1rem 0;padding:1rem;border:1px solid var(--wp--preset--color--accent,#B5651D);background:var(--wp--preset--color--surface,#f4f2ee)}
@@ -1226,7 +1226,7 @@ add_shortcode( 'jp_trust_bar', function () {
 		/* A <div>, not a <span>. wpautop wraps inline runs in paragraphs, and an
 		   inline icon at the start of each cell made it emit an orphan </p>. An
 		   unmatched </p> is parsed as an empty <p> element, so every cell carried
-		   a stray paragraph inheriting dark ink on the espresso ground. div is on
+		   a stray paragraph inheriting dark ink on the deep ground. div is on
 		   wpautop's block list, so it is left alone. The icon is display:flex
 		   either way, so nothing moves. */
 		$out .= '<div class="jp-trustbar-icon" aria-hidden="true">' . $c['icon'] . '</div>';

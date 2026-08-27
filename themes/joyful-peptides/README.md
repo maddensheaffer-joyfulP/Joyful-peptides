@@ -14,7 +14,7 @@ safe), `jp_info_raw( 'key' )` (for `tel:` / `mailto:` / `href` attributes), or
 `jp_info_has( 'key' )` (to decide whether to render an element at all).
 
 Unfilled values are written as `[[ DESCRIPTIVE PROMPT ]]` and render inside
-`.jp-placeholder`, which draws a dashed rust outline so they are obvious while
+`.jp-placeholder`, which draws a dashed accent outline so they are obvious while
 working locally.
 
 ### Free shipping

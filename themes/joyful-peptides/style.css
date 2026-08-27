@@ -2,7 +2,7 @@
 Theme Name: Joyful Peptides
 Theme URI:
 Author: Joyful Peptides
-Description: Custom block theme for the Joyful Peptides research-use-only storefront. Clinical-modern design with a graphite and copper palette, Fraunces/Inter/JetBrains Mono typography.
+Description: Custom block theme for the Joyful Peptides research-use-only storefront. Clinical-modern design on a cool ground/accent token system, Fraunces/Inter/JetBrains Mono typography.
 Version: 2.0.0
 Requires at least: 6.4
 Requires PHP: 7.4
@@ -15,12 +15,14 @@ Text Domain: joyful-peptides
 
 :root {
 	--jp-ink: #1C1C1A;
+	--jp-ground-ink: #1C1C1A;
 	--jp-paper: #FAF9F6;
 	--jp-surface: #F1EFEA;
+	--jp-ground-tint: #FBEFE5;
 	--jp-muted: #6B6B68;
-	--jp-copper: #B5651D;
-	--jp-copper-dark: #8C4E15;
-	--jp-copper-light: #D99A62;
+	--jp-accent: #B5651D;
+	--jp-accent-strong: #8C4E15;
+	--jp-accent-on-dark: #D99A62;
 	--jp-hairline: rgba(28, 28, 26, .1);
 	--jp-hairline-strong: rgba(28, 28, 26, .18);
 	--jp-serif: "Fraunces", ui-serif, Georgia, serif;
@@ -86,9 +88,9 @@ Text Domain: joyful-peptides
 	   one-off overrides, so the next dark section costs nothing to build.
 	   Shadows are invisible on dark ground, so elevation there is carried by a
 	   lighter surface fill plus a 1px top highlight - never by --jp-elev-*. */
-	--jp-dark-espresso: #3A2A21;
+	--jp-ground-deep: #3A2A21;
 	--jp-ink-inv: #FAF9F6;
-	/* #C8C5BF measured 4.40:1 where the copper radial peaks - below AA.
+	/* The previous value measured 4.40:1 where the accent radial peaks - below AA.
 	   #D6D3CD measures 5.08:1 at that same worst point. */
 	--jp-muted-inv: #D6D3CD;
 	--jp-hairline-inv: rgba(250, 249, 246, .14);
@@ -123,7 +125,7 @@ Text Domain: joyful-peptides
 }
 
 ::selection {
-	background: var(--jp-copper);
+	background: var(--jp-accent);
 	color: #fff;
 }
 
@@ -146,7 +148,7 @@ em {
 	align-items: center;
 	gap: 1rem;
 	flex-wrap: wrap;
-	background: var(--jp-ink);
+	background: var(--jp-ground-ink);
 	color: var(--jp-paper);
 	font-family: var(--jp-mono);
 	font-size: .68rem;
@@ -155,7 +157,7 @@ em {
 }
 
 .jp-topbar-note {
-	color: var(--jp-copper-light);
+	color: var(--jp-accent-on-dark);
 }
 
 .jp-topbar-link {
@@ -167,8 +169,8 @@ em {
 }
 
 .jp-topbar-link:hover {
-	color: var(--jp-copper-light);
-	border-color: var(--jp-copper-light);
+	color: var(--jp-accent-on-dark);
+	border-color: var(--jp-accent-on-dark);
 }
 
 /* ==========================================================================
@@ -250,7 +252,7 @@ body.admin-bar header.wp-block-group.jp-header {
 }
 
 .jp-brand-name em {
-	color: var(--jp-copper);
+	color: var(--jp-accent);
 	font-weight: 500;
 }
 
@@ -273,7 +275,7 @@ header .wp-block-navigation .wp-block-navigation-item__content::after {
 	bottom: 0;
 	width: 100%;
 	height: 2px;
-	background: var(--jp-copper);
+	background: var(--jp-accent);
 	transform: scaleX(0);
 	transform-origin: right;
 	transition: transform .22s ease;
@@ -297,7 +299,7 @@ header .wp-block-navigation .wp-block-navigation-item__content:hover::after {
 	font-size: .72rem;
 	font-weight: 600;
 	letter-spacing: .18em;
-	color: var(--jp-copper);
+	color: var(--jp-accent);
 	margin-bottom: .9rem;
 	display: flex;
 	align-items: center;
@@ -305,7 +307,7 @@ header .wp-block-navigation .wp-block-navigation-item__content:hover::after {
 }
 
 .jp-kicker-light {
-	color: var(--jp-copper-light);
+	color: var(--jp-accent-on-dark);
 }
 
 .jp-kicker::before {
@@ -336,17 +338,17 @@ header .wp-block-navigation .wp-block-navigation-item__content:hover::after {
 .jp-hero-title em {
 	font-style: italic;
 	font-weight: 480;
-	color: var(--jp-copper);
+	color: var(--jp-accent);
 }
 
 h2 em, .jp-404-title em {
 	font-style: italic;
 	font-weight: 480;
-	color: var(--jp-copper);
+	color: var(--jp-accent);
 }
 
-.has-accent-light-color em {
-	color: var(--jp-copper-light);
+.has-accent-on-dark-color em {
+	color: var(--jp-accent-on-dark);
 }
 
 /* ==========================================================================
@@ -390,14 +392,14 @@ h2 em, .jp-404-title em {
 }
 
 .jp-scroll-cue:hover {
-	color: var(--jp-copper);
+	color: var(--jp-accent);
 }
 
 .jp-scroll-cue span.jp-scroll-line {
 	display: block;
 	width: 1px;
 	height: 42px;
-	background: linear-gradient(var(--jp-copper), rgba(181, 101, 29, 0));
+	background: linear-gradient(var(--jp-accent), rgba(181, 101, 29, 0));
 	animation: jp-cue 2.2s ease-in-out infinite;
 	transform-origin: top;
 }
@@ -452,7 +454,7 @@ h2 em, .jp-404-title em {
 	width: 70%;
 	height: 12px;
 	margin: 0 auto;
-	background: var(--jp-copper);
+	background: var(--jp-accent);
 	border-radius: 0 0 2px 2px;
 }
 
@@ -514,7 +516,7 @@ h2 em, .jp-404-title em {
 .jp-vial-line {
 	width: 60%;
 	height: 2px;
-	background: var(--jp-copper);
+	background: var(--jp-accent);
 }
 
 .jp-vial-small {
@@ -529,7 +531,7 @@ h2 em, .jp-404-title em {
 	font-family: var(--jp-mono);
 	font-size: .46rem;
 	letter-spacing: .08em;
-	color: var(--jp-copper-dark);
+	color: var(--jp-accent-strong);
 	font-weight: 700;
 	margin-top: .1rem;
 }
@@ -538,7 +540,7 @@ h2 em, .jp-404-title em {
 	position: absolute;
 	top: 12%;
 	right: 6%;
-	background: var(--jp-ink);
+	background: var(--jp-ground-ink);
 	color: var(--jp-paper);
 	font-size: .78rem;
 	font-weight: 600;
@@ -558,7 +560,7 @@ h2 em, .jp-404-title em {
 	color: var(--jp-ink);
 	background: rgba(255, 255, 255, .85);
 	border: 1px solid var(--jp-hairline-strong);
-	border-left: 3px solid var(--jp-copper);
+	border-left: 3px solid var(--jp-accent);
 	padding: .4rem .7rem;
 	border-radius: 2px;
 	backdrop-filter: blur(4px);
@@ -588,7 +590,7 @@ h2 em, .jp-404-title em {
 
 .jp-marquee {
 	overflow: hidden;
-	background: var(--jp-ink);
+	background: var(--jp-ground-ink);
 	padding: .62rem 0;
 	border-top: 1px solid rgba(181, 101, 29, .35);
 	border-bottom: 1px solid rgba(181, 101, 29, .35);
@@ -614,7 +616,7 @@ h2 em, .jp-404-title em {
 	content: "\25C6";
 	font-size: .5rem;
 	vertical-align: middle;
-	color: var(--jp-copper);
+	color: var(--jp-accent);
 	padding-left: 1.2rem;
 }
 
@@ -645,8 +647,8 @@ h2 em, .jp-404-title em {
 	font-size: .85rem;
 	font-weight: 700;
 	letter-spacing: .12em;
-	color: var(--jp-copper);
-	border-bottom: 2px solid var(--jp-copper);
+	color: var(--jp-accent);
+	border-bottom: 2px solid var(--jp-accent);
 	display: inline-block;
 	padding-bottom: .3rem;
 	margin-bottom: .8rem;
@@ -665,7 +667,7 @@ h2 em, .jp-404-title em {
 	font-style: italic;
 	font-size: 2.4rem;
 	line-height: 1;
-	color: var(--jp-copper);
+	color: var(--jp-accent);
 	font-weight: 500;
 	display: block;
 	margin-bottom: .5rem;
@@ -708,7 +710,7 @@ h2 em, .jp-404-title em {
 	font-size: 2.3rem;
 	font-weight: 560;
 	line-height: 1;
-	color: var(--jp-copper-light);
+	color: var(--jp-accent-on-dark);
 }
 
 .jp-stat-label {
@@ -794,7 +796,7 @@ h2 em, .jp-404-title em {
 	top: .85rem;
 	left: .85rem;
 	z-index: 2;
-	background: var(--jp-ink);
+	background: var(--jp-ground-ink);
 	color: var(--jp-paper);
 	font-family: var(--jp-mono);
 	font-size: .58rem;
@@ -816,7 +818,7 @@ h2 em, .jp-404-title em {
 
 .woocommerce ul.products li.product .price,
 .woocommerce div.product p.price {
-	color: var(--jp-copper-dark);
+	color: var(--jp-accent-strong);
 	font-weight: 600;
 	font-size: 1.05rem;
 }
@@ -827,7 +829,7 @@ h2 em, .jp-404-title em {
 }
 
 .woocommerce span.onsale {
-	background-color: var(--jp-copper);
+	background-color: var(--jp-accent);
 	border-radius: 2px;
 }
 
@@ -893,7 +895,7 @@ h2 em, .jp-404-title em {
 
 .woocommerce div.product .woocommerce-tabs ul.tabs li.active a {
 	color: var(--jp-ink);
-	border-bottom-color: var(--jp-copper);
+	border-bottom-color: var(--jp-accent);
 }
 
 .woocommerce div.product .woocommerce-tabs .panel h2:first-of-type {
@@ -935,7 +937,7 @@ h2 em, .jp-404-title em {
 .woocommerce button.button.alt,
 .woocommerce input.button.alt,
 .woocommerce button.button.alt.disabled {
-	background-color: var(--jp-copper);
+	background-color: var(--jp-accent);
 	color: #fff;
 	border-radius: var(--jp-radius-pill);
 	font-weight: 600;
@@ -950,7 +952,7 @@ h2 em, .jp-404-title em {
 .woocommerce a.button.alt:hover,
 .woocommerce button.button.alt:hover,
 .woocommerce input.button.alt:hover {
-	background-color: var(--jp-copper-dark);
+	background-color: var(--jp-accent-strong);
 	color: #fff;
 	transform: translateY(-1px);
 }
@@ -962,7 +964,7 @@ h2 em, .jp-404-title em {
 }
 
 .wp-block-button.is-style-outline .wp-block-button__link:hover {
-	background: var(--jp-ink);
+	background: var(--jp-ground-ink);
 	color: var(--jp-paper);
 }
 
@@ -985,7 +987,7 @@ h2 em, .jp-404-title em {
 .woocommerce form .form-row input.input-text:focus,
 .woocommerce form .form-row textarea:focus,
 .woocommerce form .form-row select:focus {
-	border-color: var(--jp-copper);
+	border-color: var(--jp-accent);
 	outline: none;
 	box-shadow: 0 0 0 3px rgba(181, 101, 29, .16);
 }
@@ -1007,14 +1009,14 @@ h2 em, .jp-404-title em {
 
 .woocommerce-message,
 .woocommerce-info {
-	border-top-color: var(--jp-copper);
+	border-top-color: var(--jp-accent);
 	background-color: var(--jp-surface);
 	color: var(--jp-ink);
 }
 
 .woocommerce-message::before,
 .woocommerce-info::before {
-	color: var(--jp-copper);
+	color: var(--jp-accent);
 }
 
 .woocommerce-error {
@@ -1060,7 +1062,7 @@ h2 em, .jp-404-title em {
 }
 
 .jp-coa-filter input:focus {
-	border-color: var(--jp-copper);
+	border-color: var(--jp-accent);
 	outline: none;
 	box-shadow: 0 0 0 3px rgba(181, 101, 29, .16);
 }
@@ -1082,7 +1084,7 @@ table.jp-coa-table {
 }
 
 table.jp-coa-table th {
-	background: var(--jp-ink);
+	background: var(--jp-ground-ink);
 	color: var(--jp-paper);
 	text-align: left;
 	padding: .8rem .95rem;
@@ -1136,7 +1138,7 @@ table.jp-coa-table tr:nth-child(even) td {
 }
 
 .jp-footer a:hover {
-	color: var(--jp-copper-light);
+	color: var(--jp-accent-on-dark);
 }
 
 .jp-brand-footer .jp-brand-name {
@@ -1144,7 +1146,7 @@ table.jp-coa-table tr:nth-child(even) td {
 }
 
 .jp-brand-footer .jp-brand-name em {
-	color: var(--jp-copper-light);
+	color: var(--jp-accent-on-dark);
 }
 
 .jp-footer-heading {
@@ -1174,7 +1176,7 @@ table.jp-coa-table tr:nth-child(even) td {
 	font-family: var(--jp-mono);
 	font-size: .66rem;
 	letter-spacing: .12em;
-	color: var(--jp-copper-light);
+	color: var(--jp-accent-on-dark);
 }
 
 /* ==========================================================================
@@ -1186,7 +1188,7 @@ table.jp-coa-table tr:nth-child(even) td {
 	font-size: .78rem;
 	font-weight: 700;
 	letter-spacing: .2em;
-	color: var(--jp-copper);
+	color: var(--jp-accent);
 	margin-bottom: 1rem;
 }
 
@@ -1241,7 +1243,7 @@ table.jp-coa-table tr:nth-child(even) td {
 	transform: translateY(-50%);
 	font-family: var(--jp-mono);
 	font-size: 1.2rem;
-	color: var(--jp-copper);
+	color: var(--jp-accent);
 	transition: transform .2s ease;
 }
 
@@ -1250,7 +1252,7 @@ table.jp-coa-table tr:nth-child(even) td {
 }
 
 .wp-block-details[open] summary {
-	color: var(--jp-copper-dark);
+	color: var(--jp-accent-strong);
 	border-bottom: 1px solid var(--jp-hairline);
 }
 
@@ -1307,7 +1309,7 @@ table.jp-coa-table tr:nth-child(even) td {
 .jp-manifesto-quote em {
 	font-style: italic;
 	font-weight: 480;
-	color: var(--jp-copper);
+	color: var(--jp-accent);
 }
 
 .jp-manifesto-attr {
@@ -1324,7 +1326,7 @@ table.jp-coa-table tr:nth-child(even) td {
 	display: inline-block;
 	width: 2rem;
 	height: 1px;
-	background: var(--jp-copper);
+	background: var(--jp-accent);
 	vertical-align: middle;
 	margin: 0 .8rem;
 	opacity: .6;
@@ -1351,7 +1353,7 @@ table.jp-coa-table tr:nth-child(even) td {
 	font-size: .68rem;
 	font-weight: 600;
 	letter-spacing: .22em;
-	color: var(--jp-copper-light);
+	color: var(--jp-accent-on-dark);
 	margin-bottom: 1rem;
 }
 
@@ -1368,7 +1370,7 @@ table.jp-coa-table tr:nth-child(even) td {
 .jp-cta-title em {
 	font-style: italic;
 	font-weight: 480;
-	color: var(--jp-copper-light);
+	color: var(--jp-accent-on-dark);
 }
 
 .jp-cta-copy {
@@ -1386,7 +1388,7 @@ table.jp-coa-table tr:nth-child(even) td {
 
 .jp-cta-btn {
 	display: inline-block;
-	background: var(--jp-copper);
+	background: var(--jp-accent);
 	color: #fff;
 	font-weight: 600;
 	font-size: 1rem;
@@ -1404,7 +1406,7 @@ table.jp-coa-table tr:nth-child(even) td {
 }
 
 .jp-cta-btn:hover {
-	background: var(--jp-copper-dark);
+	background: var(--jp-accent-strong);
 	color: #fff;
 	transform: translateY(-1px);
 }
@@ -1429,7 +1431,7 @@ table.jp-coa-table tr:nth-child(even) td {
    Warm-tint surfaces + gold hairline details (Fridays-inspired palette)
    ========================================================================== */
 
-.has-blush-background-color {
+.has-ground-tint-background-color {
 	background-color: #FBEFE5 !important;
 }
 
@@ -1457,7 +1459,7 @@ table.jp-coa-table tr:nth-child(even) td {
 
 .jp-manifesto-attr::before,
 .jp-manifesto-attr::after {
-	background: var(--jp-gilt, #C5A059) !important;
+	background: var(--jp-accent-strong, #C5A059) !important;
 }
 
 /* ==========================================================================
@@ -1540,12 +1542,12 @@ table.jp-coa-table tr:nth-child(even) td {
 	font-family: var(--jp-serif);
 	font-size: 1.25rem;
 	font-weight: 600;
-	color: var(--jp-copper-dark);
+	color: var(--jp-accent-strong);
 }
 
 .jp-buybar-btn {
 	display: inline-block;
-	background: var(--jp-copper);
+	background: var(--jp-accent);
 	color: #fff;
 	font-weight: 600;
 	padding: .7rem 1.6rem;
@@ -1556,7 +1558,7 @@ table.jp-coa-table tr:nth-child(even) td {
 }
 
 .jp-buybar-btn:hover {
-	background: var(--jp-copper-dark);
+	background: var(--jp-accent-strong);
 	color: #fff;
 	transform: translateY(-1px);
 }
@@ -1599,7 +1601,7 @@ table.jp-coa-table tr:nth-child(even) td {
 }
 
 a.jp-doc:hover {
-	border-color: var(--jp-copper);
+	border-color: var(--jp-accent);
 	box-shadow: 0 4px 14px rgba(28, 28, 26, .07);
 	transform: translateY(-1px);
 }
@@ -1611,7 +1613,7 @@ a.jp-doc:hover {
 	font-weight: 700;
 	letter-spacing: .1em;
 	color: #fff;
-	background: var(--jp-copper);
+	background: var(--jp-accent);
 	padding: .3rem .5rem;
 	border-radius: 4px;
 }
@@ -1681,7 +1683,7 @@ a.jp-doc:hover {
 	left: 0;
 	right: 0;
 	height: 3px;
-	background: linear-gradient(90deg, var(--jp-copper), var(--jp-gilt, #C5A059));
+	background: linear-gradient(90deg, var(--jp-accent), var(--jp-accent-strong, #C5A059));
 	transform: scaleX(0);
 	transform-origin: left;
 	transition: transform .28s cubic-bezier(.22, .61, .36, 1);
@@ -1704,7 +1706,7 @@ a.jp-doc:hover {
 	border-radius: 50%;
 	background: #FBEFE5;
 	border: 1px solid rgba(181, 101, 29, .28);
-	color: var(--jp-copper);
+	color: var(--jp-accent);
 	font-size: 1.05rem;
 	margin-bottom: 1rem;
 }
@@ -1771,7 +1773,7 @@ a.jp-doc:hover {
 	font-weight: 700;
 	letter-spacing: .12em;
 	text-transform: uppercase;
-	color: var(--jp-copper-dark) !important;
+	color: var(--jp-accent-strong) !important;
 }
 
 .jp-regulatory-links {
@@ -1784,7 +1786,7 @@ a.jp-doc:hover {
 }
 
 .jp-regulatory-links a {
-	color: var(--jp-copper-dark);
+	color: var(--jp-accent-strong);
 	text-decoration: none;
 }
 
@@ -1802,7 +1804,7 @@ a.jp-doc:hover {
 .jp-legal-note {
 	background: #FBF3EC;
 	border: 1px solid rgba(181, 101, 29, .35);
-	border-left: 4px solid var(--jp-copper);
+	border-left: 4px solid var(--jp-accent);
 	border-radius: 0 var(--jp-radius) var(--jp-radius) 0;
 	padding: 1rem 1.25rem;
 	margin-bottom: 2rem;
@@ -1873,8 +1875,8 @@ a.jp-doc:hover {
 }
 
 .jp-shelf-btn:hover:not(:disabled) {
-	background: var(--jp-copper);
-	border-color: var(--jp-copper);
+	background: var(--jp-accent);
+	border-color: var(--jp-accent);
 	color: #fff;
 }
 
@@ -1889,7 +1891,7 @@ a.jp-doc:hover {
 	font-weight: 600;
 	letter-spacing: .1em;
 	text-transform: uppercase;
-	color: var(--jp-copper-dark);
+	color: var(--jp-accent-strong);
 	text-decoration: none;
 	margin-left: .4rem;
 	white-space: nowrap;
@@ -1990,7 +1992,7 @@ a.jp-doc:hover {
 	position: absolute;
 	top: .95rem;
 	left: .95rem;
-	background: var(--jp-ink);
+	background: var(--jp-ground-ink);
 	color: var(--jp-paper);
 	font-family: var(--jp-mono);
 	font-size: .52rem;
@@ -2028,7 +2030,7 @@ a.jp-doc:hover {
 	font-family: var(--jp-serif);
 	font-size: 1rem;
 	font-weight: 600;
-	color: var(--jp-copper-dark);
+	color: var(--jp-accent-strong);
 	margin-top: auto;
 }
 
@@ -2129,12 +2131,12 @@ a.jp-doc:hover {
 }
 
 .jp-pill:hover {
-	border-color: var(--jp-copper);
-	color: var(--jp-copper-dark);
+	border-color: var(--jp-accent);
+	color: var(--jp-accent-strong);
 }
 
 .jp-pill-on {
-	background: var(--jp-ink);
+	background: var(--jp-ground-ink);
 	border-color: var(--jp-ink);
 	color: var(--jp-paper);
 }
@@ -2165,7 +2167,7 @@ a.jp-doc:hover {
 	left: -9999px;
 	top: 0;
 	z-index: 300;
-	background: var(--jp-ink);
+	background: var(--jp-ground-ink);
 	color: var(--jp-paper);
 	padding: .8rem 1.2rem;
 	border-radius: 0 0 var(--jp-radius) 0;
@@ -2199,7 +2201,7 @@ a.jp-doc:hover {
 }
 
 .jp-trustrow-icon {
-	color: var(--jp-copper);
+	color: var(--jp-accent);
 	font-size: .95rem;
 	line-height: 1.4;
 }
@@ -2245,7 +2247,7 @@ body.admin-bar .jp-progress {
 	display: block;
 	height: 100%;
 	width: 0;
-	background: linear-gradient(90deg, var(--jp-copper), var(--jp-gilt, #C5A059));
+	background: linear-gradient(90deg, var(--jp-accent), var(--jp-accent-strong, #C5A059));
 	transition: width .1s linear;
 }
 
@@ -2276,9 +2278,9 @@ body.admin-bar .jp-progress {
 }
 
 .jp-top:hover {
-	background: var(--jp-copper);
+	background: var(--jp-accent);
 	color: #fff;
-	border-color: var(--jp-copper);
+	border-color: var(--jp-accent);
 }
 
 .woocommerce.single-product .jp-top {
@@ -2349,7 +2351,7 @@ body.admin-bar .jp-progress {
 }
 
 .jp-article-body blockquote {
-	border-left: 3px solid var(--jp-copper);
+	border-left: 3px solid var(--jp-accent);
 	margin: 2rem 0;
 	padding: .35rem 0 .35rem 1.4rem;
 	font-family: var(--jp-serif);
@@ -2363,7 +2365,7 @@ body.admin-bar .jp-progress {
 	margin-top: 3rem;
 	padding: 1.1rem 1.3rem;
 	background: var(--jp-surface);
-	border-left: 4px solid var(--jp-copper);
+	border-left: 4px solid var(--jp-accent);
 	border-radius: 0 var(--jp-radius) var(--jp-radius) 0;
 	font-size: .9rem;
 	line-height: 1.6;
@@ -2419,7 +2421,7 @@ body.admin-bar .jp-progress {
 }
 
 .jp-post-card:hover .wp-block-post-title a {
-	color: var(--jp-copper-dark);
+	color: var(--jp-accent-strong);
 }
 
 .jp-post-grid .wp-block-query-pagination {
@@ -2447,7 +2449,7 @@ body.admin-bar .jp-progress {
 	font-size: .66rem;
 	font-weight: 600;
 	letter-spacing: .2em;
-	color: var(--jp-copper-light);
+	color: var(--jp-accent-on-dark);
 	margin-bottom: .5rem;
 }
 
@@ -2485,7 +2487,7 @@ form.jp-subscribe input[type="email"]::placeholder {
 
 form.jp-subscribe input[type="email"]:focus {
 	outline: none;
-	border-color: var(--jp-copper-light);
+	border-color: var(--jp-accent-on-dark);
 	box-shadow: 0 0 0 3px rgba(217, 154, 98, .18);
 }
 
@@ -2493,7 +2495,7 @@ form.jp-subscribe button {
 	padding: .8rem 1.7rem;
 	border-radius: var(--jp-radius-pill);
 	border: none;
-	background: var(--jp-copper);
+	background: var(--jp-accent);
 	color: #fff;
 	font-weight: 600;
 	font-size: .95rem;
@@ -2502,7 +2504,7 @@ form.jp-subscribe button {
 }
 
 form.jp-subscribe button:hover {
-	background: var(--jp-copper-light);
+	background: var(--jp-accent-on-dark);
 	color: var(--jp-ink);
 	transform: translateY(-1px);
 }
@@ -2517,7 +2519,7 @@ form.jp-subscribe button:hover {
 	font-family: var(--jp-mono);
 	font-size: .75rem;
 	letter-spacing: .04em;
-	color: var(--jp-copper-light);
+	color: var(--jp-accent-on-dark);
 }
 
 .jp-subscribe-ok {
@@ -2576,7 +2578,7 @@ form.jp-subscribe button:hover {
 }
 
 .woocommerce .woocommerce-breadcrumb a:hover {
-	color: var(--jp-copper);
+	color: var(--jp-accent);
 }
 
 /* ==========================================================================
@@ -2775,7 +2777,7 @@ form.jp-subscribe button:hover {
    --------------------------------------------------------------------------
    Front-page order and background value:
      hero            paper          light
-     trust strip     espresso       DARK   <- breaks the long light run early
+     trust strip     ground deep    DARK   <- breaks the long light run early
      01 standards    warm cream     light
      02 catalog      paper          light
      manifesto       surface        light
@@ -2786,7 +2788,7 @@ form.jp-subscribe button:hover {
      final CTA       graphite       DARK
      footer + legal  graphite       DARK
    Every dark surface is a radial gradient over a base, never a flat fill.
-   Adjacent light sections are separated by a rust hairline.
+   Adjacent light sections are separated by an accent hairline.
    ========================================================================== */
 
 /* Hero: paper base, existing gradients deepened slightly. */
@@ -2801,7 +2803,7 @@ form.jp-subscribe button:hover {
 
 /* Trust strip: the new dark band. */
 .jp-trustbar-section {
-	background-color: var(--jp-dark-espresso);
+	background-color: var(--jp-ground-deep);
 	background-image:
 		radial-gradient(ellipse at 18% -10%, rgba(181, 101, 29, .28) 0%, rgba(181, 101, 29, 0) 58%),
 		radial-gradient(ellipse at 88% 120%, rgba(20, 14, 11, .55) 0%, rgba(20, 14, 11, 0) 60%);
@@ -2813,7 +2815,7 @@ form.jp-subscribe button:hover {
 	background-image: radial-gradient(ellipse at 50% 120%, rgba(181, 101, 29, .09) 0%, rgba(181, 101, 29, 0) 60%);
 }
 
-/* Rust hairline wherever two light sections meet. */
+/* Accent hairline wherever two light sections meet. */
 .jp-home-catalog,
 .jp-manifesto,
 .jp-home-faq,
@@ -2855,7 +2857,7 @@ form.jp-subscribe button:hover {
 .jp-trustbar-section .jp-trustbar-icon {
 	background: rgba(181, 101, 29, .22);
 	border-color: rgba(217, 154, 98, .45);
-	color: var(--jp-copper-light);
+	color: var(--jp-accent-on-dark);
 }
 
 @media (max-width: 781px) {
@@ -2890,7 +2892,7 @@ form.jp-subscribe button:hover {
 }
 
 /* Backlight: a large soft glow so the vial reads as lit from behind rather
-   than pasted on. A white core for the light source, a copper halo around it. */
+   than pasted on. A white core for the light source, an accent halo around it. */
 .jp-vial-scene::before {
 	content: "";
 	position: absolute;
@@ -3025,7 +3027,7 @@ form.jp-subscribe button:hover {
 .woocommerce a.button.jp-tile-add,
 .jp-tile-add {
 	display: block;
-	background: var(--jp-ink);
+	background: var(--jp-ground-ink);
 	color: var(--jp-paper);
 	font-weight: 600;
 	letter-spacing: .01em;
@@ -3037,14 +3039,14 @@ form.jp-subscribe button:hover {
 
 .woocommerce a.button.jp-tile-add:hover,
 .jp-tile-add:hover {
-	background: var(--jp-copper-dark);
-	border-color: var(--jp-copper-dark);
+	background: var(--jp-accent-strong);
+	border-color: var(--jp-accent-strong);
 	color: #fff;
 }
 
 .woocommerce a.button.jp-tile-add:focus-visible,
 .jp-tile-add:focus-visible {
-	outline: 2px solid var(--jp-copper);
+	outline: 2px solid var(--jp-accent);
 	outline-offset: 2px;
 }
 
@@ -3065,14 +3067,14 @@ form.jp-subscribe button:hover {
 }
 
 .jp-shelf-btn:hover:not(:disabled) {
-	background: var(--jp-ink);
+	background: var(--jp-ground-ink);
 	border-color: var(--jp-ink);
 	color: var(--jp-paper);
 	box-shadow: var(--jp-elev-2);
 }
 
 .jp-shelf-btn:focus-visible {
-	outline: 2px solid var(--jp-copper);
+	outline: 2px solid var(--jp-accent);
 	outline-offset: 2px;
 }
 
@@ -3101,7 +3103,7 @@ form.jp-subscribe button:hover {
    the topmost thing on the page - and above the header, styled to match. */
 .jp-ticker {
 	overflow: hidden;
-	background: var(--jp-dark-espresso);
+	background: var(--jp-ground-deep);
 	border-top: 1px solid rgba(181, 101, 29, .28);
 	border-bottom: 1px solid rgba(181, 101, 29, .28);
 	padding: .42rem 0;
@@ -3137,7 +3139,7 @@ form.jp-subscribe button:hover {
 	width: 3px;
 	height: 3px;
 	border-radius: 50%;
-	background: var(--jp-copper);
+	background: var(--jp-accent);
 }
 
 @keyframes jp-ticker {
@@ -3180,7 +3182,7 @@ body.admin-bar .jp-pillbar {
 }
 
 .jp-pillbar .jp-pill:focus-visible {
-	outline: 2px solid var(--jp-copper);
+	outline: 2px solid var(--jp-accent);
 	outline-offset: 2px;
 }
 
@@ -3213,7 +3215,7 @@ body.admin-bar .jp-pillbar {
    ========================================================================== */
 
 .jp-regulatory {
-	background: var(--jp-ink);
+	background: var(--jp-ground-ink);
 	border-top: 1px solid rgba(250, 249, 246, .16);
 	padding: 2.1rem clamp(1rem, 4vw, 3rem) 2.6rem;
 }
@@ -3228,7 +3230,7 @@ body.admin-bar .jp-pillbar {
 }
 
 .jp-regulatory-lead {
-	color: var(--jp-copper-light) !important;
+	color: var(--jp-accent-on-dark) !important;
 }
 
 .jp-regulatory-links {
@@ -3236,7 +3238,7 @@ body.admin-bar .jp-pillbar {
 }
 
 .jp-regulatory-links a {
-	color: var(--jp-copper-light);
+	color: var(--jp-accent-on-dark);
 }
 
 .jp-regulatory-links a:hover,
@@ -3246,7 +3248,7 @@ body.admin-bar .jp-pillbar {
 }
 
 .jp-regulatory-links a:focus-visible {
-	outline: 2px solid var(--jp-copper-light);
+	outline: 2px solid var(--jp-accent-on-dark);
 	outline-offset: 2px;
 }
 
@@ -3263,29 +3265,29 @@ body.admin-bar .jp-pillbar {
 }
 
 .jp-top:focus-visible {
-	outline: 2px solid var(--jp-copper);
+	outline: 2px solid var(--jp-accent);
 	outline-offset: 2px;
 }
 
-/* Kickers were --jp-copper (#B5651D) on cream: measured 3.84:1 on warm cream
+/* Kickers were --jp-accent (#B5651D) on cream: measured 3.84:1 on warm cream
    and 4.12:1 on the hero, both under the 4.5:1 AA threshold at 11.5px.
-   --jp-copper-dark is already in the palette, so this is a swap within the
+   --jp-accent-strong is already in the palette, so this is a swap within the
    brand colours rather than a new one. Light-on-dark kickers are unaffected. */
 .jp-kicker {
-	color: var(--jp-copper-dark);
+	color: var(--jp-accent-strong);
 }
 
 .jp-kicker-light {
-	color: var(--jp-copper-light);
+	color: var(--jp-accent-on-dark);
 }
 
-/* Primary CTAs were white on --jp-copper (#B5651D): 4.34:1, just under the
-   4.5:1 AA threshold. --jp-copper-dark takes it clear. Both are existing
+/* Primary CTAs were white on --jp-accent (#B5651D): 4.34:1, just under the
+   4.5:1 AA threshold. --jp-accent-strong takes it clear. Both are existing
    palette colours - the palette itself is unchanged. */
 .wp-block-button__link,
 .wp-element-button,
 .jp-cta-btn {
-	background-color: var(--jp-copper-dark);
+	background-color: var(--jp-accent-strong);
 }
 
 .jp-cta-btn-ghost {
@@ -3297,7 +3299,7 @@ body.admin-bar .jp-pillbar {
    newsletter input and WooCommerce's own buttons). Everything focusable gets
    a ring; the rules below only refine offset and colour. */
 :focus-visible {
-	outline: 2px solid var(--jp-copper);
+	outline: 2px solid var(--jp-accent);
 	outline-offset: 2px;
 }
 
@@ -3311,7 +3313,7 @@ body.admin-bar .jp-pillbar {
 .jp-cta-btn:focus-visible,
 .jp-scroll-cue:focus-visible,
 .wp-block-details summary:focus-visible {
-	outline: 2px solid var(--jp-copper);
+	outline: 2px solid var(--jp-accent);
 	outline-offset: 3px;
 	border-radius: 4px;
 }
@@ -3320,7 +3322,7 @@ body.admin-bar .jp-pillbar {
 .jp-cta-band a:focus-visible,
 .jp-regulatory a:focus-visible,
 .jp-trustbar-section a:focus-visible {
-	outline-color: var(--jp-copper-light);
+	outline-color: var(--jp-accent-on-dark);
 }
 
 /* The pill row is horizontally scrollable; on narrow screens it must not
@@ -3364,10 +3366,10 @@ body.admin-bar .jp-pillbar {
 
 .jp-placeholder {
 	display: inline-block;
-	outline: 1px dashed var(--jp-copper-dark);
+	outline: 1px dashed var(--jp-accent-strong);
 	outline-offset: 1px;
 	background: rgba(181, 101, 29, .10);
-	color: var(--jp-copper-dark);
+	color: var(--jp-accent-strong);
 	font-family: var(--jp-mono);
 	font-size: .92em;
 	letter-spacing: .02em;
@@ -3375,8 +3377,8 @@ body.admin-bar .jp-pillbar {
 	border-radius: 2px;
 }
 
-/* On espresso/ink grounds the dark rust would fail contrast, so the inverted
-   context uses copper-light against a lighter tint. */
+/* On the deep and ink grounds the light-ground accent would fail contrast, so
+   the inverted context uses the dark-ground accent against a lighter tint. */
 .jp-utility .jp-placeholder,
 .jp-topbar .jp-placeholder,
 .jp-panel-dark .jp-placeholder,
@@ -3385,20 +3387,20 @@ body.admin-bar .jp-pillbar {
 .jp-footer .jp-placeholder,
 .jp-trustbar-section .jp-placeholder,
 .jp-split-panel .jp-placeholder {
-	outline-color: var(--jp-copper-light);
+	outline-color: var(--jp-accent-on-dark);
 	background: rgba(217, 154, 98, .16);
-	color: var(--jp-copper-light);
+	color: var(--jp-accent-on-dark);
 }
 
 /* ==========================================================================
    Header utility bar
    --------------------------------------------------------------------------
    Order above the masthead: RUO banner (topmost, never moves) -> ticker ->
-   utility bar -> masthead. Espresso ground with the inverted token set.
+   utility bar -> masthead. Deep ground with the inverted token set.
    ========================================================================== */
 
 .jp-utility {
-	background: var(--jp-dark-espresso);
+	background: var(--jp-ground-deep);
 	border-bottom: 1px solid rgba(181, 101, 29, .28);
 }
 
@@ -3429,13 +3431,13 @@ body.admin-bar .jp-pillbar {
 }
 
 a.jp-utility-phone:hover {
-	color: var(--jp-copper-light);
+	color: var(--jp-accent-on-dark);
 	text-decoration: underline;
 }
 
 .jp-utility-sep {
 	padding: 0 .55rem;
-	color: var(--jp-copper-light);
+	color: var(--jp-accent-on-dark);
 }
 
 /* Under 768px the bar becomes a single centred line. */
@@ -3470,7 +3472,7 @@ a.jp-utility-phone:hover {
 
 .jp-home-education {
 	padding: 0;
-	background-color: var(--jp-dark-espresso);
+	background-color: var(--jp-ground-deep);
 	background-image:
 		radial-gradient(ellipse at 12% 0%, rgba(181, 101, 29, .26) 0%, rgba(181, 101, 29, 0) 58%),
 		radial-gradient(ellipse at 92% 105%, rgba(20, 14, 11, .5) 0%, rgba(20, 14, 11, 0) 60%);
@@ -3487,7 +3489,7 @@ a.jp-utility-phone:hover {
 	align-items: center;
 	justify-content: center;
 	padding: var(--jp-space-64) var(--jp-space-32);
-	color: var(--jp-copper-light);
+	color: var(--jp-accent-on-dark);
 	background: rgba(250, 249, 246, .04);
 	border-right: 1px solid var(--jp-hairline-inv);
 	min-height: 420px;
@@ -3516,7 +3518,7 @@ a.jp-utility-phone:hover {
 .jp-split-title em {
 	font-style: italic;
 	font-weight: 480;
-	color: var(--jp-copper-light);
+	color: var(--jp-accent-on-dark);
 }
 
 .jp-split-copy {
@@ -3536,25 +3538,25 @@ a.jp-utility-phone:hover {
 
 .jp-split-link {
 	display: inline-block;
-	background: var(--jp-copper-dark);
+	background: var(--jp-accent-strong);
 	color: #fff;
 	text-decoration: none;
 	font-weight: 600;
 	font-size: .92rem;
 	padding: .8rem 1.7rem;
 	border-radius: var(--jp-radius-pill);
-	border: 1px solid var(--jp-copper-dark);
+	border: 1px solid var(--jp-accent-strong);
 	transition: background-color .15s ease, border-color .15s ease;
 }
 
 .jp-split-link:hover {
 	background: transparent;
-	border-color: var(--jp-copper-light);
-	color: var(--jp-copper-light);
+	border-color: var(--jp-accent-on-dark);
+	color: var(--jp-accent-on-dark);
 }
 
 .jp-split-link:focus-visible {
-	outline: 2px solid var(--jp-copper-light);
+	outline: 2px solid var(--jp-accent-on-dark);
 	outline-offset: 3px;
 }
 
@@ -3592,7 +3594,7 @@ a.jp-utility-phone:hover {
 .jp-ship-progress {
 	margin: 0 0 var(--jp-space-16);
 	padding: var(--jp-space-12) var(--jp-space-16);
-	background: var(--jp-blush, #FBEFE5);
+	background: var(--jp-ground-tint, #FBEFE5);
 	border: 1px solid rgba(181, 101, 29, .22);
 	border-radius: var(--jp-radius);
 }
@@ -3602,7 +3604,7 @@ a.jp-utility-phone:hover {
 	font-family: var(--jp-mono);
 	font-size: .72rem;
 	letter-spacing: .04em;
-	color: var(--jp-copper-dark);
+	color: var(--jp-accent-strong);
 	max-width: none;
 }
 
@@ -3616,7 +3618,7 @@ a.jp-utility-phone:hover {
 .jp-ship-progress-fill {
 	display: block;
 	height: 100%;
-	background: var(--jp-copper-dark);
+	background: var(--jp-accent-strong);
 	border-radius: inherit;
 	transition: width .25s ease;
 }
@@ -3683,7 +3685,7 @@ a.jp-utility-phone:hover {
 	font-size: .7rem;
 	letter-spacing: .12em;
 	text-transform: uppercase;
-	color: var(--jp-copper-dark);
+	color: var(--jp-accent-strong);
 	text-decoration: none;
 	border-bottom: 1px solid currentColor;
 	padding-bottom: 2px;
@@ -3736,7 +3738,7 @@ a.jp-utility-phone:hover {
 	font-size: .62rem;
 	letter-spacing: .12em;
 	text-transform: uppercase;
-	color: var(--jp-copper-dark);
+	color: var(--jp-accent-strong);
 	margin-top: var(--jp-space-16);
 }
 
@@ -3758,7 +3760,7 @@ a.jp-utility-phone:hover {
 }
 
 a.jp-infocard-link {
-	color: var(--jp-copper-dark);
+	color: var(--jp-accent-strong);
 	text-decoration: none;
 	border-bottom: 1px solid currentColor;
 }
@@ -3778,7 +3780,7 @@ a.jp-infocard-link:hover {
 }
 
 .jp-infocard-more a {
-	color: var(--jp-copper-dark);
+	color: var(--jp-accent-strong);
 	text-decoration: none;
 	border-bottom: 1px solid currentColor;
 }
@@ -3843,7 +3845,7 @@ a.jp-infocard-link:hover {
 }
 
 .jp-search:focus-within {
-	border-color: var(--jp-copper);
+	border-color: var(--jp-accent);
 	box-shadow: var(--jp-elev-2);
 }
 
@@ -3876,18 +3878,18 @@ a.jp-infocard-link:hover {
 	flex: 0 0 auto;
 	border: 0;
 	border-radius: 50%;
-	background: var(--jp-ink);
+	background: var(--jp-ground-ink);
 	color: var(--jp-paper);
 	cursor: pointer;
 	transition: background-color .15s ease;
 }
 
 .jp-search-btn:hover {
-	background: var(--jp-copper-dark);
+	background: var(--jp-accent-strong);
 }
 
 .jp-search-btn:focus-visible {
-	outline: 2px solid var(--jp-copper);
+	outline: 2px solid var(--jp-accent);
 	outline-offset: 2px;
 }
 
