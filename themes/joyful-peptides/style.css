@@ -301,17 +301,9 @@ header .wp-block-navigation .wp-block-navigation-item__content:hover::after {
 	color: var(--jp-ink);
 	margin: 0 0 1.25rem;
 	max-width: 14em;
-	/* Browsers break after an explicit hyphen, so at 73.6px "Research-grade"
-	   split into "Research-" / "grade". hyphens:none does NOT stop that - it
-	   only governs automatic hyphenation - so the compound is wrapped in
-	   .jp-nobreak in the markup. No characters were changed. */
+	/* No automatic hyphenation on the display headline. */
 	hyphens: none;
 	-webkit-hyphens: none;
-}
-
-/* Keeps a hyphenated compound whole. Used on the hero headline. */
-.jp-nobreak {
-	white-space: nowrap;
 }
 
 .jp-hero-title em {
