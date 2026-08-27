@@ -351,3 +351,76 @@ add_shortcode( 'jp_info', function ( $atts ) {
 add_shortcode( 'jp_bulk_contact', function () {
 	return jp_email_markup( 'bulk_contact' );
 } );
+
+/**
+ * [jp_about_cards] - the shipping and contact summary pair on /about/.
+ *
+ * Card A condenses /shipping-returns/ and links to it for the full terms. Every
+ * factual line is taken from that page: US-only shipping, Adult Signature
+ * Required (21+) with a matching recipient name, and no returns on opened
+ * product. Handling time and order cutoff are NOT stated there, so they come
+ * from jp_info() as placeholders, and the damaged / defective / incorrect rule
+ * is a placeholder too because the policy page marks it unfinalised - asserting
+ * one here would contradict the page this card links to.
+ */
+add_shortcode( 'jp_about_cards', function () {
+	ob_start();
+	?>
+	<div class="jp-infocards">
+
+		<section class="jp-infocard">
+			<h2 class="jp-infocard-title">Shipping and returns</h2>
+			<dl class="jp-infocard-list">
+				<dt>Where we ship</dt>
+				<dd>Within the United States only. We do not ship internationally.</dd>
+
+				<dt>Handling time</dt>
+				<dd><?php echo wp_kses_post( jp_info( 'ship_time' ) ); ?></dd>
+
+				<dt>Order cutoff</dt>
+				<dd><?php echo wp_kses_post( jp_info( 'ship_cutoff' ) ); ?></dd>
+
+				<dt>Delivery</dt>
+				<dd>Every order ships Adult Signature Required (21+). The recipient name
+					must match the name on the account that placed the order, and a package
+					cannot be left unattended.</dd>
+
+				<dt>Returns</dt>
+				<dd>Opened product cannot be returned, because integrity depends on storage
+					and handling after it leaves our control.</dd>
+
+				<dt>Damaged, defective or incorrect</dt>
+				<dd><?php echo wp_kses_post( jp_info( 'returns_damaged' ) ); ?></dd>
+			</dl>
+			<p class="jp-infocard-more">
+				<a href="/shipping-returns/">Full shipping and returns terms</a>
+			</p>
+		</section>
+
+		<section class="jp-infocard">
+			<h2 class="jp-infocard-title">Contact</h2>
+			<dl class="jp-infocard-list">
+				<dt>Registered entity</dt>
+				<dd><?php echo wp_kses_post( jp_info( 'legal_entity' ) ); ?></dd>
+
+				<dt>Address</dt>
+				<dd><address class="jp-infocard-address" itemscope itemtype="https://schema.org/PostalAddress"><span itemprop="streetAddress"><?php echo wp_kses_post( jp_info( 'address' ) ); ?></span></address></dd>
+
+				<dt>Phone</dt>
+				<dd><?php echo wp_kses_post( jp_phone_markup( 'jp-infocard-link' ) ); ?></dd>
+
+				<dt>Email</dt>
+				<dd><?php echo wp_kses_post( jp_email_markup( 'email', 'jp-infocard-link' ) ); ?></dd>
+
+				<dt>Hours</dt>
+				<dd><?php echo wp_kses_post( jp_info( 'hours' ) ); ?></dd>
+			</dl>
+			<p class="jp-infocard-more">
+				<a href="/contact/">Contact page</a>
+			</p>
+		</section>
+
+	</div>
+	<?php
+	return ob_get_clean();
+} );

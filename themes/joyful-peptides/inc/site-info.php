@@ -38,6 +38,10 @@ function jp_site_info() {
 		'bulk_moq'                => '[[ INPUT MINIMUM ORDER QUANTITY HERE ]]',
 		'bulk_lead_time'          => '[[ INPUT BULK ORDER LEAD TIME HERE ]]',
 		'bulk_lot_hold'           => '[[ INPUT HOW LONG A LOT CAN BE RESERVED HERE ]]',
+		/* /shipping-returns/ states that opened product cannot be returned, and
+		   marks the damaged / defective / incorrect rule as NOT finalised. The
+		   About summary must not assert one the policy page does not state. */
+		'returns_damaged'         => '[[ INPUT DAMAGED DEFECTIVE OR INCORRECT ITEM POLICY HERE ]]',
 		/* Pre-filled: /learn/ already exists, and a bracketed string in an href
 		   would produce a broken link rather than a visible placeholder. */
 		'learn_destination'       => '/learn/',

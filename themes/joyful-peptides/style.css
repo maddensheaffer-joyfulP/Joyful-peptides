@@ -3667,6 +3667,112 @@ a.jp-utility-phone:hover {
 }
 
 /* ==========================================================================
+   About page: shipping + contact cards
+   --------------------------------------------------------------------------
+   There is no generic .jp-card component in the theme - only product-card
+   fragments - so these are built on the same elevation treatment as the
+   standards and step cards, with a surface-token face.
+   ========================================================================== */
+
+.jp-infocards {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--jp-space-24);
+	margin: var(--jp-space-32) 0 var(--jp-space-48);
+}
+
+.jp-infocard {
+	background: var(--jp-surface);
+	border: 1px solid var(--jp-card-edge);
+	border-radius: var(--jp-radius);
+	box-shadow: var(--jp-elev-2);
+	padding: var(--jp-space-32);
+}
+
+.jp-infocard-title {
+	font-family: var(--jp-serif);
+	font-size: 1.15rem;
+	font-weight: 580;
+	letter-spacing: -.01em;
+	color: var(--jp-ink);
+	margin: 0 0 var(--jp-space-16);
+	padding-bottom: var(--jp-space-12);
+	border-bottom: 1px solid rgba(181, 101, 29, .22);
+}
+
+.jp-infocard-list {
+	margin: 0;
+}
+
+.jp-infocard-list dt {
+	font-family: var(--jp-mono);
+	font-size: .62rem;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+	color: var(--jp-copper-dark);
+	margin-top: var(--jp-space-16);
+}
+
+.jp-infocard-list dt:first-child {
+	margin-top: 0;
+}
+
+.jp-infocard-list dd {
+	margin: var(--jp-space-4) 0 0;
+	font-size: .9rem;
+	line-height: 1.6;
+	color: var(--jp-ink);
+	max-width: var(--jp-measure-body);
+}
+
+.jp-infocard-address {
+	font-style: normal;
+	margin: 0;
+}
+
+a.jp-infocard-link {
+	color: var(--jp-copper-dark);
+	text-decoration: none;
+	border-bottom: 1px solid currentColor;
+}
+
+a.jp-infocard-link:hover {
+	color: var(--jp-ink);
+}
+
+.jp-infocard-more {
+	margin: var(--jp-space-24) 0 0;
+	padding-top: var(--jp-space-16);
+	border-top: 1px solid var(--jp-hairline);
+	font-family: var(--jp-mono);
+	font-size: .68rem;
+	letter-spacing: .1em;
+	text-transform: uppercase;
+}
+
+.jp-infocard-more a {
+	color: var(--jp-copper-dark);
+	text-decoration: none;
+	border-bottom: 1px solid currentColor;
+}
+
+.jp-infocard-more a:hover {
+	color: var(--jp-ink);
+}
+
+/* Stacked below 900px, per the split-panel breakpoint. */
+@media (max-width: 900px) {
+	.jp-infocards {
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--jp-space-16);
+	}
+
+	.jp-infocard {
+		padding: var(--jp-space-24);
+	}
+}
+
+/* ==========================================================================
    Masthead capacity
    --------------------------------------------------------------------------
    The nav carries 10 top-level items. Measured on the live header: brand 190 +
