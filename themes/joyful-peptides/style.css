@@ -3349,6 +3349,42 @@ body.admin-bar .jp-pillbar {
 }
 
 /* ==========================================================================
+   Unfilled business details
+   --------------------------------------------------------------------------
+   jp_info() wraps any value still containing "[[" in .jp-placeholder. This is
+   a build-time warning made visible, not a design element - it should look
+   wrong. The pre-launch grep in README.md is the hard gate.
+   ========================================================================== */
+
+.jp-placeholder {
+	display: inline-block;
+	outline: 1px dashed var(--jp-copper-dark);
+	outline-offset: 1px;
+	background: rgba(181, 101, 29, .10);
+	color: var(--jp-copper-dark);
+	font-family: var(--jp-mono);
+	font-size: .92em;
+	letter-spacing: .02em;
+	padding: 0 .3em;
+	border-radius: 2px;
+}
+
+/* On espresso/ink grounds the dark rust would fail contrast, so the inverted
+   context uses copper-light against a lighter tint. */
+.jp-utility .jp-placeholder,
+.jp-topbar .jp-placeholder,
+.jp-panel-dark .jp-placeholder,
+.jp-cta-band .jp-placeholder,
+.jp-regulatory .jp-placeholder,
+.jp-footer .jp-placeholder,
+.jp-trustbar-section .jp-placeholder,
+.jp-split-panel .jp-placeholder {
+	outline-color: var(--jp-copper-light);
+	background: rgba(217, 154, 98, .16);
+	color: var(--jp-copper-light);
+}
+
+/* ==========================================================================
    Motion preferences + small screens
    ========================================================================== */
 

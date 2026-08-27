@@ -7,6 +7,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+/* Business details live in one file; templates call jp_info() only. */
+require_once get_theme_file_path( 'inc/site-info.php' );
+
 function joyful_peptides_setup() {
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'responsive-embeds' );
