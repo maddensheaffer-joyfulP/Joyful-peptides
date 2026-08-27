@@ -284,3 +284,49 @@ add_action( 'wp_footer', function () {
 	</script>
 	<?php
 }, 20 );
+
+/**
+ * [jp_learn_panel] - the homepage education section, as a two-column split.
+ *
+ * Copy frames verification literacy only: reading a COA, what third-party
+ * testing does and does not establish, and vetting any supplier including this
+ * one. No product claims, no purity figures - the graphic is deliberately
+ * abstract line art with no numbers on it, so nothing in this panel can be read
+ * as a statement about what is in a vial.
+ */
+add_shortcode( 'jp_learn_panel', function () {
+	$href = jp_info_has( 'learn_destination' ) ? jp_info_raw( 'learn_destination' ) : '/learn/';
+
+	$art = '<svg class="jp-split-art" viewBox="0 0 220 200" fill="none" aria-hidden="true"'
+		. ' stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+		/* document */
+		. '<path d="M46 24h74l32 32v120a8 8 0 0 1-8 8H46a8 8 0 0 1-8-8V32a8 8 0 0 1 8-8z"/>'
+		. '<path d="M120 24v32h32"/>'
+		/* ruled lines - no values, no figures */
+		. '<path d="M58 80h56M58 98h74M58 116h44" opacity=".55"/>'
+		/* magnifier over the record */
+		. '<circle cx="132" cy="132" r="30"/>'
+		. '<path d="M154 154l18 18"/>'
+		/* check inside the lens */
+		. '<path d="M120 132l9 9 18-19"/>'
+		. '</svg>';
+
+	ob_start();
+	?>
+	<div class="jp-split-panel">
+		<div class="jp-split-media" aria-hidden="true">
+			<?php echo $art; // phpcs:ignore WordPress.Security.EscapeOutput ?>
+		</div>
+		<div class="jp-split-body">
+			<p class="jp-kicker jp-kicker-light">06 &mdash; Education</p>
+			<h2 class="jp-split-title">Explore the <em>research.</em></h2>
+			<p class="jp-split-copy">Read a certificate of analysis line by line, and know which parts of it carry weight. Understand what independent testing establishes about a batch &mdash; and what it leaves unanswered. Then apply the same questions to any supplier you buy from, this one included.</p>
+			<p class="jp-split-copy jp-split-copy-sub">No dosing guidance, no outcome claims. Only the checks a careful buyer should be able to run themselves.</p>
+			<p class="jp-split-cta">
+				<a class="jp-split-link" href="<?php echo esc_url( $href ); ?>">Browse the Learn hub</a>
+			</p>
+		</div>
+	</div>
+	<?php
+	return ob_get_clean();
+} );

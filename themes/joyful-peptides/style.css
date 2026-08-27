@@ -3433,6 +3433,128 @@ a.jp-utility-phone:hover {
 }
 
 /* ==========================================================================
+   Explore the research: full-bleed split panel
+   --------------------------------------------------------------------------
+   The one section that overrides the shared --jp-section-x padding, because a
+   full-bleed split needs the media half to reach the viewport edge. Vertical
+   rhythm still comes from the scale, applied inside the copy half.
+   ========================================================================== */
+
+.jp-home-education {
+	padding: 0;
+	background-color: var(--jp-dark-espresso);
+	background-image:
+		radial-gradient(ellipse at 12% 0%, rgba(181, 101, 29, .26) 0%, rgba(181, 101, 29, 0) 58%),
+		radial-gradient(ellipse at 92% 105%, rgba(20, 14, 11, .5) 0%, rgba(20, 14, 11, 0) 60%);
+}
+
+.jp-split-panel {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	align-items: center;
+}
+
+.jp-split-media {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: var(--jp-space-64) var(--jp-space-32);
+	color: var(--jp-copper-light);
+	background: rgba(250, 249, 246, .04);
+	border-right: 1px solid var(--jp-hairline-inv);
+	min-height: 420px;
+}
+
+.jp-split-art {
+	width: min(260px, 62%);
+	height: auto;
+}
+
+.jp-split-body {
+	padding: var(--jp-space-96) var(--jp-space-64);
+}
+
+.jp-split-title {
+	font-family: var(--jp-serif);
+	font-size: clamp(1.9rem, 1.5rem + 1.6vw, 2.9rem);
+	font-weight: 560;
+	line-height: 1.1;
+	letter-spacing: -.015em;
+	color: var(--jp-ink-inv);
+	margin: 0 0 var(--jp-space-16);
+	max-width: var(--jp-measure-display);
+}
+
+.jp-split-title em {
+	font-style: italic;
+	font-weight: 480;
+	color: var(--jp-copper-light);
+}
+
+.jp-split-copy {
+	color: var(--jp-muted-inv);
+	max-width: var(--jp-measure-body);
+	margin: 0 0 var(--jp-space-16);
+}
+
+.jp-split-copy-sub {
+	font-size: .88rem;
+	color: #B3AFA8;
+}
+
+.jp-split-cta {
+	margin: var(--jp-space-24) 0 0;
+}
+
+.jp-split-link {
+	display: inline-block;
+	background: var(--jp-copper-dark);
+	color: #fff;
+	text-decoration: none;
+	font-weight: 600;
+	font-size: .92rem;
+	padding: .8rem 1.7rem;
+	border-radius: var(--jp-radius-pill);
+	border: 1px solid var(--jp-copper-dark);
+	transition: background-color .15s ease, border-color .15s ease;
+}
+
+.jp-split-link:hover {
+	background: transparent;
+	border-color: var(--jp-copper-light);
+	color: var(--jp-copper-light);
+}
+
+.jp-split-link:focus-visible {
+	outline: 2px solid var(--jp-copper-light);
+	outline-offset: 3px;
+}
+
+/* Stacks image above copy below 900px. */
+@media (max-width: 900px) {
+	.jp-split-panel {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.jp-split-media {
+		min-height: 260px;
+		border-right: 0;
+		border-bottom: 1px solid var(--jp-hairline-inv);
+		padding: var(--jp-space-48) var(--jp-space-32);
+	}
+
+	.jp-split-body {
+		padding: var(--jp-space-64) var(--jp-space-32);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.jp-split-link {
+		transition: none;
+	}
+}
+
+/* ==========================================================================
    Free-shipping progress
    --------------------------------------------------------------------------
    Renders only when a threshold is configured, the cart has items, and the
