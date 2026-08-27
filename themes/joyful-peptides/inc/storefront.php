@@ -86,3 +86,33 @@ add_shortcode( 'jp_utility_bar', function () {
 	$out .= '</div></div>';
 	return $out;
 } );
+
+/**
+ * Header product search.
+ *
+ * Scoped with a hidden post_type=product, so results come from the catalog
+ * only - the generic search template queries posts, and the COA library has
+ * its own client-side batch filter on its own page. Typing a batch number
+ * here runs a product search and returns product results; it never redirects
+ * to, or interferes with, the COA lookup. Nothing on the site hooks
+ * pre_get_posts or template_redirect for search.
+ */
+add_shortcode( 'jp_product_search', function () {
+	$term = '';
+	if ( is_search() && isset( $_GET['post_type'] ) && 'product' === $_GET['post_type'] ) {
+		$term = get_search_query();
+	}
+
+	$icon = '<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor"'
+		. ' stroke-width="1.8" stroke-linecap="round" aria-hidden="true">'
+		. '<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.2 4.2"/></svg>';
+
+	return '<form role="search" method="get" class="jp-search" action="' . esc_url( home_url( '/' ) ) . '">'
+		. '<label class="screen-reader-text" for="jp-product-search">Search products</label>'
+		. '<input type="search" id="jp-product-search" class="jp-search-input" name="s"'
+		. ' value="' . esc_attr( $term ) . '" placeholder="Search products" autocomplete="off" />'
+		. '<input type="hidden" name="post_type" value="product" />'
+		. '<button type="submit" class="jp-search-btn"><span class="screen-reader-text">Search</span>'
+		. $icon . '</button>'
+		. '</form>';
+} );

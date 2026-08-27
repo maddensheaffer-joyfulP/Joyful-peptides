@@ -3433,6 +3433,82 @@ a.jp-utility-phone:hover {
 }
 
 /* ==========================================================================
+   Header product search
+   ========================================================================== */
+
+.jp-search {
+	display: flex;
+	align-items: center;
+	gap: .3rem;
+	background: #fff;
+	border: 1px solid var(--jp-hairline-strong);
+	border-radius: var(--jp-radius-pill);
+	padding: .2rem .3rem .2rem .7rem;
+	box-shadow: var(--jp-elev-1);
+	transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.jp-search:focus-within {
+	border-color: var(--jp-copper);
+	box-shadow: var(--jp-elev-2);
+}
+
+.jp-search-input {
+	border: 0;
+	background: transparent;
+	font-family: var(--jp-sans);
+	font-size: .82rem;
+	color: var(--jp-ink);
+	width: 148px;
+	padding: .28rem 0;
+}
+
+.jp-search-input::placeholder {
+	/* #6B6B68 on #fff measures 5.3:1 - placeholder text still clears AA. */
+	color: var(--jp-muted);
+	opacity: 1;
+}
+
+.jp-search-input:focus {
+	outline: none; /* the ring is drawn on the wrapper via :focus-within */
+}
+
+.jp-search-btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	flex: 0 0 auto;
+	border: 0;
+	border-radius: 50%;
+	background: var(--jp-ink);
+	color: var(--jp-paper);
+	cursor: pointer;
+	transition: background-color .15s ease;
+}
+
+.jp-search-btn:hover {
+	background: var(--jp-copper-dark);
+}
+
+.jp-search-btn:focus-visible {
+	outline: 2px solid var(--jp-copper);
+	outline-offset: 2px;
+}
+
+/* The masthead carries brand + 9 nav links + account + cart. Measured on the
+   live header: brand 190 + nav group 880 + search block 221 + 64 padding means
+   one row needs a 1380px viewport. Below that the search yields rather than
+   wrapping the masthead onto a second row (86px -> 145px tall, which also
+   pushes the sticky pill bar down). Search stays reachable from /shop/. */
+@media (max-width: 1379px) {
+	.jp-search {
+		display: none;
+	}
+}
+
+/* ==========================================================================
    Motion preferences + small screens
    ========================================================================== */
 
