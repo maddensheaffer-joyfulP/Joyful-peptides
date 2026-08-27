@@ -3433,6 +3433,68 @@ a.jp-utility-phone:hover {
 }
 
 /* ==========================================================================
+   Featured products grid (homepage)
+   --------------------------------------------------------------------------
+   Replaces the carousel. minmax(0, 1fr) rather than 1fr: a bare 1fr track has
+   an auto minimum, so a long product name can push the track wider than its
+   share and blow the grid out horizontally.
+   ========================================================================== */
+
+.jp-product-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: var(--jp-space-24);
+	margin-top: var(--jp-space-32);
+}
+
+@media (max-width: 1023px) {
+	.jp-product-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 600px) {
+	.jp-product-grid {
+		grid-template-columns: minmax(0, 1fr);
+		gap: var(--jp-space-16);
+	}
+}
+
+/* Out of stock: same box as the live button so card footers stay aligned. */
+.jp-tile-add.jp-tile-add-off {
+	background: transparent;
+	border: 1px dashed var(--jp-hairline-strong);
+	color: var(--jp-muted);
+	cursor: not-allowed;
+	font-weight: 500;
+}
+
+.jp-tile-add.jp-tile-add-off:hover {
+	background: transparent;
+	border-color: var(--jp-hairline-strong);
+	color: var(--jp-muted);
+}
+
+.jp-grid-more {
+	margin-top: var(--jp-space-24);
+}
+
+.jp-grid-more-link {
+	font-family: var(--jp-mono);
+	font-size: .7rem;
+	letter-spacing: .12em;
+	text-transform: uppercase;
+	color: var(--jp-copper-dark);
+	text-decoration: none;
+	border-bottom: 1px solid currentColor;
+	padding-bottom: 2px;
+}
+
+.jp-grid-more-link:hover {
+	color: var(--jp-ink);
+}
+
+/* ==========================================================================
    Header product search
    ========================================================================== */
 

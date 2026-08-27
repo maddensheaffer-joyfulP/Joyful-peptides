@@ -1396,7 +1396,7 @@ function jp_render_product_tile( $product ) {
 		echo '<span class="jp-tile-badge">&#10003; Verified</span>';
 	}
 	if ( ! $product->is_in_stock() ) {
-		echo '<span class="jp-tile-badge jp-tile-badge-out">Unavailable</span>';
+		echo '<span class="jp-tile-badge jp-tile-badge-out">Out of stock</span>';
 	}
 	echo '</span>';
 	echo '<span class="jp-tile-name">' . esc_html( $product->get_name() ) . '</span>';
@@ -1406,12 +1406,19 @@ function jp_render_product_tile( $product ) {
 	}
 	echo '<span class="jp-tile-price">' . wp_kses_post( $product->get_price_html() ) . '</span>';
 	echo '</a>';
-	printf(
-		'<a href="%s" data-quantity="1" class="button jp-tile-add add_to_cart_button ajax_add_to_cart" data-product_id="%d" data-product_sku="%s" rel="nofollow">Add to cart</a>',
-		esc_url( $product->add_to_cart_url() ),
-		(int) $product->get_id(),
-		esc_attr( $product->get_sku() )
-	);
+	if ( $product->is_in_stock() && $product->is_purchasable() ) {
+		printf(
+			'<a href="%s" data-quantity="1" class="button jp-tile-add add_to_cart_button ajax_add_to_cart" data-product_id="%d" data-product_sku="%s" rel="nofollow">Add to cart</a>',
+			esc_url( $product->add_to_cart_url() ),
+			(int) $product->get_id(),
+			esc_attr( $product->get_sku() )
+		);
+	} else {
+		/* Rendered as a non-interactive element rather than a disabled <button>:
+		   it keeps the card's footer height identical to an in-stock card, and
+		   there is nothing here for a keyboard user to land on and be stuck. */
+		echo '<span class="jp-tile-add jp-tile-add-off" aria-disabled="true">Out of stock</span>';
+	}
 	echo '</article>';
 }
 
@@ -1421,56 +1428,69 @@ function jp_render_product_tile( $product ) {
  * back to a spread across categories so the row shows the catalog's range
  * rather than whatever happened to be imported last.
  */
+/**
+ * Products for the homepage: those flagged Featured in WooCommerce, falling
+ * back to a spread across categories so the selection reads as a sample of the
+ * catalog rather than whatever was imported last.
+ *
+ * Shared by [jp_product_row] and [jp_featured_grid] so the two cannot drift.
+ */
+function jp_featured_products( $limit ) {
+	$limit = max( 1, (int) $limit );
+$products = wc_get_products( array(
+	'status'   => 'publish',
+	'limit'    => $limit,
+	'featured' => true,
+	'orderby'  => 'title',
+	'order'    => 'ASC',
+) );
+
+if ( ! $products ) {
+	// Spread across categories: take the cheapest couple from each so the
+	// row reads as a representative sample, not an arbitrary tail.
+	$terms    = get_terms( array( 'taxonomy' => 'product_cat', 'hide_empty' => true, 'orderby' => 'count', 'order' => 'DESC' ) );
+	$products = array();
+	$seen     = array();
+	if ( ! is_wp_error( $terms ) && $terms ) {
+		$per = max( 1, (int) ceil( $limit / max( 1, count( $terms ) ) ) );
+		foreach ( $terms as $term ) {
+			$batch = wc_get_products( array(
+				'status'   => 'publish',
+				'limit'    => 30,
+				'category' => array( $term->slug ),
+				'orderby'  => 'title',
+				'order'    => 'ASC',
+			) );
+			$taken = 0;
+			foreach ( $batch as $b ) {
+				if ( $taken >= $per ) {
+					break;
+				}
+				// One entry per compound: strip the trailing strength so
+				// e.g. "5-AMINO-1MQ 10mg" and "... 50mg" don't both show.
+				$base = strtolower( trim( preg_replace( '/\s*[\d.+]+\s*(mg|ml|mcg)\b.*$/i', '', $b->get_name() ) ) );
+				if ( '' === $base ) {
+					$base = strtolower( $b->get_name() );
+				}
+				if ( isset( $seen[ $base ] ) ) {
+					continue;
+				}
+				$seen[ $base ]            = true;
+				$products[ $b->get_id() ] = $b;
+				$taken++;
+			}
+		}
+		$products = array_slice( $products, 0, $limit, true );
+	}
+}
+	return $products ? $products : array();
+}
+
 add_shortcode( 'jp_product_row', function ( $atts ) {
 	$atts = shortcode_atts( array( 'limit' => 10 ), $atts, 'jp_product_row' );
 	$limit = max( 1, (int) $atts['limit'] );
 
-	$products = wc_get_products( array(
-		'status'   => 'publish',
-		'limit'    => $limit,
-		'featured' => true,
-		'orderby'  => 'title',
-		'order'    => 'ASC',
-	) );
-
-	if ( ! $products ) {
-		// Spread across categories: take the cheapest couple from each so the
-		// row reads as a representative sample, not an arbitrary tail.
-		$terms    = get_terms( array( 'taxonomy' => 'product_cat', 'hide_empty' => true, 'orderby' => 'count', 'order' => 'DESC' ) );
-		$products = array();
-		$seen     = array();
-		if ( ! is_wp_error( $terms ) && $terms ) {
-			$per = max( 1, (int) ceil( $limit / max( 1, count( $terms ) ) ) );
-			foreach ( $terms as $term ) {
-				$batch = wc_get_products( array(
-					'status'   => 'publish',
-					'limit'    => 30,
-					'category' => array( $term->slug ),
-					'orderby'  => 'title',
-					'order'    => 'ASC',
-				) );
-				$taken = 0;
-				foreach ( $batch as $b ) {
-					if ( $taken >= $per ) {
-						break;
-					}
-					// One entry per compound: strip the trailing strength so
-					// e.g. "5-AMINO-1MQ 10mg" and "... 50mg" don't both show.
-					$base = strtolower( trim( preg_replace( '/\s*[\d.+]+\s*(mg|ml|mcg)\b.*$/i', '', $b->get_name() ) ) );
-					if ( '' === $base ) {
-						$base = strtolower( $b->get_name() );
-					}
-					if ( isset( $seen[ $base ] ) ) {
-						continue;
-					}
-					$seen[ $base ]            = true;
-					$products[ $b->get_id() ] = $b;
-					$taken++;
-				}
-			}
-			$products = array_slice( $products, 0, $limit, true );
-		}
-	}
+	$products = jp_featured_products( $limit );
 
 	if ( ! $products ) {
 		return '';
@@ -1489,6 +1509,32 @@ add_shortcode( 'jp_product_row', function ( $atts ) {
 		jp_render_product_tile( $product );
 	}
 	echo '</div></div>';
+	return ob_get_clean();
+} );
+
+/**
+ * [jp_featured_grid] - static responsive grid of live products.
+ *
+ * Replaces the homepage carousel. Same selection as [jp_product_row] via
+ * jp_featured_products(). Out-of-stock products are shown with a badge and a
+ * disabled control rather than being filtered out, so the catalog does not
+ * silently shrink.
+ */
+add_shortcode( 'jp_featured_grid', function ( $atts ) {
+	$atts     = shortcode_atts( array( 'limit' => 8 ), $atts, 'jp_featured_grid' );
+	$products = jp_featured_products( $atts['limit'] );
+	if ( ! $products ) {
+		return '';
+	}
+
+	ob_start();
+	echo '<div class="jp-product-grid">';
+	foreach ( $products as $product ) {
+		jp_render_product_tile( $product );
+	}
+	echo '</div>';
+	echo '<p class="jp-grid-more"><a class="jp-grid-more-link" href="'
+		. esc_url( wc_get_page_permalink( 'shop' ) ) . '">Browse all products</a></p>';
 	return ob_get_clean();
 } );
 
