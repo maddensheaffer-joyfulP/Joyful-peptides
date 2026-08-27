@@ -3433,6 +3433,55 @@ a.jp-utility-phone:hover {
 }
 
 /* ==========================================================================
+   Free-shipping progress
+   --------------------------------------------------------------------------
+   Renders only when a threshold is configured, the cart has items, and the
+   threshold has not been met. Factual statement + meter, no urgency.
+   ========================================================================== */
+
+.jp-ship-progress {
+	margin: 0 0 var(--jp-space-16);
+	padding: var(--jp-space-12) var(--jp-space-16);
+	background: var(--jp-blush, #FBEFE5);
+	border: 1px solid rgba(181, 101, 29, .22);
+	border-radius: var(--jp-radius);
+}
+
+.jp-ship-progress-text {
+	margin: 0 0 var(--jp-space-8);
+	font-family: var(--jp-mono);
+	font-size: .72rem;
+	letter-spacing: .04em;
+	color: var(--jp-copper-dark);
+	max-width: none;
+}
+
+.jp-ship-progress-track {
+	height: 4px;
+	border-radius: 999px;
+	background: rgba(28, 28, 26, .12);
+	overflow: hidden;
+}
+
+.jp-ship-progress-fill {
+	display: block;
+	height: 100%;
+	background: var(--jp-copper-dark);
+	border-radius: inherit;
+	transition: width .25s ease;
+}
+
+.jp-ship-progress--mini {
+	margin: 0 var(--jp-space-16) var(--jp-space-12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.jp-ship-progress-fill {
+		transition: none;
+	}
+}
+
+/* ==========================================================================
    Featured products grid (homepage)
    --------------------------------------------------------------------------
    Replaces the carousel. minmax(0, 1fr) rather than 1fr: a bare 1fr track has

@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Phone, rendered as a tel: link only when there is a real number.
  *
- * An unfilled value must not become href="tel:[[ INPUT ... ]]" - that is a
+ * An unfilled value must not become a tel: href wrapping a bracketed prompt -
  * broken link that looks fine in markup, so the placeholder is emitted as
  * plain text instead and the dashed outline makes it obvious.
  */
@@ -116,3 +116,171 @@ add_shortcode( 'jp_product_search', function () {
 		. $icon . '</button>'
 		. '</form>';
 } );
+
+/* -------------------------------------------------------------------------
+ * Free-shipping progress.
+ *
+ * Driven entirely by jp_info( 'free_shipping_threshold' ). Every render path
+ * returns nothing at all when the threshold is unfilled, non-numeric or zero,
+ * when the cart is empty, or when the threshold has already been met.
+ *
+ * NOTE: this is a DISPLAY figure. It does not configure a WooCommerce Free
+ * Shipping method - setting the key alone tells customers something the store
+ * will not honour at checkout unless a matching shipping zone is also set up.
+ * ---------------------------------------------------------------------- */
+
+/**
+ * @return array|null  threshold/subtotal/remaining, or null when nothing should render.
+ */
+function jp_shipping_progress_state() {
+	$threshold = jp_free_shipping_threshold();
+	if ( $threshold <= 0 ) {
+		return null;
+	}
+	if ( ! function_exists( 'WC' ) || ! WC()->cart || WC()->cart->is_empty() ) {
+		return null;
+	}
+	/* Line-item subtotal excluding tax and shipping - the figure a customer
+	   reads off the cart, and the one WooCommerce's own free-shipping minimum
+	   compares against by default. */
+	$subtotal  = (float) WC()->cart->get_subtotal();
+	$remaining = $threshold - $subtotal;
+	if ( $remaining <= 0 ) {
+		return null;
+	}
+	return array(
+		'threshold' => $threshold,
+		'subtotal'  => $subtotal,
+		'remaining' => $remaining,
+	);
+}
+
+/**
+ * Factual statement plus a progress meter. No urgency, no scarcity.
+ */
+function jp_shipping_progress_markup( $context = 'cart' ) {
+	$state = jp_shipping_progress_state();
+	if ( ! $state ) {
+		return '';
+	}
+	$pct = max( 0, min( 100, ( $state['subtotal'] / $state['threshold'] ) * 100 ) );
+
+	return '<div class="jp-ship-progress jp-ship-progress--' . esc_attr( $context ) . '">'
+		. '<p class="jp-ship-progress-text">'
+		. sprintf(
+			/* translators: %s: remaining amount, already formatted as currency */
+			esc_html__( '%s to free shipping', 'joyful-peptides' ),
+			/* wc_price() returns the currency symbol as an HTML entity inside a
+			   span. Stripping tags leaves "&#036;", which esc_html() would then
+			   double-escape into a literal "&#036;" on screen - so decode first. */
+			esc_html( html_entity_decode( wp_strip_all_tags( wc_price( $state['remaining'] ) ), ENT_QUOTES, 'UTF-8' ) )
+		)
+		. '</p>'
+		/* Decorative. wp_kses_post() strips aria-valuenow, which would leave a
+		   role="progressbar" with no value - a broken contract. The sentence
+		   above already states the fact, so the meter is hidden from AT. */
+		. '<div class="jp-ship-progress-track" aria-hidden="true">'
+		. '<span class="jp-ship-progress-fill" style="width:' . esc_attr( round( $pct, 2 ) ) . '%"></span>'
+		. '</div></div>';
+}
+
+/* Cart page is the classic [woocommerce_cart] shortcode, so a PHP hook is
+   accurate on every load and after every quantity update. */
+add_action( 'woocommerce_before_cart_totals', function () {
+	echo wp_kses_post( jp_shipping_progress_markup( 'cart' ) );
+} );
+
+
+/**
+ * Mini-cart free-shipping progress.
+ *
+ * The Mini-Cart block cannot be extended through its template part: WooCommerce
+ * keeps a hardcoded allowlist (MiniCart::MINI_CART_TEMPLATE_BLOCKS) and
+ * process_template_contents() strips every block that is not on it, so a
+ * wp:shortcode placed there is silently removed. The drawer is also hydrated
+ * client-side, so server-rendered markup would go stale the moment a quantity
+ * changed.
+ *
+ * So the mini-cart figure is computed in the browser from the Store API, using
+ * the same threshold value. Nothing is printed at all when the threshold is
+ * unfilled or zero, which means the script does not exist on the page either.
+ */
+add_action( 'wp_footer', function () {
+	$threshold = jp_free_shipping_threshold();
+	if ( $threshold <= 0 ) {
+		return;
+	}
+	?>
+	<script>
+	(function () {
+		var THRESHOLD = <?php echo wp_json_encode( (float) $threshold ); ?>;
+		var node = null, busy = false;
+
+		function drop() {
+			if ( node && node.parentNode ) { node.parentNode.removeChild( node ); }
+			node = null;
+		}
+
+		function paint( text, pct, footer ) {
+			if ( ! node ) {
+				node = document.createElement( 'div' );
+				node.className = 'jp-ship-progress jp-ship-progress--mini';
+				node.innerHTML = '<p class="jp-ship-progress-text"></p>' +
+					'<div class="jp-ship-progress-track" aria-hidden="true">' +
+					'<span class="jp-ship-progress-fill"></span></div>';
+			}
+			if ( node.parentNode !== footer.parentNode ) {
+				footer.parentNode.insertBefore( node, footer );
+			}
+			node.querySelector( '.jp-ship-progress-text' ).textContent = text;
+			node.querySelector( '.jp-ship-progress-fill' ).style.width = pct.toFixed( 2 ) + '%';
+		}
+
+		function render() {
+			var footer = document.querySelector( '.wc-block-mini-cart__footer' );
+			if ( ! footer || busy ) { return; }
+			busy = true;
+			fetch( '/wp-json/wc/store/v1/cart', { credentials: 'same-origin' } )
+				.then( function ( r ) { return r.json(); } )
+				.then( function ( d ) {
+					busy = false;
+					if ( ! d || ! d.totals ) { return; }
+					if ( ! d.items_count ) { drop(); return; }
+					var minor = d.totals.currency_minor_unit;
+					var sub   = parseInt( d.totals.total_items, 10 ) / Math.pow( 10, minor );
+					var left  = THRESHOLD - sub;
+					if ( left <= 0 ) { drop(); return; }
+					var pct  = Math.max( 0, Math.min( 100, ( sub / THRESHOLD ) * 100 ) );
+					var text = ( d.totals.currency_prefix || '' ) + left.toFixed( minor ) +
+						( d.totals.currency_suffix || '' ) + ' to free shipping';
+					paint( text, pct, footer );
+				} )
+				.catch( function () { busy = false; } );
+		}
+
+		/* Opening the drawer, and any cart change while it is open. */
+		document.addEventListener( 'click', function ( e ) {
+			if ( e.target.closest && e.target.closest( '.wc-block-mini-cart__button' ) ) {
+				setTimeout( render, 400 );
+			}
+		} );
+		document.body.addEventListener( 'wc-blocks_added_to_cart', function () {
+			setTimeout( render, 400 );
+		} );
+
+		/* The items list re-renders on every quantity change. Our node lives
+		   outside it, so observing it cannot re-trigger us. */
+		var watch = new MutationObserver( function () { render(); } );
+		var start = new MutationObserver( function () {
+			var items = document.querySelector( '.wc-block-mini-cart__items' );
+			if ( items && ! items.dataset.jpWatched ) {
+				items.dataset.jpWatched = '1';
+				watch.observe( items, { childList: true, subtree: true, characterData: true } );
+				render();
+			}
+		} );
+		start.observe( document.body, { childList: true, subtree: true } );
+	})();
+	</script>
+	<?php
+}, 20 );
