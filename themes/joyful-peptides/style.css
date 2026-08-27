@@ -265,8 +265,7 @@ header .wp-block-navigation .wp-block-navigation-item__content:hover::after {
    Type helpers: kickers, hero title
    ========================================================================== */
 
-.jp-kicker,
-.jp-hero-kicker {
+.jp-kicker {
 	font-family: var(--jp-mono);
 	font-size: .72rem;
 	font-weight: 600;
@@ -282,7 +281,6 @@ header .wp-block-navigation .wp-block-navigation-item__content:hover::after {
 	color: var(--jp-copper-light);
 }
 
-.jp-kicker-rule,
 .jp-kicker::before {
 	content: "";
 	display: inline-block;
@@ -292,16 +290,7 @@ header .wp-block-navigation .wp-block-navigation-item__content:hover::after {
 	opacity: .7;
 }
 
-.jp-kicker-rule {
-	width: 2rem;
-	height: 1px;
-	background: currentColor;
-	opacity: .7;
-}
 
-.jp-hero-kicker::before {
-	content: none;
-}
 
 .jp-hero-title {
 	font-family: var(--jp-serif);
@@ -2635,8 +2624,7 @@ form.jp-subscribe button:hover {
 }
 
 /* Mono eyebrows go the other way: small caps need air, not tightening. */
-.jp-kicker,
-.jp-hero-kicker {
+.jp-kicker {
 	letter-spacing: .12em;
 	text-transform: uppercase;
 }
@@ -2675,8 +2663,7 @@ form.jp-subscribe button:hover {
 
 /* --- Vertical rhythm ---------------------------------------------------- */
 /* Every gap below comes from the spacing scale in :root. */
-.jp-front .jp-kicker,
-.jp-front .jp-hero-kicker {
+.jp-front .jp-kicker {
 	margin-bottom: var(--jp-space-16);
 }
 
@@ -3264,8 +3251,7 @@ body.admin-bar .jp-pillbar {
    and 4.12:1 on the hero, both under the 4.5:1 AA threshold at 11.5px.
    --jp-copper-dark is already in the palette, so this is a swap within the
    brand colours rather than a new one. Light-on-dark kickers are unaffected. */
-.jp-kicker,
-.jp-hero-kicker {
+.jp-kicker {
 	color: var(--jp-copper-dark);
 }
 
