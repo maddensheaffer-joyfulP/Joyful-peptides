@@ -1223,7 +1223,13 @@ add_shortcode( 'jp_trust_bar', function () {
 	$out = '<div class="jp-trustbar">';
 	foreach ( $claims as $c ) {
 		$out .= '<div class="jp-trustbar-item">';
-		$out .= '<span class="jp-trustbar-icon" aria-hidden="true">' . $c['icon'] . '</span>';
+		/* A <div>, not a <span>. wpautop wraps inline runs in paragraphs, and an
+		   inline icon at the start of each cell made it emit an orphan </p>. An
+		   unmatched </p> is parsed as an empty <p> element, so every cell carried
+		   a stray paragraph inheriting dark ink on the espresso ground. div is on
+		   wpautop's block list, so it is left alone. The icon is display:flex
+		   either way, so nothing moves. */
+		$out .= '<div class="jp-trustbar-icon" aria-hidden="true">' . $c['icon'] . '</div>';
 		$out .= '<h3 class="jp-trustbar-title">' . esc_html( $c['title'] ) . '</h3>';
 		$out .= '<p class="jp-trustbar-copy">' . esc_html( $c['copy'] ) . '</p>';
 		$out .= '</div>';
