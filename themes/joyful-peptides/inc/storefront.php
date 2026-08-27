@@ -330,3 +330,24 @@ add_shortcode( 'jp_learn_panel', function () {
 	<?php
 	return ob_get_clean();
 } );
+
+/**
+ * [jp_info key="phone"] - lets page content (which lives in the database) pull
+ * a business detail from inc/site-info.php instead of hardcoding it.
+ *
+ * Without this, a value typed into a page would be invisible to the pre-launch
+ * grep, which only scans the theme. Now the placeholder lives in site-info.php
+ * where the gate can see it, and the page stays editable in wp-admin.
+ */
+add_shortcode( 'jp_info', function ( $atts ) {
+	$atts = shortcode_atts( array( 'key' => '' ), $atts, 'jp_info' );
+	return $atts['key'] ? jp_info( $atts['key'] ) : '';
+} );
+
+/**
+ * [jp_bulk_contact] - the bulk enquiry address as a mailto: link when real,
+ * plain outlined text while unfilled.
+ */
+add_shortcode( 'jp_bulk_contact', function () {
+	return jp_email_markup( 'bulk_contact' );
+} );

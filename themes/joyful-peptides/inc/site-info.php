@@ -31,6 +31,13 @@ function jp_site_info() {
 		   about free shipping renders anywhere. See jp_free_shipping_threshold(). */
 		'free_shipping_threshold' => '[[ INPUT FREE SHIPPING THRESHOLD IN USD HERE ]]',
 		'bulk_contact'            => '[[ INPUT BULK AND INSTITUTIONAL ORDER CONTACT EMAIL HERE ]]',
+		/* Bulk specifics. Kept here rather than typed into the page so one swap
+		   updates them and the pre-launch grep can still see them - it scans the
+		   theme, not the database, so a value typed into page content would be
+		   invisible to it. */
+		'bulk_moq'                => '[[ INPUT MINIMUM ORDER QUANTITY HERE ]]',
+		'bulk_lead_time'          => '[[ INPUT BULK ORDER LEAD TIME HERE ]]',
+		'bulk_lot_hold'           => '[[ INPUT HOW LONG A LOT CAN BE RESERVED HERE ]]',
 		/* Pre-filled: /learn/ already exists, and a bracketed string in an href
 		   would produce a broken link rather than a visible placeholder. */
 		'learn_destination'       => '/learn/',

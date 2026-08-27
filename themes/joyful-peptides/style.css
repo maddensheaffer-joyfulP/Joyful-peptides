@@ -2569,6 +2569,7 @@ form.jp-subscribe button:hover {
 .jp-panel-dark,
 .jp-home-steps,
 .jp-home-faq,
+.jp-home-bulk,
 .jp-home-education {
 	padding: var(--jp-section-y) var(--jp-section-x);
 }
@@ -3663,6 +3664,33 @@ a.jp-utility-phone:hover {
 
 .jp-grid-more-link:hover {
 	color: var(--jp-ink);
+}
+
+/* ==========================================================================
+   Masthead capacity
+   --------------------------------------------------------------------------
+   The nav carries 10 top-level items. Measured on the live header: brand 190 +
+   header gap 24 + nav group 988 = 1202, against 1150 available at a 1214px
+   viewport - so it wrapped onto a second row (86px -> 145px), which also
+   pushes the sticky pill bar down.
+   Two changes keep it on one row: a tighter nav gap (24 -> 16px, recovering
+   9 gaps x 8px = 72px), and switching to WordPress's own overlay menu below
+   1220px instead of its default 600px.
+   ========================================================================== */
+
+.jp-header .wp-block-navigation {
+	--wp--style--block-gap: 16px;
+	gap: 16px;
+}
+
+@media (max-width: 1219px) {
+	.jp-header .wp-block-navigation__responsive-container:not(.is-menu-open) {
+		display: none;
+	}
+
+	.jp-header .wp-block-navigation__responsive-container-open {
+		display: flex;
+	}
 }
 
 /* ==========================================================================
