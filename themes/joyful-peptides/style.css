@@ -3914,6 +3914,37 @@ a.jp-infocard-link:hover {
 }
 
 /* ==========================================================================
+   Small-screen corrections
+   --------------------------------------------------------------------------
+   Both found by driving a real browser at 390x844 and 1024, not inferred.
+   ========================================================================== */
+
+/* 1. Hero subhead ran to five lines at 390px and pushed both CTAs below the
+      fold. The copy is fixed, so the scale gives way.
+      The !important is not defensive habit: WordPress emits its preset size
+      classes as `font-size: var(--wp--preset--font-size--large) !important`,
+      so .has-large-font-size wins over any normal rule no matter how specific.
+      Measured on the live element - a plain inline override left it at 36px,
+      only an important one moved it. 20px still reads as a lead against 16px
+      body. */
+@media (max-width: 480px) {
+	.jp-front .jp-lead {
+		font-size: 1.25rem !important;
+		line-height: 1.45;
+		margin-bottom: var(--jp-space-24);
+	}
+}
+
+/* 2. Trust strip sat 2-up at 390px, squeezing copy to about three words per
+      line. auto-fit was resolving to two tracks at that width, so below 480px
+      the column count is stated outright rather than left to the algorithm. */
+@media (max-width: 480px) {
+	.jp-trustbar {
+		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* ==========================================================================
    Motion preferences + small screens
    ========================================================================== */
 

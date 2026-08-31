@@ -20,7 +20,22 @@ function joyful_peptides_setup() {
 add_action( 'after_setup_theme', 'joyful_peptides_setup' );
 
 function joyful_peptides_styles() {
-	wp_enqueue_style( 'joyful-peptides', get_stylesheet_uri(), array(), '2.2.0' );
+	/* Production ships a hand-bumped version. In development the stylesheet is
+	   versioned off its own mtime instead, so a browser physically cannot serve a
+	   stale copy - forgetting to bump has cost two diagnostic rounds already.
+	   WP_DEBUG alone was not enough: it is false in this Local install, so the
+	   environment type is checked too. Production reports 'production' and keeps
+	   the hand-bumped string. */
+	$version = '2.2.0';
+	$is_dev  = ( defined( 'WP_DEBUG' ) && WP_DEBUG )
+		|| ( function_exists( 'wp_get_environment_type' ) && 'local' === wp_get_environment_type() );
+	if ( $is_dev ) {
+		$file = get_theme_file_path( 'style.css' );
+		if ( file_exists( $file ) ) {
+			$version = (string) filemtime( $file );
+		}
+	}
+	wp_enqueue_style( 'joyful-peptides', get_stylesheet_uri(), array(), $version );
 }
 add_action( 'wp_enqueue_scripts', 'joyful_peptides_styles' );
 
