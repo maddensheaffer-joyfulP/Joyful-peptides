@@ -4162,8 +4162,12 @@ a.jp-infocard-link:hover {
 
 /* Second reflow pass: the card interiors, which are the bulk of what is left. */
 @media (max-width: 768px) {
+	/* 24px, not 28. The 44px touch targets on the RUO banner link and the
+	   regulatory links grew those two bands by ~80px after the height was last
+	   measured, which pushed the page back over 10,000. This buys real margin
+	   rather than sitting on the threshold. */
 	:root {
-		--jp-section-y: 28px;
+		--jp-section-y: 24px;
 	}
 
 	/* Stacked columns inherit the desktop 1.5rem block gap; at 1-up that is a
