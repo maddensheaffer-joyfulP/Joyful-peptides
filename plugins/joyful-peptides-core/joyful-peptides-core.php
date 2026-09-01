@@ -160,22 +160,22 @@ add_action( 'wp_head', function () {
 .jp-specs table{width:100%;border-collapse:collapse;font-size:.95rem}
 .jp-specs th{text-align:left;padding:.3rem .75rem .3rem 0;font-weight:600;white-space:nowrap;vertical-align:top}
 .jp-specs td{padding:.3rem 0}
-.jp-coa-link{font-weight:600;color:var(--wp--preset--color--accent-strong,#0A4EB0)}
+.jp-coa-link{font-weight:600;color:var(--wp--preset--color--accent-strong,#05474E)}
 .jp-coa-missing{font-size:.9rem;color:#4A5A68}
-.jp-ruo-box{margin:1.25rem 0;padding:.85rem 1rem;border-left:4px solid var(--wp--preset--color--accent,#0B5ED7);background:var(--wp--preset--color--surface,#EDF0F3);font-size:.92rem}
-.jp-attestation{margin:1rem 0;padding:1rem;border:1px solid var(--wp--preset--color--accent,#0B5ED7);background:var(--wp--preset--color--surface,#EDF0F3)}
+.jp-ruo-box{margin:1.25rem 0;padding:.85rem 1rem;border-left:4px solid var(--wp--preset--color--accent,#076069);background:var(--wp--preset--color--surface,#EDF0F3);font-size:.92rem}
+.jp-attestation{margin:1rem 0;padding:1rem;border:1px solid var(--wp--preset--color--accent,#076069);background:var(--wp--preset--color--surface,#EDF0F3)}
 .jp-attestation label{display:flex;gap:.6rem;align-items:flex-start;font-size:.92rem;line-height:1.5}
 .jp-attestation input{margin-top:.25rem}
 .jp-asr-note{font-size:.85rem;color:#4A5A68;margin:0 0 .75rem;padding-bottom:.75rem;border-bottom:1px dashed rgba(18,24,31,.15)}
 #jp-age-gate{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(18,24,31,.97);padding:1.5rem}
-.jp-age-card{background:#F7F9FB;max-width:520px;width:100%;padding:2.25rem 2rem;border-radius:3px;border-top:4px solid #0B5ED7;text-align:center}
+.jp-age-card{background:#F7F9FB;max-width:520px;width:100%;padding:2.25rem 2rem;border-radius:3px;border-top:4px solid #076069;text-align:center}
 .jp-age-card h2{font-family:ui-serif,Georgia,"Times New Roman",serif;font-size:1.5rem;margin:0 0 1rem;color:#12181F}
 .jp-age-card p{font-size:.95rem;line-height:1.6;color:#22303D;margin:0 0 1rem}
 .jp-age-card .jp-age-fine{font-size:.8rem;color:#4A5A68}
 .jp-age-buttons{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:1.25rem}
 .jp-age-buttons button{cursor:pointer;font-size:1rem;font-weight:600;padding:.8rem 1.6rem;border-radius:2px;border:none}
-#jp-age-enter{background:#0B5ED7;color:#fff}
-#jp-age-enter:hover{background:#0A4EB0}
+#jp-age-enter{background:#076069;color:#fff}
+#jp-age-enter:hover{background:#05474E}
 #jp-age-exit{background:transparent;color:#12181F;border:1px solid rgba(18,24,31,.35)}
 #jp-age-exit:hover{background:#EDF0F3}
 </style>
@@ -1780,7 +1780,7 @@ add_action( 'wp_dashboard_setup', function () {
 		foreach ( $rows as $r ) {
 			printf(
 				'<li style="padding:.35rem 0;border-bottom:1px solid #EDF0F3"><strong style="font-size:1.25em;color:%s">%d</strong> %s &mdash; <a href="%s">view</a></li>',
-				$r[3] ? '#0B5ED7' : '#1d2327',
+				$r[3] ? '#076069' : '#1d2327',
 				$r[0],
 				esc_html( $r[1] ),
 				esc_url( $r[2] )

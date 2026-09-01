@@ -28,12 +28,12 @@
 				{
 					"slug": "ground-tint",
 					"name": "Ground Tint",
-					"color": "#E4F0FB"
+					"color": "#E0F7FA"
 				},
 				{
 					"slug": "ground-vivid",
 					"name": "Ground Glow",
-					"color": "#7FC4FC"
+					"color": "#80DEEA"
 				},
 				{
 					"slug": "ink",
@@ -43,7 +43,7 @@
 				{
 					"slug": "ground-ink",
 					"name": "Ground Glow (legacy slug, used by block markup)",
-					"color": "#7FC4FC"
+					"color": "#80DEEA"
 				},
 				{
 					"slug": "muted",
@@ -53,12 +53,12 @@
 				{
 					"slug": "accent",
 					"name": "Accent",
-					"color": "#0B5ED7"
+					"color": "#076069"
 				},
 				{
 					"slug": "accent-strong",
 					"name": "Accent Hover",
-					"color": "#0A4EB0"
+					"color": "#05474E"
 				},
 				{
 					"slug": "accent-on-dark",
