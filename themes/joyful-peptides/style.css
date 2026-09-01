@@ -2892,17 +2892,37 @@ form.jp-subscribe button:hover {
 	background-image: radial-gradient(ellipse at 50% 120%, rgba(7, 96, 105, .09) 0%, rgba(7, 96, 105, 0) 60%);
 }
 
-/* The hairline at every light-to-light seam. With paper the only light ground
-   left, this rule and the section padding are the whole of the page's vertical
-   rhythm - there is no background step behind them any more, so it runs at the
-   full hairline token rather than the lighter literal it used to carry.
-   .jp-home-steps is new to the list: it followed a tinted section before and
-   had no seam of its own. */
+/* THE SEAM RULE.
+   --------------------------------------------------------------------------
+   Every full-bleed section marks its own top edge with a hairline - including
+   paper against paper. The hairline IS the boundary now; a change of ground is
+   not, and is not expected to be.
+
+   Background alternation used to carry the page's rhythm, inherited from the
+   warm palette where dark bands did that job. In an all-light palette the job
+   moved to the numbered eyebrows, the card treatments, these hairlines and the
+   vertical spacing. Adjacent sections sharing a ground is NOT a defect and no
+   longer needs designing around.
+
+   Two exclusions, both deliberate: .jp-topbar is the first thing on the page
+   and has nothing above it to be separated from, and the inset cards
+   (.jp-panel-dark, .jp-cta-band) carry their own edge through a rounded corner
+   and a margin - a border-top on those would draw a line across a card. */
+.jp-utility,
+.jp-header,
+.jp-hero,
+.jp-marquee,
+.jp-trustbar-section,
+.jp-home-verify,
 .jp-home-catalog,
 .jp-manifesto,
 .jp-home-steps,
 .jp-home-faq,
-.jp-home-education {
+.jp-home-education,
+.jp-home-bulk,
+.jp-footer,
+.jp-ticker,
+.jp-regulatory {
 	border-top: 1px solid var(--jp-hairline);
 }
 
