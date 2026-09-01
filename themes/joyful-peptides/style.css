@@ -15,9 +15,16 @@ Text Domain: joyful-peptides
 
 :root {
 	--jp-ink: #12181F;
+	/* TWO grounds. A section is either paper or the cyan band, and nothing
+	   else. What separates one paper section from the next is the hairline
+	   at its top edge and the space around it, not a change of ground. */
 	--jp-paper: #F7F9FB;
+	/* NOT a ground. It measures 1.08:1 against paper, which is no difference
+	   at section scale - that is exactly why it stopped being one. It stays
+	   as a component and illustration fill, where it is read against a
+	   border rather than across a whole band: notice banners, table heads,
+	   tile media, infocards, the vial. Do not put it behind a section. */
 	--jp-surface: #EDF0F3;
-	--jp-ground-tint: #E0F7FA;
 	--jp-muted: #4A5A68;
 	--jp-accent: #076069;
 	--jp-accent-strong: #05474E;
@@ -50,7 +57,10 @@ Text Domain: joyful-peptides
 	--jp-space-128: 128px;
 
 	/* One section padding, applied to every front-page section. */
-	--jp-section-y: var(--jp-space-96);
+	/* Desktop rhythm. Raised from 96px when the light grounds collapsed: the
+	   page lost its background alternation and space is what replaces it.
+	   The mobile overrides below are deliberately NOT changed. */
+	--jp-section-y: 112px;
 	--jp-section-x: var(--jp-space-32);
 
 	/* Reading measure. Body prose stops at 68ch; leads are shorter so they read
@@ -1061,7 +1071,7 @@ h2 em, .jp-404-title em {
 }
 
 .woocommerce-error {
-	background-color: var(--jp-ground-tint);
+	background-color: var(--jp-surface);
 	color: var(--jp-ink);
 }
 
@@ -1324,7 +1334,7 @@ table.jp-coa-table tr:nth-child(even) td {
 }
 
 .jp-vial-scene {
-	background: linear-gradient(160deg, var(--jp-surface) 0%, var(--jp-ground-tint) 55%, var(--jp-surface) 100%);
+	background: linear-gradient(160deg, var(--jp-surface) 0%, var(--jp-surface) 55%, var(--jp-surface) 100%);
 	border: 1px solid var(--jp-hairline);
 	border-radius: 28px;
 	min-height: 460px;
@@ -1489,9 +1499,7 @@ table.jp-coa-table tr:nth-child(even) td {
    Warm-tint surfaces + gold hairline details (Fridays-inspired palette)
    ========================================================================== */
 
-.has-ground-tint-background-color {
-	background-color: var(--jp-ground-tint) !important;
-}
+
 
 .jp-home-verify,
 .jp-home-steps {
@@ -1769,7 +1777,7 @@ a.jp-doc:hover {
 	width: 44px;
 	height: 44px;
 	border-radius: 50%;
-	background: var(--jp-ground-tint);
+	background: var(--jp-surface);
 	border: 1px solid var(--jp-hairline-on-glow);
 	color: var(--jp-accent);
 	font-size: 1.05rem;
@@ -1814,7 +1822,8 @@ a.jp-doc:hover {
    ========================================================================== */
 
 .jp-regulatory {
-	background: var(--jp-surface);
+	/* The ground for this block is set further down, where it takes the band
+	   treatment. Only the frame is set here. */
 	border-top: 1px solid var(--jp-hairline);
 	padding: 2.5rem clamp(1rem, 4vw, 3rem);
 }
@@ -1867,7 +1876,7 @@ a.jp-doc:hover {
 }
 
 .jp-legal-note {
-	background: var(--jp-ground-tint);
+	background: var(--jp-surface);
 	border: 1px solid rgba(7, 96, 105, .35);
 	border-left: 4px solid var(--jp-accent);
 	border-radius: 0 var(--jp-radius) var(--jp-radius) 0;
@@ -2608,7 +2617,7 @@ form.jp-subscribe button:hover {
 .jp-account-batches {
 	margin: 2rem 0 2.5rem;
 	padding: 1.75rem;
-	background: var(--jp-ground-tint);
+	background: var(--jp-surface);
 	border: 1px solid rgba(7, 96, 105, .18);
 	border-radius: var(--jp-radius);
 }
@@ -2879,16 +2888,22 @@ form.jp-subscribe button:hover {
 
 /* Manifesto sits between two paper sections, so it takes the surface value. */
 .jp-manifesto {
-	background-color: var(--jp-surface);
+	background-color: var(--jp-paper);
 	background-image: radial-gradient(ellipse at 50% 120%, rgba(7, 96, 105, .09) 0%, rgba(7, 96, 105, 0) 60%);
 }
 
-/* Accent hairline wherever two light sections meet. */
+/* The hairline at every light-to-light seam. With paper the only light ground
+   left, this rule and the section padding are the whole of the page's vertical
+   rhythm - there is no background step behind them any more, so it runs at the
+   full hairline token rather than the lighter literal it used to carry.
+   .jp-home-steps is new to the list: it followed a tinted section before and
+   had no seam of its own. */
 .jp-home-catalog,
 .jp-manifesto,
+.jp-home-steps,
 .jp-home-faq,
 .jp-home-education {
-	border-top: 1px solid rgba(7, 96, 105, .16);
+	border-top: 1px solid var(--jp-hairline);
 }
 
 /* --- Inverted card treatment on dark sections --------------------------- */
@@ -3689,7 +3704,7 @@ a.jp-utility-phone:hover {
 .jp-ship-progress {
 	margin: 0 0 var(--jp-space-16);
 	padding: var(--jp-space-12) var(--jp-space-16);
-	background: var(--jp-ground-tint, var(--jp-ground-tint));
+	background: var(--jp-surface);
 	border: 1px solid rgba(7, 96, 105, .22);
 	border-radius: var(--jp-radius);
 }

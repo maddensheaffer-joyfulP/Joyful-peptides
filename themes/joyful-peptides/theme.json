@@ -26,11 +26,6 @@
 					"color": "#EDF0F3"
 				},
 				{
-					"slug": "ground-tint",
-					"name": "Ground Tint",
-					"color": "#E0F7FA"
-				},
-				{
 					"slug": "ground-vivid",
 					"name": "Ground Glow",
 					"color": "#80DEEA"
