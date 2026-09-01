@@ -16,3 +16,18 @@
 # Never track
 .DS_Store
 *.log
+
+# Belt and braces. The two directories above are re-included WHOLESALE, so
+# anything dropped inside them is tracked by default. These never are, at any
+# depth, whether or not they exist today.
+**/node_modules/
+**/vendor/
+**/.env
+**/.env.*
+*.sql
+*.sql.gz
+*.zip
+*.tar.gz
+*.sqlite
+*.pem
+*.key
