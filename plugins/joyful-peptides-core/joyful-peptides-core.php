@@ -183,6 +183,107 @@ add_action( 'wp_head', function () {
 } );
 
 /* -------------------------------------------------------------------------
+ * Account required to PURCHASE - not to browse.
+ *
+ * The catalog, product pages, the COA library and everything in Learn stay
+ * publicly readable with no login. Only adding to cart and checking out need
+ * an account, so nothing here touches indexability and nothing hides the
+ * catalog behind a wall.
+ *
+ * Authentication is WordPress/WooCommerce native throughout: no custom login
+ * handler, no password hashing, no session of our own. The only thing carried
+ * across the auth boundary is a product id, and it travels as a normal form
+ * field validated on the way out.
+ * ---------------------------------------------------------------------- */
+
+/** Account page URL that remembers which product the buyer wanted. */
+function jp_auth_url_for_product( $product_id ) {
+	$url = wc_get_page_permalink( 'myaccount' );
+	return add_query_arg( 'jp_want', (int) $product_id, $url );
+}
+
+/** The pending product id from the request, or 0. */
+function jp_pending_product_id() {
+	$id = 0;
+	if ( isset( $_REQUEST['jp_want'] ) ) {
+		$id = absint( $_REQUEST['jp_want'] );
+	}
+	if ( ! $id ) {
+		return 0;
+	}
+	$product = wc_get_product( $id );
+	if ( ! $product || 'publish' !== get_post_status( $id ) || ! $product->is_purchasable() ) {
+		return 0;
+	}
+	return $id;
+}
+
+/* Carry the wanted product through both native forms as a hidden field. */
+function jp_echo_pending_field() {
+	$id = jp_pending_product_id();
+	if ( $id ) {
+		printf( '<input type="hidden" name="jp_want" value="%d" />', $id );
+	}
+}
+add_action( 'woocommerce_login_form', 'jp_echo_pending_field' );
+add_action( 'woocommerce_register_form', 'jp_echo_pending_field' );
+
+/**
+ * After a native login or registration, add the wanted product and return the
+ * buyer to that product rather than to the account dashboard.
+ */
+function jp_redirect_to_wanted_product( $redirect ) {
+	$id = jp_pending_product_id();
+	if ( ! $id || ! function_exists( 'WC' ) || ! WC()->cart ) {
+		return $redirect;
+	}
+	WC()->cart->add_to_cart( $id );
+	return get_permalink( $id );
+}
+add_filter( 'woocommerce_login_redirect', 'jp_redirect_to_wanted_product', 10, 1 );
+add_filter( 'woocommerce_registration_redirect', 'jp_redirect_to_wanted_product', 10, 1 );
+
+/**
+ * Server-side guard. The markup already sends logged-out buyers to sign in, but
+ * a direct POST must not be able to fill a cart either.
+ */
+add_filter( 'woocommerce_add_to_cart_validation', function ( $passed, $product_id ) {
+	if ( is_user_logged_in() ) {
+		return $passed;
+	}
+	wc_add_notice(
+		sprintf(
+			/* translators: %s: sign-in link */
+			'Orders are placed from a research account. %s to add this to your cart.',
+			'<a href="' . esc_url( jp_auth_url_for_product( $product_id ) ) . '">Sign in or create one</a>'
+		),
+		'notice'
+	);
+	return false;
+}, 10, 2 );
+
+/* Single product page: swap the add-to-cart form for the same auth route. */
+add_action( 'woocommerce_single_product_summary', function () {
+	global $product;
+	if ( is_user_logged_in() || ! $product instanceof WC_Product ) {
+		return;
+	}
+	/* No remove_action here: this theme renders the single-product add-to-cart
+	   as a BLOCK, so the classic hook is not what draws it. The form is hidden
+	   for logged-out visitors in CSS, and the real enforcement is the
+	   woocommerce_add_to_cart_validation guard above, which refuses the POST
+	   whether or not anything is visible. */
+	if ( ! $product->is_in_stock() || ! $product->is_purchasable() ) {
+		return;
+	}
+	printf(
+		'<p class="jp-auth-cta"><a class="button jp-auth-btn" href="%s">Sign in to add to cart</a>'
+		. '<span class="jp-auth-note">Browsing is open. An account is only needed to order.</span></p>',
+		esc_url( jp_auth_url_for_product( $product->get_id() ) )
+	);
+}, 25 );
+
+/* -------------------------------------------------------------------------
  * Checkout: required 21+/research-use attestation, saved to the order
  * ---------------------------------------------------------------------- */
 
@@ -1412,7 +1513,15 @@ function jp_render_product_tile( $product ) {
 	}
 	echo '<span class="jp-tile-price">' . wp_kses_post( $product->get_price_html() ) . '</span>';
 	echo '</a>';
-	if ( $product->is_in_stock() && $product->is_purchasable() ) {
+	if ( $product->is_in_stock() && $product->is_purchasable() && ! is_user_logged_in() ) {
+		/* Browsing and prices stay public; only buying needs an account. The
+		   product id rides along so the buyer lands back here with it in the
+		   cart instead of on a bare account page. */
+		printf(
+			'<a href="%s" class="button jp-tile-add jp-tile-add-auth" rel="nofollow">Sign in to add</a>',
+			esc_url( jp_auth_url_for_product( $product->get_id() ) )
+		);
+	} elseif ( $product->is_in_stock() && $product->is_purchasable() ) {
 		printf(
 			'<a href="%s" data-quantity="1" class="button jp-tile-add add_to_cart_button ajax_add_to_cart" data-product_id="%d" data-product_sku="%s" rel="nofollow">Add to cart</a>',
 			esc_url( $product->add_to_cart_url() ),
