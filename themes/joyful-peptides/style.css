@@ -192,6 +192,7 @@ header.wp-block-template-part {
 }
 
 header.wp-block-group.jp-header {
+	padding: 1.1rem 2rem;
 	position: sticky;
 	top: 0;
 	z-index: 100;
@@ -3037,12 +3038,17 @@ form.jp-subscribe button:hover {
 .woocommerce a.button.jp-tile-add,
 .jp-tile-add {
 	display: block;
-	background: var(--jp-ground-ink);
-	color: var(--jp-paper);
+	/* Was --jp-ground-ink. That is not a disabled state leaking and not a
+	   missing token: it was a deliberate "dark brand colour" from the earlier
+	   polish pass, which the palette swap turned into near-black and which now
+	   reads as grey rather than branded. The accent is the correct token, and
+	   white on it measures 7.59:1. */
+	background: var(--jp-accent);
+	color: #fff;
 	font-weight: 600;
 	letter-spacing: .01em;
 	text-decoration: none;
-	border: 1px solid var(--jp-ink);
+	border: 1px solid var(--jp-accent);
 	margin-top: auto;
 	transition: background-color .15s ease, border-color .15s ease, color .15s ease;
 }
@@ -3941,6 +3947,321 @@ a.jp-infocard-link:hover {
 @media (max-width: 480px) {
 	.jp-trustbar {
 		grid-template-columns: minmax(0, 1fr);
+	}
+}
+
+/* ==========================================================================
+   Mobile pass
+   --------------------------------------------------------------------------
+   Measured in a 461x832 same-origin iframe, which gets a real mobile viewport
+   even though the top-level window here floors at 1054px. Baseline: page
+   15,493px, catalog 4,858px, sticky chrome 140px.
+   Nothing below 768px touches desktop.
+   ========================================================================== */
+
+@media (max-width: 768px) {
+	/* 1a. The chip row is a shop filter. Pinning it over every page cost 54px
+	   of a 832px viewport for a control that does nothing on the homepage. It
+	   scrolls with content on mobile; on shop archives it is still in the flow
+	   right where the products start. */
+	.jp-pillbar {
+		position: static;
+		top: auto;
+	}
+
+	/* 1b. Sticky masthead under 64px. */
+	header.wp-block-group.jp-header {
+		padding: .5rem 1rem;
+	}
+
+	.jp-brand-mark {
+		width: 24px;
+		height: 24px;
+	}
+
+	.jp-brand-name {
+		font-size: 1.05rem;
+	}
+
+	/* 4. Desktop rhythm is too generous once the page linearises. */
+	:root {
+		--jp-section-y: 56px;
+	}
+
+	.jp-split-body {
+		padding: var(--jp-space-48) var(--jp-space-24);
+	}
+
+	.jp-split-media {
+		min-height: 200px;
+		padding: var(--jp-space-32) var(--jp-space-24);
+	}
+
+	.jp-cta-band {
+		padding: 2.4rem 1.25rem;
+		margin-bottom: 1.5rem;
+	}
+
+	.jp-manifesto {
+		padding: 2.25rem 1.25rem;
+	}
+
+	.jp-vial-scene {
+		min-height: 300px;
+	}
+}
+
+/* 2. Catalog: 2-up below 640px, shorter cards, capped at six on the homepage. */
+@media (max-width: 640px) {
+	.jp-product-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--jp-space-12);
+	}
+
+	/* A 1:1 image is half a phone screen on its own. */
+	.jp-tile-media {
+		aspect-ratio: 4 / 3;
+	}
+
+	.jp-tile {
+		padding: .45rem .45rem .55rem;
+	}
+
+	.jp-tile-name {
+		font-size: .82rem;
+		min-height: 2.4em;
+	}
+
+	.jp-tile-meta {
+		font-size: .58rem;
+	}
+
+	.jp-tile-price {
+		font-size: .92rem;
+	}
+
+	/* Six is enough of a sample on a phone; the row already links to /shop/. */
+	.jp-home-catalog .jp-product-grid .jp-tile:nth-child(n+7) {
+		display: none;
+	}
+
+	/* The badge shrinks with the card but must stay readable. */
+	.jp-tile-badge {
+		font-size: .5rem;
+		padding: .2rem .38rem;
+	}
+
+	.jp-tile-badges {
+		top: .6rem;
+		left: .6rem;
+	}
+}
+
+/* 3. Hero: title and lead step down so the primary CTA clears the fold. */
+@media (max-width: 480px) {
+	/* .jp-front raises specificity: the max-width:781px block later in this
+	   file also sets .jp-hero-title, and a bare selector here lost to it -
+	   measured 36.8px at 390px instead of the intended 27px. */
+	.jp-front .jp-hero-title {
+		font-size: clamp(1.85rem, 7vw, 2.35rem);
+		line-height: 1.08;
+	}
+
+	.jp-front .jp-lead {
+		font-size: 1.0625rem !important;
+		line-height: 1.4;
+	}
+
+	.jp-hero {
+		padding-top: var(--jp-space-32);
+		padding-bottom: var(--jp-space-32);
+	}
+}
+
+/* 6. Touch targets: nothing interactive under 44x44 on mobile. */
+@media (max-width: 768px) {
+	.jp-header .wp-block-navigation__responsive-container-open,
+	.jp-header .wp-block-navigation__responsive-container-close,
+	.wc-block-mini-cart__button,
+	.jp-header a[href*="my-account"],
+	.jp-header .wp-block-loginout a {
+		min-width: 44px;
+		min-height: 44px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.jp-pill {
+		min-height: 44px;
+		display: inline-flex;
+		align-items: center;
+	}
+
+	.woocommerce a.button.jp-tile-add,
+	.jp-tile-add {
+		min-height: 44px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	/* Footer links were tight-stacked; give each its own row of hit area.
+	   min-width too: short labels like "About" measured 36.7px wide, which is
+	   under target in the horizontal dimension even when tall enough. */
+	.jp-footer p a {
+		display: inline-flex;
+		align-items: center;
+		justify-content: flex-start;
+		min-height: 44px;
+		min-width: 44px;
+	}
+
+	/* Remaining sub-44 targets found by auditing every focusable element. */
+	.jp-topbar-link,
+	.jp-brand,
+	.jp-grid-more-link,
+	.jp-subscribe button,
+	.jp-subscribe input[type="email"],
+	.jp-regulatory-links a {
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
+		min-width: 44px;
+	}
+
+	/* The skip link is 1x1 until focused, which is the point. It must still be
+	   a real target once it appears. */
+	.skip-link:focus,
+	.jp-skip:focus {
+		min-height: 44px;
+		min-width: 44px;
+		display: inline-flex;
+		align-items: center;
+	}
+
+	.jp-shelf-btn,
+	.jp-top {
+		min-width: 44px;
+		min-height: 44px;
+	}
+
+	/* WooCommerce ships these at 64px and 50px, which set the masthead height.
+	   Pinned to exactly 44 - still a compliant target, and it is what brings
+	   the sticky bar under 64px. */
+	.wc-block-customer-account__link,
+	.wp-block-woocommerce-customer-account,
+	.wc-block-mini-cart__button {
+		width: 44px;
+		height: 44px;
+		min-width: 44px;
+		min-height: 44px;
+		padding: 0;
+	}
+}
+
+/* Second reflow pass: the card interiors, which are the bulk of what is left. */
+@media (max-width: 768px) {
+	/* 24px, not 28. The 44px touch targets on the RUO banner link and the
+	   regulatory links grew those two bands by ~80px after the height was last
+	   measured, which pushed the page back over 10,000. This buys real margin
+	   rather than sitting on the threshold. */
+	:root {
+		--jp-section-y: 24px;
+	}
+
+	/* Stacked columns inherit the desktop 1.5rem block gap; at 1-up that is a
+	   24px void between every card. */
+	.jp-home-verify .wp-block-columns,
+	.jp-home-steps .wp-block-columns {
+		gap: var(--jp-space-12);
+	}
+
+	.jp-home-verify .wp-block-column,
+	.jp-home-steps .wp-block-column {
+		padding: 1.05rem 1rem;
+	}
+
+	.jp-trustbar-item {
+		padding: 1.05rem 1rem;
+	}
+
+	.jp-trustbar-icon {
+		width: 34px;
+		height: 34px;
+		margin-bottom: .55rem;
+	}
+
+	.jp-trustbar-title {
+		font-size: 1rem;
+		margin-bottom: .3rem;
+	}
+
+	.jp-trustbar-copy {
+		font-size: .82rem;
+		line-height: 1.5;
+	}
+
+	/* The step numeral is a 2.4rem serif ornament on a phone. */
+	.jp-step-num {
+		font-size: 1.7rem;
+		margin-bottom: .25rem;
+	}
+
+	.jp-verify-num {
+		margin-bottom: .5rem;
+	}
+
+	.jp-split-media {
+		min-height: 120px;
+		padding: var(--jp-space-24);
+	}
+
+	.jp-split-art {
+		width: min(132px, 40%);
+	}
+
+	.jp-front h2 {
+		margin-bottom: var(--jp-space-12);
+	}
+
+	.jp-front .jp-lead {
+		margin-bottom: var(--jp-space-16);
+	}
+
+	/* The footer was 1,496px: four stacked columns, and every link is now a
+	   44px target. Two-up keeps the targets and halves the stack. WordPress
+	   forces flex-basis:100% !important below its own breakpoint, so this has
+	   to answer in kind. */
+	.jp-footer .wp-block-columns {
+		flex-wrap: wrap !important;
+		gap: 0 var(--jp-space-16);
+	}
+
+	.jp-footer .wp-block-columns > .wp-block-column {
+		flex-basis: calc(50% - var(--jp-space-16)) !important;
+		flex-grow: 0;
+	}
+
+	/* The brand blurb keeps the full width above the link columns. */
+	.jp-footer .wp-block-columns > .wp-block-column:first-child {
+		flex-basis: 100% !important;
+	}
+
+	/* The RUO banner wraps to two lines on a phone; it stays, but tighter. */
+	.jp-topbar {
+		padding: .4rem 1rem;
+		font-size: .6rem;
+		line-height: 1.5;
+		gap: .2rem;
+	}
+
+	.jp-regulatory {
+		padding: 1.5rem 1.25rem 1.75rem;
+	}
+
+	.jp-regulatory p {
+		margin-bottom: .55rem;
 	}
 }
 
