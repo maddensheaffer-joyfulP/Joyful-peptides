@@ -261,6 +261,55 @@ add_filter( 'woocommerce_registration_redirect', 'jp_redirect_to_wanted_product'
  * sent to sign in from a product page.
  */
 
+/**
+ * Usernames are derived from the email address, not the billing name.
+ *
+ * WooCommerce builds the username from first and last name whenever it has
+ * them, so a checkout registration turned "Guest Buyer" into the login
+ * `guest.buyer`. Registration here asks for an email address and a password
+ * and nothing else - the name arrives only because shipping needs it, and a
+ * buyer's real name should not quietly become their identifier.
+ *
+ * Uniqueness has to be settled here rather than left to WooCommerce. This
+ * filter is the LAST thing wc_create_new_customer_username() does: its own
+ * username_exists() check has already run, and it ran against the name-derived
+ * candidate this replaces. Nothing downstream re-checks, so without the loop
+ * below two addresses sharing a local part - jsmith@a.test and jsmith@b.test -
+ * would both resolve to `jsmith` and the second wp_insert_user() would fail.
+ */
+add_filter( 'woocommerce_new_customer_username', function ( $username, $email ) {
+	$local = strstr( (string) $email, '@', true );
+	if ( false === $local ) {
+		return $username;
+	}
+
+	$base = trim( wc_strtolower( sanitize_user( $local, true ) ), '.-_' );
+	if ( '' === $base ) {
+		/* Nothing usable survived sanitising - a local part that was entirely
+		   unicode, say. WooCommerce's own candidate is the better fallback. */
+		return $username;
+	}
+
+	/* wp_users.user_login holds 60 characters; leave room for a suffix. */
+	$base      = substr( $base, 0, 50 );
+	$candidate = $base;
+	$n         = 1;
+
+	/* The blocked-name list is checked by WooCommerce before this filter runs,
+	   against the candidate this replaces, so it is bypassed for the same
+	   reason the uniqueness check is. A buyer registering as admin@... would
+	   otherwise take the login `admin` outright whenever it happened to be
+	   free. Treated as a collision rather than an error: they still get an
+	   account, just not that name. */
+	$illegal = array_map( 'strtolower', (array) apply_filters( 'illegal_user_logins', array() ) );
+
+	while ( username_exists( $candidate ) || in_array( strtolower( $candidate ), $illegal, true ) ) {
+		$candidate = $base . '-' . ++$n;
+	}
+
+	return $candidate;
+}, 10, 2 );
+
 /* -------------------------------------------------------------------------
  * Checkout: required 21+/research-use attestation, saved to the order
  * ---------------------------------------------------------------------- */
