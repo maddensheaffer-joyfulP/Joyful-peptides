@@ -32,13 +32,18 @@
 				},
 				{
 					"slug": "ground-vivid",
-					"name": "Ground Vivid",
-					"color": "#0B5ED7"
+					"name": "Ground Glow",
+					"color": "#7FC4FC"
+				},
+				{
+					"slug": "ink",
+					"name": "Ink",
+					"color": "#12181F"
 				},
 				{
 					"slug": "ground-ink",
-					"name": "Ground Vivid (legacy slug, used by block markup)",
-					"color": "#0B5ED7"
+					"name": "Ground Glow (legacy slug, used by block markup)",
+					"color": "#7FC4FC"
 				},
 				{
 					"slug": "muted",
@@ -57,8 +62,8 @@
 				},
 				{
 					"slug": "accent-on-dark",
-					"name": "Accent On Vivid",
-					"color": "#FFFFFF"
+					"name": "Emphasis On Glow (legacy slug)",
+					"color": "#12181F"
 				},
 				{
 					"slug": "white",
@@ -169,7 +174,7 @@
 	"styles": {
 		"color": {
 			"background": "var(--wp--preset--color--background)",
-			"text": "var(--wp--preset--color--ground-ink)"
+			"text": "var(--wp--preset--color--ink)"
 		},
 		"typography": {
 			"fontFamily": "var(--wp--preset--font-family--body)",
@@ -186,7 +191,7 @@
 				},
 				":hover": {
 					"color": {
-						"text": "var(--wp--preset--color--ground-ink)"
+						"text": "var(--wp--preset--color--ink)"
 					}
 				}
 			},
@@ -198,7 +203,7 @@
 					"letterSpacing": "-0.015em"
 				},
 				"color": {
-					"text": "var(--wp--preset--color--ground-ink)"
+					"text": "var(--wp--preset--color--ink)"
 				}
 			},
 			"button": {

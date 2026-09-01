@@ -21,8 +21,8 @@ Text Domain: joyful-peptides
 	--jp-muted: #4A5A68;
 	--jp-accent: #0B5ED7;
 	--jp-accent-strong: #0A4EB0;
-	--jp-accent-on-dark: #FFFFFF;
-	--jp-hairline: rgba(11, 94, 215, .16);
+	--jp-emphasis-on-glow: #12181F;
+	--jp-hairline: rgba(11, 94, 215, .28);
 	--jp-hairline-strong: rgba(18, 24, 31, .18);
 	--jp-serif: "Fraunces", ui-serif, Georgia, serif;
 	--jp-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -87,34 +87,43 @@ Text Domain: joyful-peptides
 	--jp-card-edge: rgba(18, 24, 31, .06);
 	--jp-lift: -2px;
 
-	/* Inverted surface set. Any section that goes dark uses these instead of
-	   one-off overrides, so the next dark section costs nothing to build.
-	   Shadows are invisible on dark ground, so elevation there is carried by a
-	   lighter surface fill plus a 1px top highlight - never by --jp-elev-*. */
-	/* The single non-light ground. One value for every band that is not paper,
-	   tint or surface: utility bar, ticker, marquee, trust strip, education
-	   panel, CTA band, footer and the regulatory block. */
-	--jp-ground-vivid: #0B5ED7;
-	--jp-ink-inv: #FFFFFF;
-	/* Secondary copy on the vivid ground: titles and emphasis take ink-inv,
-	   body and labels take this. 4.82:1 on the vivid ground, and the gap
-	   between the two is what carries the hierarchy now that there is no
-	   separate accent hue available on blue. */
-	--jp-muted-inv: #DCEBFD;
-	/* The rule that separates one vivid band from the next, and the edge that
-	   gives a chip its shape on a vivid fill. It has to be light: a translucent
-	   accent on the accent ground is the same colour as the ground. */
-	--jp-hairline-inv: rgba(255, 255, 255, .16);
+	/* The band ground. Every section that is not paper, tint or surface takes
+	   it: utility bar, ticker, marquee, trust strip, education panel, CTA band,
+	   footer and the regulatory block. It is LIGHT, so everything sitting on it
+	   is dark - the opposite of what these tokens meant one pass ago. */
+	--jp-ground-glow: #7FC4FC;
+	/* Highlight end of the band gradient, brightest at the top edge. */
+	--jp-glow-center: #A9DBFE;
+	/* The band itself. Brightest along the top edge so a section reads as lit
+	   from above rather than as a flat wash. Dark text holds across the whole
+	   sweep - 12.12:1 at the highlight, 9.53:1 at the base. */
+	--jp-glow-band: radial-gradient(ellipse 120% 80% at 50% 0%, #A9DBFE 0%, #7FC4FC 65%);
+	/* Titles and emphasis on the band. 9.53:1 at the base of the gradient and
+	   12.12:1 at its highlight, so it holds across the whole sweep. */
+	--jp-ink-on-glow: #12181F;
+	/* Body and labels on the band. 6.39:1 base, 8.13:1 highlight. The gap to
+	   ink-on-glow is what carries the hierarchy - the accent cannot help here,
+	   see the note below. */
+	--jp-muted-on-glow: #22394A;
+	/* Rules and chip edges on the band. The band is light now, so this is the
+	   same blue hairline the light grounds use rather than a white one. */
+	--jp-hairline-on-glow: rgba(11, 94, 215, .28);
 
-	/* Placeholder-outline status pair. Deliberately OUTSIDE the blue system:
-	   an unfilled value must look wrong. One value cannot serve both grounds.
-	   Not for decorative use. */
-	--jp-status-warn-light-bg: #B42318;
-	--jp-status-warn-dark-bg: #FFE4B5;
-	--jp-card-face-inv: linear-gradient(180deg, rgba(245, 248, 250, .10) 0%, rgba(245, 248, 250, .05) 100%);
-	--jp-card-face-inv-hover: linear-gradient(180deg, rgba(245, 248, 250, .16) 0%, rgba(245, 248, 250, .08) 100%);
-	--jp-card-edge-inv: rgba(245, 248, 250, .16);
-	--jp-elev-inv: inset 0 1px 0 rgba(245, 248, 250, .22);
+	/* The accent is NOT usable as text on the band: #0B5ED7 measures 3.12:1
+	   there and the hover 4.10:1, both under the 4.5 floor. It stays a FILL -
+	   3.12:1 against the band, which clears the 3:1 a control edge needs - and
+	   anything that has to read as words takes the ink above. */
+
+	/* Placeholder outline. Deliberately outside the blue system: an unfilled
+	   value must look wrong. One value now covers every ground - 4.91:1 on the
+	   band, 8.72:1 on paper. Not for decorative use. */
+	--jp-status-warn: #8C1B12;
+	/* Card surfaces on the band. Light washes are invisible on a light ground,
+	   so these are ink-based now. */
+	--jp-card-face-on-glow: linear-gradient(180deg, rgba(18, 24, 31, .06) 0%, rgba(18, 24, 31, .03) 100%);
+	--jp-card-face-on-glow-hover: linear-gradient(180deg, rgba(18, 24, 31, .10) 0%, rgba(18, 24, 31, .05) 100%);
+	--jp-card-edge-on-glow: rgba(11, 94, 215, .28);
+	--jp-elev-on-glow: inset 0 1px 0 rgba(255, 255, 255, .5);
 
 	/* Level 2 for a DARK object floating on a LIGHT ground - the outer shadows
 	   go deeper (a dark object casts harder) and the top highlight inverts. */
@@ -165,8 +174,9 @@ em {
 	align-items: center;
 	gap: 1rem;
 	flex-wrap: wrap;
-	background: var(--jp-ground-vivid);
-	color: var(--jp-paper);
+	background: var(--jp-ground-glow);
+	background-image: var(--jp-glow-band);
+	color: var(--jp-ink-on-glow);
 	font-family: var(--jp-mono);
 	font-size: .68rem;
 	letter-spacing: .12em;
@@ -174,11 +184,11 @@ em {
 }
 
 .jp-topbar-note {
-	color: var(--jp-accent-on-dark);
+	color: var(--jp-emphasis-on-glow);
 }
 
 .jp-topbar-link {
-	color: var(--jp-paper);
+	color: var(--jp-ink-on-glow);
 	text-decoration: none;
 	border-bottom: 1px solid rgba(245, 248, 250, .3);
 	padding-bottom: 1px;
@@ -186,8 +196,8 @@ em {
 }
 
 .jp-topbar-link:hover {
-	color: var(--jp-accent-on-dark);
-	border-color: var(--jp-accent-on-dark);
+	color: var(--jp-emphasis-on-glow);
+	border-color: var(--jp-emphasis-on-glow);
 }
 
 /* ==========================================================================
@@ -253,7 +263,10 @@ body.admin-bar header.wp-block-group.jp-header {
 .jp-home-education .jp-brand-mark,
 .jp-utility .jp-brand-mark,
 .jp-topbar .jp-brand-mark {
-	background-image: var(--jp-logo-light);
+	/* The bands are light grounds now, so they take the DARK mark - the same
+	   one the masthead uses. The light mark has no light-on-dark context left
+	   on the page; its slot stays registered for whoever needs it next. */
+	background-image: var(--jp-logo-dark);
 }
 
 .jp-brand:hover .jp-brand-mark {
@@ -325,7 +338,7 @@ header .wp-block-navigation .wp-block-navigation-item__content:hover::after {
 }
 
 .jp-kicker-light {
-	color: var(--jp-accent-on-dark);
+	color: var(--jp-emphasis-on-glow);
 }
 
 .jp-kicker::before {
@@ -366,7 +379,7 @@ h2 em, .jp-404-title em {
 }
 
 .has-accent-on-dark-color em {
-	color: var(--jp-accent-on-dark);
+	color: var(--jp-emphasis-on-glow);
 }
 
 /* ==========================================================================
@@ -464,7 +477,12 @@ h2 em, .jp-404-title em {
 	width: 62%;
 	height: 34px;
 	margin: 0 auto;
-	background: repeating-linear-gradient(90deg, var(--jp-accent-strong) 0 5px, var(--jp-accent-strong) 5px 10px);
+	/* The cap was the darker accent against an accent seal: 1.32:1 apart, which
+	   is not a value step, so the two parts fused into one blue block. The cap
+	   takes the ink instead - 3.06:1 from the seal, and both still read against
+	   the scene behind them (15.61 and 5.10). A crimp cap being darker than its
+	   seal is also what the object actually looks like. */
+	background: repeating-linear-gradient(90deg, var(--jp-ink) 0 5px, var(--jp-ink) 5px 10px);
 	border-radius: 6px 6px 2px 2px;
 }
 
@@ -562,13 +580,13 @@ h2 em, .jp-404-title em {
 	position: absolute;
 	top: 12%;
 	right: 6%;
-	background: var(--jp-ground-vivid);
+	background: var(--jp-accent);
 	color: var(--jp-paper);
 	font-size: .78rem;
 	font-weight: 600;
 	padding: .45rem .8rem;
 	border-radius: 999px;
-	border: 1px solid var(--jp-hairline-inv);
+	border: 1px solid var(--jp-hairline-on-glow);
 	animation: jp-float 6s ease-in-out infinite;
 	animation-delay: -3s;
 }
@@ -612,10 +630,11 @@ h2 em, .jp-404-title em {
 
 .jp-marquee {
 	overflow: hidden;
-	background: var(--jp-ground-vivid);
+	background: var(--jp-ground-glow);
+	background-image: var(--jp-glow-band);
 	padding: .62rem 0;
-	border-top: 1px solid var(--jp-hairline-inv);
-	border-bottom: 1px solid var(--jp-hairline-inv);
+	border-top: 1px solid var(--jp-hairline-on-glow);
+	border-bottom: 1px solid var(--jp-hairline-on-glow);
 }
 
 .jp-marquee-track {
@@ -627,7 +646,7 @@ h2 em, .jp-404-title em {
 
 .jp-marquee-item {
 	font-family: var(--jp-mono);
-	color: var(--jp-paper);
+	color: var(--jp-ink-on-glow);
 	font-size: .72rem;
 	font-weight: 500;
 	letter-spacing: .14em;
@@ -723,7 +742,7 @@ h2 em, .jp-404-title em {
 }
 
 .jp-stat:hover {
-	border-color: var(--jp-hairline-inv);
+	border-color: var(--jp-hairline-on-glow);
 	background: rgba(245, 248, 250, .08);
 }
 
@@ -732,7 +751,7 @@ h2 em, .jp-404-title em {
 	font-size: 2.3rem;
 	font-weight: 560;
 	line-height: 1;
-	color: var(--jp-accent-on-dark);
+	color: var(--jp-emphasis-on-glow);
 }
 
 .jp-stat-label {
@@ -740,12 +759,12 @@ h2 em, .jp-404-title em {
 	font-size: .68rem;
 	letter-spacing: .08em;
 	text-transform: uppercase;
-	color: var(--jp-muted-inv);
+	color: var(--jp-muted-on-glow);
 }
 
 .jp-stats-caption {
 	font-size: .8rem;
-	color: var(--jp-muted-inv);
+	color: var(--jp-muted-on-glow);
 	margin-bottom: 1.5rem;
 	font-style: italic;
 }
@@ -818,7 +837,7 @@ h2 em, .jp-404-title em {
 	top: .85rem;
 	left: .85rem;
 	z-index: 2;
-	background: var(--jp-ground-vivid);
+	background: var(--jp-accent);
 	color: var(--jp-paper);
 	font-family: var(--jp-mono);
 	font-size: .58rem;
@@ -827,7 +846,7 @@ h2 em, .jp-404-title em {
 	text-transform: uppercase;
 	padding: .32rem .6rem;
 	border-radius: 999px;
-	border: 1px solid var(--jp-hairline-inv);
+	border: 1px solid var(--jp-hairline-on-glow);
 }
 
 .jp-card-meta {
@@ -986,7 +1005,7 @@ h2 em, .jp-404-title em {
 }
 
 .wp-block-button.is-style-outline .wp-block-button__link:hover {
-	background: var(--jp-ground-vivid);
+	background: var(--jp-accent);
 	color: var(--jp-paper);
 }
 
@@ -1106,7 +1125,7 @@ table.jp-coa-table {
 }
 
 table.jp-coa-table th {
-	background: var(--jp-ground-vivid);
+	background: var(--jp-accent);
 	color: var(--jp-paper);
 	text-align: left;
 	padding: .8rem .95rem;
@@ -1152,23 +1171,29 @@ table.jp-coa-table tr:nth-child(even) td {
    Footer
    ========================================================================== */
 
+/* The preset class on this element supplies the flat ground; the gradient has
+   to come from CSS because a palette entry cannot hold one. */
+.jp-footer {
+	background-image: var(--jp-glow-band);
+}
+
 .jp-footer a {
-	color: var(--jp-muted-inv);
+	color: var(--jp-muted-on-glow);
 	text-decoration: none;
 	line-height: 2;
 	transition: color .14s ease;
 }
 
 .jp-footer a:hover {
-	color: var(--jp-accent-on-dark);
+	color: var(--jp-emphasis-on-glow);
 }
 
 .jp-brand-footer .jp-brand-name {
-	color: var(--jp-paper);
+	color: var(--jp-ink-on-glow);
 }
 
 .jp-brand-footer .jp-brand-name em {
-	color: var(--jp-accent-on-dark);
+	color: var(--jp-emphasis-on-glow);
 }
 
 .jp-footer-heading {
@@ -1177,7 +1202,7 @@ table.jp-coa-table tr:nth-child(even) td {
 	font-weight: 700;
 	letter-spacing: .16em;
 	text-transform: uppercase;
-	color: var(--jp-muted-inv);
+	color: var(--jp-muted-on-glow);
 	margin-bottom: .8rem;
 }
 
@@ -1191,14 +1216,14 @@ table.jp-coa-table tr:nth-child(even) td {
 	margin-top: 3rem;
 	padding: 1.4rem 0;
 	font-size: .82rem;
-	color: var(--jp-muted-inv);
+	color: var(--jp-muted-on-glow);
 }
 
 .jp-footer-legal-note {
 	font-family: var(--jp-mono);
 	font-size: .66rem;
 	letter-spacing: .12em;
-	color: var(--jp-accent-on-dark);
+	color: var(--jp-emphasis-on-glow);
 }
 
 /* ==========================================================================
@@ -1295,7 +1320,7 @@ table.jp-coa-table tr:nth-child(even) td {
 	margin-right: clamp(1rem, 3vw, 3rem) !important;
 	border-radius: 28px;
 	overflow: hidden;
-	background-image: radial-gradient(ellipse at 85% 15%, rgba(255, 255, 255, .10) 0%, rgba(255, 255, 255, 0) 55%);
+	background-image: var(--jp-glow-band);
 }
 
 .jp-vial-scene {
@@ -1362,10 +1387,8 @@ table.jp-coa-table tr:nth-child(even) td {
 	margin: 1rem clamp(1rem, 3vw, 3rem) 4rem;
 	border-radius: 28px;
 	overflow: hidden;
-	background:
-		radial-gradient(ellipse at 15% 0%, rgba(255, 255, 255, .12) 0%, rgba(255, 255, 255, 0) 55%),
-		radial-gradient(ellipse at 90% 110%, rgba(255, 255, 255, .07) 0%, rgba(255, 255, 255, 0) 55%),
-		var(--jp-ground-vivid);
+	background: var(--jp-ground-glow);
+	background-image: var(--jp-glow-band);
 	padding: 5rem 2rem;
 	text-align: center;
 }
@@ -1375,7 +1398,7 @@ table.jp-coa-table tr:nth-child(even) td {
 	font-size: .68rem;
 	font-weight: 600;
 	letter-spacing: .22em;
-	color: var(--jp-accent-on-dark);
+	color: var(--jp-emphasis-on-glow);
 	margin-bottom: 1rem;
 }
 
@@ -1385,18 +1408,18 @@ table.jp-coa-table tr:nth-child(even) td {
 	font-weight: 560;
 	line-height: 1.1;
 	letter-spacing: -.02em;
-	color: var(--jp-paper);
+	color: var(--jp-ink-on-glow);
 	margin: 0 0 1rem;
 }
 
 .jp-cta-title em {
 	font-style: italic;
 	font-weight: 480;
-	color: var(--jp-accent-on-dark);
+	color: var(--jp-emphasis-on-glow);
 }
 
 .jp-cta-copy {
-	color: var(--jp-muted-inv);
+	color: var(--jp-muted-on-glow);
 	max-width: 36em;
 	margin: 0 auto 2rem;
 }
@@ -1420,8 +1443,8 @@ table.jp-coa-table tr:nth-child(even) td {
    muted-on-vivid tint instead, which keeps the shape and the label ratio. */
 .jp-cta-btn {
 	display: inline-block;
-	background: var(--jp-ink-inv);
-	color: var(--jp-ground-vivid);
+	background: var(--jp-accent);
+	color: #fff;
 	font-weight: 600;
 	font-size: 1rem;
 	padding: .9rem 2rem;
@@ -1438,8 +1461,8 @@ table.jp-coa-table tr:nth-child(even) td {
 }
 
 .jp-cta-btn:hover {
-	background: var(--jp-muted-inv);
-	color: var(--jp-ground-vivid);
+	background: var(--jp-accent-strong);
+	color: #fff;
 	transform: translateY(-1px);
 }
 
@@ -1447,16 +1470,21 @@ table.jp-coa-table tr:nth-child(even) td {
 	transform: translateX(5px);
 }
 
+/* The border is the accent, as briefed - 3.12:1 against the band, which clears
+   the 3:1 a control edge needs. The LABEL cannot be: the same value measures
+   3.12:1 as text and the floor for text is 4.5. The next blue in the system is
+   4.10, still under. Nothing blue passes on this band, so the label takes the
+   ink and the button stays blue-outlined. */
 .jp-cta-btn-ghost {
 	background: transparent;
-	border: 1px solid var(--jp-ink-inv);
-	color: var(--jp-ink-inv);
+	border: 1px solid var(--jp-accent);
+	color: var(--jp-ink-on-glow);
 }
 
 .jp-cta-btn-ghost:hover {
-	background: rgba(245, 248, 250, .12);
-	border-color: var(--jp-paper);
-	color: var(--jp-paper);
+	background: rgba(11, 94, 215, .10);
+	border-color: var(--jp-accent-strong);
+	color: var(--jp-accent-strong);
 }
 
 /* ==========================================================================
@@ -1744,7 +1772,7 @@ a.jp-doc:hover {
 	height: 44px;
 	border-radius: 50%;
 	background: var(--jp-ground-tint);
-	border: 1px solid var(--jp-hairline-inv);
+	border: 1px solid var(--jp-hairline-on-glow);
 	color: var(--jp-accent);
 	font-size: 1.05rem;
 	margin-bottom: 1rem;
@@ -2031,7 +2059,7 @@ a.jp-doc:hover {
 	position: absolute;
 	top: .95rem;
 	left: .95rem;
-	background: var(--jp-ground-vivid);
+	background: var(--jp-accent);
 	color: var(--jp-paper);
 	font-family: var(--jp-mono);
 	font-size: .52rem;
@@ -2040,7 +2068,7 @@ a.jp-doc:hover {
 	text-transform: uppercase;
 	padding: .22rem .42rem;
 	border-radius: 99px;
-	border: 1px solid var(--jp-hairline-inv);
+	border: 1px solid var(--jp-hairline-on-glow);
 }
 
 .jp-tile-badge-out {
@@ -2175,7 +2203,7 @@ a.jp-doc:hover {
 }
 
 .jp-pill-on {
-	background: var(--jp-ground-vivid);
+	background: var(--jp-accent);
 	border-color: var(--jp-ink);
 	color: var(--jp-paper);
 }
@@ -2206,7 +2234,7 @@ a.jp-doc:hover {
 	left: -9999px;
 	top: 0;
 	z-index: 300;
-	background: var(--jp-ground-vivid);
+	background: var(--jp-accent);
 	color: var(--jp-paper);
 	padding: .8rem 1.2rem;
 	border-radius: 0 0 var(--jp-radius) 0;
@@ -2488,7 +2516,7 @@ body.admin-bar .jp-progress {
 	font-size: .66rem;
 	font-weight: 600;
 	letter-spacing: .2em;
-	color: var(--jp-accent-on-dark);
+	color: var(--jp-emphasis-on-glow);
 	margin-bottom: .5rem;
 }
 
@@ -2497,7 +2525,7 @@ body.admin-bar .jp-progress {
 	font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.1rem);
 	font-weight: 560;
 	line-height: 1.15;
-	color: var(--jp-paper);
+	color: var(--jp-ink-on-glow);
 	margin: 0;
 }
 
@@ -2513,24 +2541,25 @@ form.jp-subscribe input[type="email"] {
 	flex: 1 1 240px;
 	padding: .8rem 1rem;
 	border-radius: var(--jp-radius-pill);
-	/* Outlined rather than washed. A 7% light fill lifted the ground behind the
-	   placeholder to a lighter blue and took it from 4.82:1 to 4.26 - the same
-	   way the placeholder marker lost its headroom. The border carries the
-	   field's shape; the ground stays the band. */
-	border: 1px solid rgba(255, 255, 255, .35);
+	/* Outlined rather than washed: the field's shape comes from its border and
+	   the ground stays the band, so nothing sits between the placeholder and
+	   the colour it was measured against. The border is the accent now - a
+	   white one measured 1.87:1 against the light band, under the 3:1 a control
+	   edge needs. */
+	border: 1px solid var(--jp-accent);
 	background: transparent;
-	color: var(--jp-paper);
+	color: var(--jp-ink-on-glow);
 	font-size: .95rem;
 	font-family: var(--jp-sans);
 }
 
 form.jp-subscribe input[type="email"]::placeholder {
-	color: var(--jp-muted-inv);
+	color: var(--jp-muted-on-glow);
 }
 
 form.jp-subscribe input[type="email"]:focus {
 	outline: none;
-	border-color: var(--jp-accent-on-dark);
+	border-color: var(--jp-accent);
 	box-shadow: 0 0 0 3px rgba(255, 255, 255, .28);
 }
 
@@ -2538,8 +2567,8 @@ form.jp-subscribe button {
 	padding: .8rem 1.7rem;
 	border-radius: var(--jp-radius-pill);
 	border: none;
-	background: var(--jp-ink-inv);
-	color: var(--jp-ground-vivid);
+	background: var(--jp-accent);
+	color: #fff;
 	font-weight: 600;
 	font-size: .95rem;
 	cursor: pointer;
@@ -2547,14 +2576,14 @@ form.jp-subscribe button {
 }
 
 form.jp-subscribe button:hover {
-	background: var(--jp-muted-inv);
-	color: var(--jp-ground-vivid);
+	background: var(--jp-accent-strong);
+	color: #fff;
 	transform: translateY(-1px);
 }
 
 .jp-subscribe-note {
 	font-size: .78rem;
-	color: var(--jp-muted-inv);
+	color: var(--jp-muted-on-glow);
 	max-width: 46ch;
 }
 
@@ -2562,7 +2591,7 @@ form.jp-subscribe button:hover {
 	font-family: var(--jp-mono);
 	font-size: .75rem;
 	letter-spacing: .04em;
-	color: var(--jp-accent-on-dark);
+	color: var(--jp-emphasis-on-glow);
 }
 
 .jp-subscribe-ok {
@@ -2844,12 +2873,10 @@ form.jp-subscribe button:hover {
 	background-size: auto, auto, 26px 26px;
 }
 
-/* Trust strip: the new dark band. */
+/* Trust strip: a glow band. */
 .jp-trustbar-section {
-	background-color: var(--jp-ground-vivid);
-	background-image:
-		radial-gradient(ellipse at 18% -10%, rgba(255, 255, 255, .11) 0%, rgba(255, 255, 255, 0) 58%),
-		radial-gradient(ellipse at 88% 120%, rgba(255, 255, 255, .06) 0%, rgba(255, 255, 255, 0) 60%);
+	background-color: var(--jp-ground-glow);
+	background-image: var(--jp-glow-band);
 }
 
 /* Manifesto sits between two paper sections, so it takes the surface value. */
@@ -2870,19 +2897,19 @@ form.jp-subscribe button:hover {
 /* Elevation here is a lighter fill + a top highlight. The level-2 shadow is
    explicitly cleared so it is not left doing nothing. */
 .jp-trustbar-section .jp-trustbar {
-	background: var(--jp-card-face-inv);
-	border: 1px solid var(--jp-card-edge-inv);
-	box-shadow: var(--jp-elev-inv);
+	background: var(--jp-card-face-on-glow);
+	border: 1px solid var(--jp-card-edge-on-glow);
+	box-shadow: var(--jp-elev-on-glow);
 }
 
 .jp-trustbar-section .jp-trustbar:hover {
-	background: var(--jp-card-face-inv-hover);
-	box-shadow: var(--jp-elev-inv);
-	border-color: var(--jp-hairline-inv);
+	background: var(--jp-card-face-on-glow-hover);
+	box-shadow: var(--jp-elev-on-glow);
+	border-color: var(--jp-hairline-on-glow);
 }
 
 .jp-trustbar-section .jp-trustbar-item {
-	border-right-color: var(--jp-hairline-inv);
+	border-right-color: var(--jp-hairline-on-glow);
 }
 
 .jp-trustbar-section .jp-trustbar-item:hover {
@@ -2890,23 +2917,23 @@ form.jp-subscribe button:hover {
 }
 
 .jp-trustbar-section .jp-trustbar-title {
-	color: var(--jp-ink-inv);
+	color: var(--jp-ink-on-glow);
 }
 
 .jp-trustbar-section .jp-trustbar-copy {
-	color: var(--jp-muted-inv);
+	color: var(--jp-muted-on-glow);
 }
 
 .jp-trustbar-section .jp-trustbar-icon {
-	background: rgba(255, 255, 255, .16);
-	border-color: var(--jp-hairline-inv);
-	color: var(--jp-accent-on-dark);
+	background: rgba(11, 94, 215, .12);
+	border-color: var(--jp-hairline-on-glow);
+	color: var(--jp-accent);
 }
 
 @media (max-width: 781px) {
 	.jp-trustbar-section .jp-trustbar-item {
 		border-right-color: transparent;
-		border-bottom-color: var(--jp-hairline-inv);
+		border-bottom-color: var(--jp-hairline-on-glow);
 	}
 }
 
@@ -3115,7 +3142,7 @@ form.jp-subscribe button:hover {
 }
 
 .jp-shelf-btn:hover:not(:disabled) {
-	background: var(--jp-ground-vivid);
+	background: var(--jp-accent);
 	border-color: var(--jp-ink);
 	color: var(--jp-paper);
 	box-shadow: var(--jp-elev-2);
@@ -3151,9 +3178,10 @@ form.jp-subscribe button:hover {
    the topmost thing on the page - and above the header, styled to match. */
 .jp-ticker {
 	overflow: hidden;
-	background: var(--jp-ground-vivid);
-	border-top: 1px solid var(--jp-hairline-inv);
-	border-bottom: 1px solid var(--jp-hairline-inv);
+	background: var(--jp-ground-glow);
+	background-image: var(--jp-glow-band);
+	border-top: 1px solid var(--jp-hairline-on-glow);
+	border-bottom: 1px solid var(--jp-hairline-on-glow);
 	padding: .42rem 0;
 }
 
@@ -3172,7 +3200,7 @@ form.jp-subscribe button:hover {
 	font-family: var(--jp-mono);
 	font-size: .63rem;
 	letter-spacing: .16em;
-	color: var(--jp-muted-inv);
+	color: var(--jp-muted-on-glow);
 	white-space: nowrap;
 	padding: 0 1.6rem;
 	position: relative;
@@ -3263,8 +3291,9 @@ body.admin-bar .jp-pillbar {
    ========================================================================== */
 
 .jp-regulatory {
-	background: var(--jp-ground-vivid);
-	border-top: 1px solid rgba(245, 248, 250, .16);
+	background: var(--jp-ground-glow);
+	background-image: var(--jp-glow-band);
+	border-top: 1px solid var(--jp-hairline-on-glow);
 	padding: 2.1rem clamp(1rem, 4vw, 3rem) 2.6rem;
 }
 
@@ -3273,11 +3302,11 @@ body.admin-bar .jp-pillbar {
 	line-height: 1.7;
 	/* Lower contrast than footer body copy, but still comfortably clear of the
 	   4.5:1 floor on the ink ground - see the stage 4 contrast table. */
-	color: var(--jp-muted-inv);
+	color: var(--jp-muted-on-glow);
 }
 
 .jp-regulatory-lead {
-	color: var(--jp-accent-on-dark) !important;
+	color: var(--jp-emphasis-on-glow) !important;
 }
 
 .jp-regulatory-links {
@@ -3285,17 +3314,17 @@ body.admin-bar .jp-pillbar {
 }
 
 .jp-regulatory-links a {
-	color: var(--jp-accent-on-dark);
+	color: var(--jp-emphasis-on-glow);
 }
 
 .jp-regulatory-links a:hover,
 .jp-regulatory-links a:focus-visible {
-	color: var(--jp-paper);
+	color: var(--jp-ink-on-glow);
 	text-decoration: underline;
 }
 
 .jp-regulatory-links a:focus-visible {
-	outline: 2px solid var(--jp-accent-on-dark);
+	outline: 2px solid var(--jp-accent);
 	outline-offset: 2px;
 }
 
@@ -3325,7 +3354,7 @@ body.admin-bar .jp-pillbar {
 }
 
 .jp-kicker-light {
-	color: var(--jp-accent-on-dark);
+	color: var(--jp-emphasis-on-glow);
 }
 
 /* This used to force primaries onto the darker accent because white on the old
@@ -3346,8 +3375,8 @@ body.admin-bar .jp-pillbar {
 .jp-cta-band .wp-block-button__link,
 .jp-panel-dark .wp-element-button,
 .jp-cta-band .wp-element-button {
-	background-color: var(--jp-ink-inv);
-	color: var(--jp-ground-vivid);
+	background-color: var(--jp-accent);
+	color: #fff;
 }
 
 .jp-cta-btn-ghost {
@@ -3389,7 +3418,7 @@ body.admin-bar .jp-pillbar {
 .jp-cta-band a:focus-visible,
 .jp-regulatory a:focus-visible,
 .jp-trustbar-section a:focus-visible {
-	outline-color: var(--jp-accent-on-dark);
+	outline-color: var(--jp-accent);
 }
 
 /* The pill row is horizontally scrollable; on narrow screens it must not
@@ -3433,10 +3462,10 @@ body.admin-bar .jp-pillbar {
 
 .jp-placeholder {
 	display: inline-block;
-	outline: 1px dashed var(--jp-status-warn-light-bg);
+	outline: 1px dashed var(--jp-status-warn);
 	outline-offset: 1px;
-	background: rgba(180, 35, 24, .08);
-	color: var(--jp-status-warn-light-bg);
+	background: rgba(140, 27, 18, .08);
+	color: var(--jp-status-warn);
 	font-family: var(--jp-mono);
 	font-size: .92em;
 	letter-spacing: .02em;
@@ -3454,13 +3483,11 @@ body.admin-bar .jp-pillbar {
 .jp-footer .jp-placeholder,
 .jp-trustbar-section .jp-placeholder,
 .jp-split-panel .jp-placeholder {
-	outline-color: var(--jp-status-warn-dark-bg);
-	/* No backing tint here. The warn colour has 4.73:1 on the vivid ground and
-	   nothing to spare: a 4% wash of itself behind the label already drops it
-	   to 4.49, and the 14% this carried measured 3.86. The outline is what
-	   marks the placeholder; the fill was only ever decoration. */
+	/* One warn value now serves every ground, so this block no longer changes
+	   the colour - it exists only to drop the backing tint. The band is the
+	   least forgiving ground the marker sits on (4.91:1 against 8.72 on paper),
+	   and a wash of the warn colour behind its own label eats that margin. */
 	background: transparent;
-	color: var(--jp-status-warn-dark-bg);
 }
 
 /* ==========================================================================
@@ -3471,8 +3498,9 @@ body.admin-bar .jp-pillbar {
    ========================================================================== */
 
 .jp-utility {
-	background: var(--jp-ground-vivid);
-	border-bottom: 1px solid var(--jp-hairline-inv);
+	background: var(--jp-ground-glow);
+	background-image: var(--jp-glow-band);
+	border-bottom: 1px solid var(--jp-hairline-on-glow);
 }
 
 .jp-utility-inner {
@@ -3491,24 +3519,24 @@ body.admin-bar .jp-pillbar {
 	font-family: var(--jp-mono);
 	font-size: .68rem;
 	letter-spacing: .07em;
-	color: var(--jp-muted-inv);
+	color: var(--jp-muted-on-glow);
 	max-width: none;
 }
 
 .jp-utility-phone {
-	color: var(--jp-paper);
+	color: var(--jp-ink-on-glow);
 	text-decoration: none;
 	font-weight: 600;
 }
 
 a.jp-utility-phone:hover {
-	color: var(--jp-accent-on-dark);
+	color: var(--jp-emphasis-on-glow);
 	text-decoration: underline;
 }
 
 .jp-utility-sep {
 	padding: 0 .55rem;
-	color: var(--jp-accent-on-dark);
+	color: var(--jp-emphasis-on-glow);
 }
 
 /* Under 768px the bar becomes a single centred line. */
@@ -3543,10 +3571,8 @@ a.jp-utility-phone:hover {
 
 .jp-home-education {
 	padding: 0;
-	background-color: var(--jp-ground-vivid);
-	background-image:
-		radial-gradient(ellipse at 12% 0%, rgba(255, 255, 255, .11) 0%, rgba(255, 255, 255, 0) 58%),
-		radial-gradient(ellipse at 92% 105%, rgba(255, 255, 255, .06) 0%, rgba(255, 255, 255, 0) 60%);
+	background-color: var(--jp-ground-glow);
+	background-image: var(--jp-glow-band);
 }
 
 .jp-split-panel {
@@ -3560,9 +3586,9 @@ a.jp-utility-phone:hover {
 	align-items: center;
 	justify-content: center;
 	padding: var(--jp-space-64) var(--jp-space-32);
-	color: var(--jp-accent-on-dark);
+	color: var(--jp-emphasis-on-glow);
 	background: rgba(245, 248, 250, .04);
-	border-right: 1px solid var(--jp-hairline-inv);
+	border-right: 1px solid var(--jp-hairline-on-glow);
 	min-height: 420px;
 }
 
@@ -3581,7 +3607,7 @@ a.jp-utility-phone:hover {
 	font-weight: 560;
 	line-height: 1.1;
 	letter-spacing: -.015em;
-	color: var(--jp-ink-inv);
+	color: var(--jp-ink-on-glow);
 	margin: 0 0 var(--jp-space-16);
 	max-width: var(--jp-measure-display);
 }
@@ -3589,18 +3615,18 @@ a.jp-utility-phone:hover {
 .jp-split-title em {
 	font-style: italic;
 	font-weight: 480;
-	color: var(--jp-accent-on-dark);
+	color: var(--jp-emphasis-on-glow);
 }
 
 .jp-split-copy {
-	color: var(--jp-muted-inv);
+	color: var(--jp-muted-on-glow);
 	max-width: var(--jp-measure-body);
 	margin: 0 0 var(--jp-space-16);
 }
 
 .jp-split-copy-sub {
 	font-size: .88rem;
-	color: var(--jp-muted-inv);
+	color: var(--jp-muted-on-glow);
 }
 
 .jp-split-cta {
@@ -3609,25 +3635,25 @@ a.jp-utility-phone:hover {
 
 .jp-split-link {
 	display: inline-block;
-	background: var(--jp-ink-inv);
-	color: var(--jp-ground-vivid);
+	background: var(--jp-accent);
+	color: #fff;
 	text-decoration: none;
 	font-weight: 600;
 	font-size: .92rem;
 	padding: .8rem 1.7rem;
 	border-radius: var(--jp-radius-pill);
-	border: 1px solid var(--jp-ink-inv);
+	border: 1px solid var(--jp-accent);
 	transition: background-color .15s ease, border-color .15s ease;
 }
 
 .jp-split-link:hover {
-	background: var(--jp-muted-inv);
-	border-color: var(--jp-muted-inv);
-	color: var(--jp-ground-vivid);
+	background: var(--jp-accent-strong);
+	border-color: var(--jp-accent-strong);
+	color: #fff;
 }
 
 .jp-split-link:focus-visible {
-	outline: 2px solid var(--jp-accent-on-dark);
+	outline: 2px solid var(--jp-accent);
 	outline-offset: 3px;
 }
 
@@ -3640,7 +3666,7 @@ a.jp-utility-phone:hover {
 	.jp-split-media {
 		min-height: 260px;
 		border-right: 0;
-		border-bottom: 1px solid var(--jp-hairline-inv);
+		border-bottom: 1px solid var(--jp-hairline-on-glow);
 		padding: var(--jp-space-48) var(--jp-space-32);
 	}
 
@@ -3949,7 +3975,7 @@ a.jp-infocard-link:hover {
 	flex: 0 0 auto;
 	border: 0;
 	border-radius: 50%;
-	background: var(--jp-ground-vivid);
+	background: var(--jp-accent);
 	color: var(--jp-paper);
 	cursor: pointer;
 	transition: background-color .15s ease;
@@ -4702,7 +4728,7 @@ a.jp-infocard-link:hover {
 
 .woocommerce .wc-block-components-notice-banner.is-error,
 .wc-block-components-notice-banner.is-error {
-	border-left-color: var(--jp-status-warn-light-bg);
+	border-left-color: var(--jp-status-warn);
 }
 
 .woocommerce .wc-block-components-notice-banner.is-info,
@@ -4724,7 +4750,7 @@ a.jp-infocard-link:hover {
 }
 
 .wc-block-components-notice-banner.is-error > svg {
-	fill: var(--jp-status-warn-light-bg);
+	fill: var(--jp-status-warn);
 }
 
 .wc-block-components-notice-banner.is-info > svg,
@@ -4743,7 +4769,7 @@ a.jp-infocard-link:hover {
 
 /* Field-level state. WooCommerce adds these classes to the row, not the input. */
 .woocommerce form .form-row.woocommerce-invalid input.input-text {
-	border-color: var(--jp-status-warn-light-bg);
+	border-color: var(--jp-status-warn);
 }
 
 .woocommerce form .form-row.woocommerce-validated input.input-text {
