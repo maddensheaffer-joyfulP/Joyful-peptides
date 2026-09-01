@@ -31,6 +31,10 @@ Text Domain: joyful-peptides
 	--jp-shadow-soft: 0 8px 28px rgba(18, 24, 31, .09);
 	--jp-shadow-lift: 0 14px 40px rgba(18, 24, 31, .13);
 	--jp-radius: 10px;
+	/* Touch-target floor. 46, not 44: this display is DPR 1.8 and a nominal
+	   44px box measures 43.993, which fails the 44 it was written to meet.
+	   Two extra pixels buy the rounding rather than sitting on the line. */
+	--jp-touch-min: 46px;
 	--jp-radius-pill: 999px;
 
 	/* Spacing scale. Every vertical gap on the front page comes from this list
@@ -2267,8 +2271,8 @@ body.admin-bar .jp-progress {
 	right: 1.25rem;
 	bottom: 1.25rem;
 	z-index: 95;
-	width: 44px;
-	height: 44px;
+	width: var(--jp-touch-min);
+	height: var(--jp-touch-min);
 	border-radius: 50%;
 	border: 1px solid var(--jp-hairline-strong);
 	background: rgba(245, 248, 250, .92);
@@ -3969,9 +3973,17 @@ a.jp-infocard-link:hover {
 		top: auto;
 	}
 
-	/* 1b. Sticky masthead under 64px. */
+	/* 1b. Sticky masthead under 64px.
+
+	   The column gap comes down with it. At a 46px touch floor the brand
+	   (151px) and the controls (183px) sum to 358 against exactly 358px of
+	   inner width, so the row wrapped and the masthead doubled to 134px.
+	   Measured at three floor values to confirm the cause: 42 -> 62px,
+	   44 -> 63px, 46 -> 134px. 16px of gap restores about 8px of slack. */
 	header.wp-block-group.jp-header {
 		padding: .5rem 1rem;
+		gap: var(--jp-space-16);
+		column-gap: var(--jp-space-16);
 	}
 
 	.jp-brand-mark {
@@ -4078,29 +4090,29 @@ a.jp-infocard-link:hover {
 	}
 }
 
-/* 6. Touch targets: nothing interactive under 44x44 on mobile. */
+/* 6. Touch targets: nothing interactive under 46x46 on mobile. */
 @media (max-width: 768px) {
 	.jp-header .wp-block-navigation__responsive-container-open,
 	.jp-header .wp-block-navigation__responsive-container-close,
 	.wc-block-mini-cart__button,
 	.jp-header a[href*="my-account"],
 	.jp-header .wp-block-loginout a {
-		min-width: 44px;
-		min-height: 44px;
+		min-width: var(--jp-touch-min);
+		min-height: var(--jp-touch-min);
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
 	}
 
 	.jp-pill {
-		min-height: 44px;
+		min-height: var(--jp-touch-min);
 		display: inline-flex;
 		align-items: center;
 	}
 
 	.woocommerce a.button.jp-tile-add,
 	.jp-tile-add {
-		min-height: 44px;
+		min-height: var(--jp-touch-min);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -4113,11 +4125,11 @@ a.jp-infocard-link:hover {
 		display: inline-flex;
 		align-items: center;
 		justify-content: flex-start;
-		min-height: 44px;
-		min-width: 44px;
+		min-height: var(--jp-touch-min);
+		min-width: var(--jp-touch-min);
 	}
 
-	/* Remaining sub-44 targets found by auditing every focusable element. */
+	/* Remaining sub-46 targets found by auditing every focusable element. */
 	.jp-topbar-link,
 	.jp-brand,
 	.jp-grid-more-link,
@@ -4126,43 +4138,52 @@ a.jp-infocard-link:hover {
 	.jp-regulatory-links a {
 		display: inline-flex;
 		align-items: center;
-		min-height: 44px;
-		min-width: 44px;
+		min-height: var(--jp-touch-min);
+		min-width: var(--jp-touch-min);
 	}
 
 	/* The skip link is 1x1 until focused, which is the point. It must still be
 	   a real target once it appears. */
 	.skip-link:focus,
 	.jp-skip:focus {
-		min-height: 44px;
-		min-width: 44px;
+		min-height: var(--jp-touch-min);
+		min-width: var(--jp-touch-min);
 		display: inline-flex;
 		align-items: center;
 	}
 
 	.jp-shelf-btn,
 	.jp-top {
-		min-width: 44px;
-		min-height: 44px;
+		min-width: var(--jp-touch-min);
+		min-height: var(--jp-touch-min);
 	}
 
 	/* WooCommerce ships these at 64px and 50px, which set the masthead height.
-	   Pinned to exactly 44 - still a compliant target, and it is what brings
+	   Pinned to exactly 46 - still a compliant target, and it is what brings
 	   the sticky bar under 64px. */
+	/* The mini-cart block wrapper is inline-block around a 46px button, so it
+	   collects a 1px descender gap and becomes the tallest thing in the
+	   masthead - 47px, which is what put the bar at exactly 64 rather than
+	   under it. Removing the stray pixel beats shaving the padding. */
+	.wc-block-mini-cart {
+		display: flex;
+		align-items: center;
+	}
+
 	.wc-block-customer-account__link,
 	.wp-block-woocommerce-customer-account,
 	.wc-block-mini-cart__button {
-		width: 44px;
-		height: 44px;
-		min-width: 44px;
-		min-height: 44px;
+		width: var(--jp-touch-min);
+		height: var(--jp-touch-min);
+		min-width: var(--jp-touch-min);
+		min-height: var(--jp-touch-min);
 		padding: 0;
 	}
 }
 
 /* Second reflow pass: the card interiors, which are the bulk of what is left. */
 @media (max-width: 768px) {
-	/* 24px, not 28. The 44px touch targets on the RUO banner link and the
+	/* 24px, not 28. The touch targets on the RUO banner link and the
 	   regulatory links grew those two bands by ~80px after the height was last
 	   measured, which pushed the page back over 10,000. This buys real margin
 	   rather than sitting on the threshold. */
@@ -4230,7 +4251,7 @@ a.jp-infocard-link:hover {
 	}
 
 	/* The footer was 1,496px: four stacked columns, and every link is now a
-	   44px target. Two-up keeps the targets and halves the stack. WordPress
+	   46px target. Two-up keeps the targets and halves the stack. WordPress
 	   forces flex-basis:100% !important below its own breakpoint, so this has
 	   to answer in kind. */
 	.jp-footer .wp-block-columns {
@@ -4445,6 +4466,45 @@ a.jp-infocard-link:hover {
 	transition: border-color .15s ease, box-shadow .15s ease;
 }
 
+/* Selects were missed by the rule above, which only named input.input-text.
+   The country and state fields are real controls in the checkout flow and were
+   measuring 32px - under the floor, and visibly shorter than the fields either
+   side of them. select2 replaces these where its script loads; this covers the
+   native control it enhances and the case where it does not. */
+/* :not() excludes the single-country display. When a store ships to exactly one
+   country WooCommerce renders that select as static bold text - pointer-events
+   none, no border, width auto - so it is not a control and the touch floor does
+   not apply to it. Without the exclusion the min-height here was the only thing
+   still landing on it, padding it to 46px for no reason. */
+.woocommerce form .form-row select:not(.country_to_state--single) {
+	box-sizing: border-box;
+	width: 100%;
+	min-height: var(--jp-touch-min);
+	padding: .7rem .9rem;
+	font-family: var(--jp-sans);
+	font-size: 1rem;
+	color: var(--jp-ink);
+	background: #fff;
+	border: 1px solid var(--jp-hairline-strong);
+	border-radius: var(--jp-radius);
+}
+
+/* select2 carries its own line box inside .select2-selection__rendered, so the
+   vertical padding above stacks on top of it - measured 71.7px against 48px
+   fields either side. Height and centring only; the horizontal padding is left
+   to select2 so the caret keeps its position. */
+.woocommerce form .form-row .select2-container .select2-selection--single {
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	min-height: var(--jp-touch-min);
+	height: auto;
+	padding-block: 0;
+	background: #fff;
+	border: 1px solid var(--jp-hairline-strong);
+	border-radius: var(--jp-radius);
+}
+
 .woocommerce form .form-row input.input-text:focus,
 .woocommerce-ResetPassword input.input-text:focus {
 	outline: none;
@@ -4472,8 +4532,8 @@ a.jp-infocard-link:hover {
 	top: 50%;
 	right: 0;
 	transform: translateY(-50%);
-	width: 44px;
-	height: 44px;
+	width: var(--jp-touch-min);
+	height: var(--jp-touch-min);
 	margin: 0;
 	padding: 0;
 	background-color: transparent;
@@ -4490,7 +4550,7 @@ a.jp-infocard-link:hover {
 }
 
 /* Remember me: the checkbox itself stays a checkbox, but the label carries the
-   44px target so the whole row is tappable.
+   46px target so the whole row is tappable.
 
    The selector is long on purpose. WooCommerce sets display on
    `.woocommerce .woocommerce-form-login .woocommerce-form-login__rememberme`,
@@ -4501,7 +4561,7 @@ a.jp-infocard-link:hover {
 	display: inline-flex;
 	align-items: center;
 	gap: var(--jp-space-8);
-	min-height: 44px;
+	min-height: var(--jp-touch-min);
 	font-size: .9rem;
 	color: var(--jp-muted);
 	cursor: pointer;
@@ -4636,6 +4696,29 @@ a.jp-infocard-link:hover {
 
 .woocommerce form .form-row.woocommerce-validated input.input-text {
 	border-color: var(--jp-hairline-strong);
+}
+
+/* Paired half-width rows stack on a phone.
+
+   woocommerce-layout.css sets .form-row-first / .form-row-last to width:47%
+   with floats, which at a 390px viewport leaves two 183px fields - too narrow
+   for an email address, an order id, or a surname. WooCommerce's own
+   small-screen sheet unsets this only for the checkout LOGIN form, so
+   track-order and the billing first/last pair keep the columns without help.
+
+   Equal specificity is deliberate and sufficient: style.css loads after
+   woocommerce-layout.css, so the later rule wins the tie. Verified in the
+   loaded document, not assumed - style.css is sheet 25, layout is 21. */
+@media (max-width: 600px) {
+	.woocommerce form .form-row-first,
+	.woocommerce form .form-row-last,
+	.woocommerce-page form .form-row-first,
+	.woocommerce-page form .form-row-last {
+		box-sizing: border-box;
+		float: none;
+		width: 100%;
+		margin-right: 0;
+	}
 }
 
 
