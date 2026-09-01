@@ -31,14 +31,14 @@
 					"color": "#E4F0FB"
 				},
 				{
-					"slug": "ground-deep",
-					"name": "Ground Deep",
-					"color": "#17304A"
+					"slug": "ground-vivid",
+					"name": "Ground Vivid",
+					"color": "#0B5ED7"
 				},
 				{
 					"slug": "ground-ink",
-					"name": "Ground Ink",
-					"color": "#10161C"
+					"name": "Ground Vivid (legacy slug, used by block markup)",
+					"color": "#0B5ED7"
 				},
 				{
 					"slug": "muted",
@@ -48,17 +48,17 @@
 				{
 					"slug": "accent",
 					"name": "Accent",
-					"color": "#17539E"
+					"color": "#0B5ED7"
 				},
 				{
 					"slug": "accent-strong",
-					"name": "Accent Strong",
-					"color": "#17304A"
+					"name": "Accent Hover",
+					"color": "#0A4EB0"
 				},
 				{
 					"slug": "accent-on-dark",
-					"name": "Accent On Dark",
-					"color": "#97D2FB"
+					"name": "Accent On Vivid",
+					"color": "#FFFFFF"
 				},
 				{
 					"slug": "white",

@@ -15,15 +15,14 @@ Text Domain: joyful-peptides
 
 :root {
 	--jp-ink: #12181F;
-	--jp-ground-ink: #10161C;
 	--jp-paper: #F7F9FB;
 	--jp-surface: #EDF0F3;
 	--jp-ground-tint: #E4F0FB;
 	--jp-muted: #4A5A68;
-	--jp-accent: #17539E;
-	--jp-accent-strong: #17304A;
-	--jp-accent-on-dark: #97D2FB;
-	--jp-hairline: rgba(18, 24, 31, .1);
+	--jp-accent: #0B5ED7;
+	--jp-accent-strong: #0A4EB0;
+	--jp-accent-on-dark: #FFFFFF;
+	--jp-hairline: rgba(11, 94, 215, .16);
 	--jp-hairline-strong: rgba(18, 24, 31, .18);
 	--jp-serif: "Fraunces", ui-serif, Georgia, serif;
 	--jp-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -92,18 +91,26 @@ Text Domain: joyful-peptides
 	   one-off overrides, so the next dark section costs nothing to build.
 	   Shadows are invisible on dark ground, so elevation there is carried by a
 	   lighter surface fill plus a 1px top highlight - never by --jp-elev-*. */
-	--jp-ground-deep: #17304A;
-	--jp-ink-inv: #F5F8FA;
-	/* The previous value measured 4.40:1 where the accent radial peaks - below AA.
-	   #C3D2DE measures 5.08:1 at that same worst point. */
-	--jp-muted-inv: #C3D2DE;
-	--jp-hairline-inv: rgba(245, 248, 250, .14);
+	/* The single non-light ground. One value for every band that is not paper,
+	   tint or surface: utility bar, ticker, marquee, trust strip, education
+	   panel, CTA band, footer and the regulatory block. */
+	--jp-ground-vivid: #0B5ED7;
+	--jp-ink-inv: #FFFFFF;
+	/* Secondary copy on the vivid ground: titles and emphasis take ink-inv,
+	   body and labels take this. 4.82:1 on the vivid ground, and the gap
+	   between the two is what carries the hierarchy now that there is no
+	   separate accent hue available on blue. */
+	--jp-muted-inv: #DCEBFD;
+	/* The rule that separates one vivid band from the next, and the edge that
+	   gives a chip its shape on a vivid fill. It has to be light: a translucent
+	   accent on the accent ground is the same colour as the ground. */
+	--jp-hairline-inv: rgba(255, 255, 255, .16);
 
 	/* Placeholder-outline status pair. Deliberately OUTSIDE the blue system:
 	   an unfilled value must look wrong. One value cannot serve both grounds.
 	   Not for decorative use. */
 	--jp-status-warn-light-bg: #B42318;
-	--jp-status-warn-dark-bg: #F59E0B;
+	--jp-status-warn-dark-bg: #FFE4B5;
 	--jp-card-face-inv: linear-gradient(180deg, rgba(245, 248, 250, .10) 0%, rgba(245, 248, 250, .05) 100%);
 	--jp-card-face-inv-hover: linear-gradient(180deg, rgba(245, 248, 250, .16) 0%, rgba(245, 248, 250, .08) 100%);
 	--jp-card-edge-inv: rgba(245, 248, 250, .16);
@@ -158,7 +165,7 @@ em {
 	align-items: center;
 	gap: 1rem;
 	flex-wrap: wrap;
-	background: var(--jp-ground-ink);
+	background: var(--jp-ground-vivid);
 	color: var(--jp-paper);
 	font-family: var(--jp-mono);
 	font-size: .68rem;
@@ -373,8 +380,8 @@ h2 em, .jp-404-title em {
 	min-height: calc(100svh - 96px);
 	background-color: var(--jp-paper);
 	background-image:
-		radial-gradient(ellipse at 78% 18%, rgba(23, 83, 158, .13) 0%, rgba(23, 83, 158, 0) 58%),
-		radial-gradient(ellipse at 8% 88%, rgba(23, 48, 74, .07) 0%, rgba(23, 48, 74, 0) 55%),
+		radial-gradient(ellipse at 78% 18%, rgba(11, 94, 215, .13) 0%, rgba(11, 94, 215, 0) 58%),
+		radial-gradient(ellipse at 8% 88%, rgba(11, 94, 215, .07) 0%, rgba(11, 94, 215, 0) 55%),
 		radial-gradient(rgba(18, 24, 31, .065) 1px, transparent 1px);
 	background-size: auto, auto, 26px 26px;
 }
@@ -410,7 +417,7 @@ h2 em, .jp-404-title em {
 	display: block;
 	width: 1px;
 	height: 42px;
-	background: linear-gradient(var(--jp-accent), rgba(23, 83, 158, 0));
+	background: linear-gradient(var(--jp-accent), rgba(11, 94, 215, 0));
 	animation: jp-cue 2.2s ease-in-out infinite;
 	transform-origin: top;
 }
@@ -443,7 +450,7 @@ h2 em, .jp-404-title em {
 	width: 320px;
 	height: 320px;
 	border-radius: 50%;
-	background: radial-gradient(circle, rgba(23, 83, 158, .17) 0%, rgba(23, 83, 158, 0) 68%);
+	background: radial-gradient(circle, rgba(11, 94, 215, .17) 0%, rgba(11, 94, 215, 0) 68%);
 }
 
 .jp-vial {
@@ -555,13 +562,13 @@ h2 em, .jp-404-title em {
 	position: absolute;
 	top: 12%;
 	right: 6%;
-	background: var(--jp-ground-ink);
+	background: var(--jp-ground-vivid);
 	color: var(--jp-paper);
 	font-size: .78rem;
 	font-weight: 600;
 	padding: .45rem .8rem;
 	border-radius: 999px;
-	border: 1px solid rgba(23, 83, 158, .6);
+	border: 1px solid var(--jp-hairline-inv);
 	animation: jp-float 6s ease-in-out infinite;
 	animation-delay: -3s;
 }
@@ -605,10 +612,10 @@ h2 em, .jp-404-title em {
 
 .jp-marquee {
 	overflow: hidden;
-	background: var(--jp-ground-ink);
+	background: var(--jp-ground-vivid);
 	padding: .62rem 0;
-	border-top: 1px solid rgba(23, 83, 158, .35);
-	border-bottom: 1px solid rgba(23, 83, 158, .35);
+	border-top: 1px solid var(--jp-hairline-inv);
+	border-bottom: 1px solid var(--jp-hairline-inv);
 }
 
 .jp-marquee-track {
@@ -654,7 +661,7 @@ h2 em, .jp-404-title em {
 .jp-home-verify .wp-block-column:hover {
 	box-shadow: var(--jp-shadow-soft);
 	transform: translateY(-3px);
-	border-color: rgba(23, 83, 158, .4);
+	border-color: rgba(11, 94, 215, .4);
 }
 
 .jp-verify-num {
@@ -716,7 +723,7 @@ h2 em, .jp-404-title em {
 }
 
 .jp-stat:hover {
-	border-color: rgba(151, 210, 251, .5);
+	border-color: var(--jp-hairline-inv);
 	background: rgba(245, 248, 250, .08);
 }
 
@@ -784,7 +791,7 @@ h2 em, .jp-404-title em {
 .woocommerce ul.products li.product:hover {
 	box-shadow: var(--jp-shadow-lift);
 	transform: translateY(-3px);
-	border-color: rgba(23, 83, 158, .35);
+	border-color: rgba(11, 94, 215, .35);
 }
 
 .woocommerce ul.products li.product a img {
@@ -811,7 +818,7 @@ h2 em, .jp-404-title em {
 	top: .85rem;
 	left: .85rem;
 	z-index: 2;
-	background: var(--jp-ground-ink);
+	background: var(--jp-ground-vivid);
 	color: var(--jp-paper);
 	font-family: var(--jp-mono);
 	font-size: .58rem;
@@ -820,7 +827,7 @@ h2 em, .jp-404-title em {
 	text-transform: uppercase;
 	padding: .32rem .6rem;
 	border-radius: 999px;
-	border: 1px solid rgba(23, 83, 158, .65);
+	border: 1px solid var(--jp-hairline-inv);
 }
 
 .jp-card-meta {
@@ -979,7 +986,7 @@ h2 em, .jp-404-title em {
 }
 
 .wp-block-button.is-style-outline .wp-block-button__link:hover {
-	background: var(--jp-ground-ink);
+	background: var(--jp-ground-vivid);
 	color: var(--jp-paper);
 }
 
@@ -1004,7 +1011,7 @@ h2 em, .jp-404-title em {
 .woocommerce form .form-row select:focus {
 	border-color: var(--jp-accent);
 	outline: none;
-	box-shadow: 0 0 0 3px rgba(23, 83, 158, .16);
+	box-shadow: 0 0 0 3px rgba(11, 94, 215, .16);
 }
 
 .woocommerce form .form-row label {
@@ -1079,7 +1086,7 @@ h2 em, .jp-404-title em {
 .jp-coa-filter input:focus {
 	border-color: var(--jp-accent);
 	outline: none;
-	box-shadow: 0 0 0 3px rgba(23, 83, 158, .16);
+	box-shadow: 0 0 0 3px rgba(11, 94, 215, .16);
 }
 
 .jp-coa-table-wrap {
@@ -1099,7 +1106,7 @@ table.jp-coa-table {
 }
 
 table.jp-coa-table th {
-	background: var(--jp-ground-ink);
+	background: var(--jp-ground-vivid);
 	color: var(--jp-paper);
 	text-align: left;
 	padding: .8rem .95rem;
@@ -1288,7 +1295,7 @@ table.jp-coa-table tr:nth-child(even) td {
 	margin-right: clamp(1rem, 3vw, 3rem) !important;
 	border-radius: 28px;
 	overflow: hidden;
-	background-image: radial-gradient(ellipse at 85% 15%, rgba(23, 83, 158, .22) 0%, rgba(23, 83, 158, 0) 55%);
+	background-image: radial-gradient(ellipse at 85% 15%, rgba(255, 255, 255, .10) 0%, rgba(255, 255, 255, 0) 55%);
 }
 
 .jp-vial-scene {
@@ -1306,7 +1313,7 @@ table.jp-coa-table tr:nth-child(even) td {
 	padding: 5.5rem 2rem;
 	text-align: center;
 	background:
-		radial-gradient(ellipse at 50% 120%, rgba(23, 83, 158, .07) 0%, rgba(23, 83, 158, 0) 60%),
+		radial-gradient(ellipse at 50% 120%, rgba(11, 94, 215, .07) 0%, rgba(11, 94, 215, 0) 60%),
 		var(--jp-paper);
 }
 
@@ -1356,9 +1363,9 @@ table.jp-coa-table tr:nth-child(even) td {
 	border-radius: 28px;
 	overflow: hidden;
 	background:
-		radial-gradient(ellipse at 15% 0%, rgba(23, 83, 158, .3) 0%, rgba(23, 83, 158, 0) 55%),
-		radial-gradient(ellipse at 90% 110%, rgba(23, 48, 74, .35) 0%, rgba(23, 48, 74, 0) 55%),
-		var(--jp-ground-ink);
+		radial-gradient(ellipse at 15% 0%, rgba(255, 255, 255, .12) 0%, rgba(255, 255, 255, 0) 55%),
+		radial-gradient(ellipse at 90% 110%, rgba(255, 255, 255, .07) 0%, rgba(255, 255, 255, 0) 55%),
+		var(--jp-ground-vivid);
 	padding: 5rem 2rem;
 	text-align: center;
 }
@@ -1401,10 +1408,20 @@ table.jp-coa-table tr:nth-child(even) td {
 	flex-wrap: wrap;
 }
 
+/* --- Controls on a vivid band -----------------------------------------
+   The accent and the vivid ground are the same value, so an accent-filled
+   button placed on a vivid band is not low-contrast, it is invisible. These
+   invert: white fill, vivid label. Measured before the change - CTA button
+   1.32:1 against its band, education link 1.32, subscribe button 1.00.
+
+   Hover cannot go darker here the way it does on light grounds: the darker
+   accent measures 1.32 against the vivid ground and would put the button
+   straight back where it started. Inverted buttons dim their fill toward the
+   muted-on-vivid tint instead, which keeps the shape and the label ratio. */
 .jp-cta-btn {
 	display: inline-block;
-	background: var(--jp-accent);
-	color: #fff;
+	background: var(--jp-ink-inv);
+	color: var(--jp-ground-vivid);
 	font-weight: 600;
 	font-size: 1rem;
 	padding: .9rem 2rem;
@@ -1421,8 +1438,8 @@ table.jp-coa-table tr:nth-child(even) td {
 }
 
 .jp-cta-btn:hover {
-	background: var(--jp-accent-strong);
-	color: #fff;
+	background: var(--jp-muted-inv);
+	color: var(--jp-ground-vivid);
 	transform: translateY(-1px);
 }
 
@@ -1432,8 +1449,8 @@ table.jp-coa-table tr:nth-child(even) td {
 
 .jp-cta-btn-ghost {
 	background: transparent;
-	border: 1.5px solid rgba(245, 248, 250, .45);
-	color: var(--jp-paper);
+	border: 1px solid var(--jp-ink-inv);
+	color: var(--jp-ink-inv);
 }
 
 .jp-cta-btn-ghost:hover {
@@ -1465,7 +1482,7 @@ table.jp-coa-table tr:nth-child(even) td {
 	transform: translateX(-50%);
 	width: min(1200px, 88%);
 	height: 1px;
-	background: linear-gradient(90deg, rgba(23, 48, 74, 0), rgba(23, 48, 74, .65), rgba(23, 48, 74, 0));
+	background: linear-gradient(90deg, rgba(11, 94, 215, 0), rgba(11, 94, 215, .5), rgba(11, 94, 215, 0));
 }
 
 .jp-manifesto {
@@ -1654,8 +1671,15 @@ a.jp-doc:hover {
 	cursor: default;
 }
 
+/* This overrode only the background and inherited the white label from
+   .jp-doc-tag. It was reaching for muted-inv, which is a TEXT colour for vivid
+   grounds, as a fill on a light card - white on it measures 1.21:1. The muted
+   text colour is the right token for a de-emphasised fill: it keeps the tag
+   shaped like its active sibling and says "not available" through weight
+   rather than through an unreadable label. */
 .jp-doc-missing .jp-doc-tag {
-	background: var(--jp-muted-inv);
+	background: var(--jp-muted);
+	color: var(--jp-paper);
 }
 
 .jp-doc-missing .jp-doc-name {
@@ -1720,7 +1744,7 @@ a.jp-doc:hover {
 	height: 44px;
 	border-radius: 50%;
 	background: var(--jp-ground-tint);
-	border: 1px solid rgba(23, 83, 158, .28);
+	border: 1px solid var(--jp-hairline-inv);
 	color: var(--jp-accent);
 	font-size: 1.05rem;
 	margin-bottom: 1rem;
@@ -1818,7 +1842,7 @@ a.jp-doc:hover {
 
 .jp-legal-note {
 	background: var(--jp-ground-tint);
-	border: 1px solid rgba(23, 83, 158, .35);
+	border: 1px solid rgba(11, 94, 215, .35);
 	border-left: 4px solid var(--jp-accent);
 	border-radius: 0 var(--jp-radius) var(--jp-radius) 0;
 	padding: 1rem 1.25rem;
@@ -1940,7 +1964,7 @@ a.jp-doc:hover {
 }
 
 .jp-shelf-track::-webkit-scrollbar-thumb:hover {
-	background: rgba(23, 83, 158, .5);
+	background: rgba(11, 94, 215, .5);
 }
 
 .jp-shelf-more {
@@ -1976,7 +2000,7 @@ a.jp-doc:hover {
 .jp-tile:hover {
 	box-shadow: var(--jp-shadow-soft);
 	transform: translateY(-2px);
-	border-color: rgba(23, 83, 158, .35);
+	border-color: rgba(11, 94, 215, .35);
 }
 
 .jp-tile-link {
@@ -2007,7 +2031,7 @@ a.jp-doc:hover {
 	position: absolute;
 	top: .95rem;
 	left: .95rem;
-	background: var(--jp-ground-ink);
+	background: var(--jp-ground-vivid);
 	color: var(--jp-paper);
 	font-family: var(--jp-mono);
 	font-size: .52rem;
@@ -2016,7 +2040,7 @@ a.jp-doc:hover {
 	text-transform: uppercase;
 	padding: .22rem .42rem;
 	border-radius: 99px;
-	border: 1px solid rgba(23, 83, 158, .6);
+	border: 1px solid var(--jp-hairline-inv);
 }
 
 .jp-tile-badge-out {
@@ -2151,7 +2175,7 @@ a.jp-doc:hover {
 }
 
 .jp-pill-on {
-	background: var(--jp-ground-ink);
+	background: var(--jp-ground-vivid);
 	border-color: var(--jp-ink);
 	color: var(--jp-paper);
 }
@@ -2182,7 +2206,7 @@ a.jp-doc:hover {
 	left: -9999px;
 	top: 0;
 	z-index: 300;
-	background: var(--jp-ground-ink);
+	background: var(--jp-ground-vivid);
 	color: var(--jp-paper);
 	padding: .8rem 1.2rem;
 	border-radius: 0 0 var(--jp-radius) 0;
@@ -2403,7 +2427,7 @@ body.admin-bar .jp-progress {
 .jp-post-card:hover {
 	box-shadow: var(--jp-shadow-lift);
 	transform: translateY(-3px);
-	border-color: rgba(23, 83, 158, .35);
+	border-color: rgba(11, 94, 215, .35);
 }
 
 .jp-post-card .wp-block-post-featured-image {
@@ -2489,8 +2513,12 @@ form.jp-subscribe input[type="email"] {
 	flex: 1 1 240px;
 	padding: .8rem 1rem;
 	border-radius: var(--jp-radius-pill);
-	border: 1px solid rgba(245, 248, 250, .25);
-	background: rgba(245, 248, 250, .07);
+	/* Outlined rather than washed. A 7% light fill lifted the ground behind the
+	   placeholder to a lighter blue and took it from 4.82:1 to 4.26 - the same
+	   way the placeholder marker lost its headroom. The border carries the
+	   field's shape; the ground stays the band. */
+	border: 1px solid rgba(255, 255, 255, .35);
+	background: transparent;
 	color: var(--jp-paper);
 	font-size: .95rem;
 	font-family: var(--jp-sans);
@@ -2503,15 +2531,15 @@ form.jp-subscribe input[type="email"]::placeholder {
 form.jp-subscribe input[type="email"]:focus {
 	outline: none;
 	border-color: var(--jp-accent-on-dark);
-	box-shadow: 0 0 0 3px rgba(151, 210, 251, .18);
+	box-shadow: 0 0 0 3px rgba(255, 255, 255, .28);
 }
 
 form.jp-subscribe button {
 	padding: .8rem 1.7rem;
 	border-radius: var(--jp-radius-pill);
 	border: none;
-	background: var(--jp-accent);
-	color: #fff;
+	background: var(--jp-ink-inv);
+	color: var(--jp-ground-vivid);
 	font-weight: 600;
 	font-size: .95rem;
 	cursor: pointer;
@@ -2519,8 +2547,8 @@ form.jp-subscribe button {
 }
 
 form.jp-subscribe button:hover {
-	background: var(--jp-accent-on-dark);
-	color: var(--jp-ink);
+	background: var(--jp-muted-inv);
+	color: var(--jp-ground-vivid);
 	transform: translateY(-1px);
 }
 
@@ -2554,7 +2582,7 @@ form.jp-subscribe button:hover {
 	margin: 2rem 0 2.5rem;
 	padding: 1.75rem;
 	background: var(--jp-ground-tint);
-	border: 1px solid rgba(23, 83, 158, .18);
+	border: 1px solid rgba(11, 94, 215, .18);
 	border-radius: var(--jp-radius);
 }
 
@@ -2752,7 +2780,7 @@ form.jp-subscribe button:hover {
 .jp-front .wp-block-details[open] {
 	box-shadow: var(--jp-elev-3);
 	transform: translateY(var(--jp-lift));
-	border-color: rgba(23, 83, 158, .3);
+	border-color: rgba(11, 94, 215, .3);
 }
 
 /* The trust bar's cells are segments of one surface, not separate cards, so
@@ -2810,24 +2838,24 @@ form.jp-subscribe button:hover {
 .jp-hero {
 	background-color: var(--jp-paper);
 	background-image:
-		radial-gradient(ellipse at 78% 18%, rgba(23, 83, 158, .17) 0%, rgba(23, 83, 158, 0) 58%),
-		radial-gradient(ellipse at 8% 88%, rgba(23, 48, 74, .10) 0%, rgba(23, 48, 74, 0) 55%),
+		radial-gradient(ellipse at 78% 18%, rgba(11, 94, 215, .17) 0%, rgba(11, 94, 215, 0) 58%),
+		radial-gradient(ellipse at 8% 88%, rgba(11, 94, 215, .07) 0%, rgba(11, 94, 215, 0) 55%),
 		radial-gradient(rgba(18, 24, 31, .07) 1px, transparent 1px);
 	background-size: auto, auto, 26px 26px;
 }
 
 /* Trust strip: the new dark band. */
 .jp-trustbar-section {
-	background-color: var(--jp-ground-deep);
+	background-color: var(--jp-ground-vivid);
 	background-image:
-		radial-gradient(ellipse at 18% -10%, rgba(23, 83, 158, .28) 0%, rgba(23, 83, 158, 0) 58%),
-		radial-gradient(ellipse at 88% 120%, rgba(16, 22, 28, .55) 0%, rgba(16, 22, 28, 0) 60%);
+		radial-gradient(ellipse at 18% -10%, rgba(255, 255, 255, .11) 0%, rgba(255, 255, 255, 0) 58%),
+		radial-gradient(ellipse at 88% 120%, rgba(255, 255, 255, .06) 0%, rgba(255, 255, 255, 0) 60%);
 }
 
 /* Manifesto sits between two paper sections, so it takes the surface value. */
 .jp-manifesto {
 	background-color: var(--jp-surface);
-	background-image: radial-gradient(ellipse at 50% 120%, rgba(23, 83, 158, .09) 0%, rgba(23, 83, 158, 0) 60%);
+	background-image: radial-gradient(ellipse at 50% 120%, rgba(11, 94, 215, .09) 0%, rgba(11, 94, 215, 0) 60%);
 }
 
 /* Accent hairline wherever two light sections meet. */
@@ -2835,7 +2863,7 @@ form.jp-subscribe button:hover {
 .jp-manifesto,
 .jp-home-faq,
 .jp-home-education {
-	border-top: 1px solid rgba(23, 83, 158, .16);
+	border-top: 1px solid rgba(11, 94, 215, .16);
 }
 
 /* --- Inverted card treatment on dark sections --------------------------- */
@@ -2850,7 +2878,7 @@ form.jp-subscribe button:hover {
 .jp-trustbar-section .jp-trustbar:hover {
 	background: var(--jp-card-face-inv-hover);
 	box-shadow: var(--jp-elev-inv);
-	border-color: rgba(151, 210, 251, .45);
+	border-color: var(--jp-hairline-inv);
 }
 
 .jp-trustbar-section .jp-trustbar-item {
@@ -2870,8 +2898,8 @@ form.jp-subscribe button:hover {
 }
 
 .jp-trustbar-section .jp-trustbar-icon {
-	background: rgba(23, 83, 158, .22);
-	border-color: rgba(151, 210, 251, .45);
+	background: rgba(255, 255, 255, .16);
+	border-color: var(--jp-hairline-inv);
 	color: var(--jp-accent-on-dark);
 }
 
@@ -2920,7 +2948,7 @@ form.jp-subscribe button:hover {
 	border-radius: 50%;
 	background:
 		radial-gradient(circle, rgba(255, 255, 255, .9) 0%, rgba(255, 255, 255, 0) 52%),
-		radial-gradient(circle, rgba(23, 83, 158, .24) 0%, rgba(23, 83, 158, 0) 68%);
+		radial-gradient(circle, rgba(11, 94, 215, .24) 0%, rgba(11, 94, 215, 0) 68%);
 	pointer-events: none;
 }
 
@@ -2936,10 +2964,10 @@ form.jp-subscribe button:hover {
 	transform: translateX(-50%);
 	border-radius: 50%;
 	background: radial-gradient(ellipse at center,
-		rgba(23, 48, 74, .46) 0%,
-		rgba(23, 48, 74, .26) 42%,
-		rgba(23, 48, 74, .08) 66%,
-		rgba(23, 48, 74, 0) 78%);
+		rgba(18, 24, 31, .46) 0%,
+		rgba(18, 24, 31, .26) 42%,
+		rgba(18, 24, 31, .08) 66%,
+		rgba(18, 24, 31, 0) 78%);
 	filter: blur(7px);
 	pointer-events: none;
 }
@@ -3042,11 +3070,11 @@ form.jp-subscribe button:hover {
 .woocommerce a.button.jp-tile-add,
 .jp-tile-add {
 	display: block;
-	/* Was --jp-ground-ink. That is not a disabled state leaking and not a
-	   missing token: it was a deliberate "dark brand colour" from the earlier
-	   polish pass, which the palette swap turned into near-black and which now
-	   reads as grey rather than branded. The accent is the correct token, and
-	   white on it measures 7.59:1. */
+	/* This carried a dark-ground token for a while - a deliberate "dark brand
+	   colour" from the polish pass, not a disabled state leaking through. The
+	   accent is the correct token for a primary action on a light card, and
+	   white on it measures 5.84:1. The tile sits on paper, tint or surface, so
+	   it never needs the inverted treatment the vivid bands use. */
 	background: var(--jp-accent);
 	color: #fff;
 	font-weight: 600;
@@ -3087,7 +3115,7 @@ form.jp-subscribe button:hover {
 }
 
 .jp-shelf-btn:hover:not(:disabled) {
-	background: var(--jp-ground-ink);
+	background: var(--jp-ground-vivid);
 	border-color: var(--jp-ink);
 	color: var(--jp-paper);
 	box-shadow: var(--jp-elev-2);
@@ -3123,9 +3151,9 @@ form.jp-subscribe button:hover {
    the topmost thing on the page - and above the header, styled to match. */
 .jp-ticker {
 	overflow: hidden;
-	background: var(--jp-ground-deep);
-	border-top: 1px solid rgba(23, 83, 158, .28);
-	border-bottom: 1px solid rgba(23, 83, 158, .28);
+	background: var(--jp-ground-vivid);
+	border-top: 1px solid var(--jp-hairline-inv);
+	border-bottom: 1px solid var(--jp-hairline-inv);
 	padding: .42rem 0;
 }
 
@@ -3235,7 +3263,7 @@ body.admin-bar .jp-pillbar {
    ========================================================================== */
 
 .jp-regulatory {
-	background: var(--jp-ground-ink);
+	background: var(--jp-ground-vivid);
 	border-top: 1px solid rgba(245, 248, 250, .16);
 	padding: 2.1rem clamp(1rem, 4vw, 3rem) 2.6rem;
 }
@@ -3300,13 +3328,26 @@ body.admin-bar .jp-pillbar {
 	color: var(--jp-accent-on-dark);
 }
 
-/* Primary CTAs were white on --jp-accent (var(--jp-accent)): 4.34:1, just under the
-   4.5:1 AA threshold. --jp-accent-strong takes it clear. Both are existing
-   palette colours - the palette itself is unchanged. */
+/* This used to force primaries onto the darker accent because white on the old
+   accent measured 4.34:1, just under AA. That reason is gone: white on the
+   current accent is 5.84:1, so the base is the accent again and the darker
+   value goes back to being what it is called - the hover.
+
+   .jp-cta-btn is deliberately no longer in this list. It sits on a vivid band
+   and takes the inverted treatment instead. */
 .wp-block-button__link,
-.wp-element-button,
-.jp-cta-btn {
-	background-color: var(--jp-accent-strong);
+.wp-element-button {
+	background-color: var(--jp-accent);
+}
+
+/* Block buttons that land inside a vivid band invert too, for the same reason
+   the hand-built ones do. */
+.jp-panel-dark .wp-block-button__link,
+.jp-cta-band .wp-block-button__link,
+.jp-panel-dark .wp-element-button,
+.jp-cta-band .wp-element-button {
+	background-color: var(--jp-ink-inv);
+	color: var(--jp-ground-vivid);
 }
 
 .jp-cta-btn-ghost {
@@ -3337,6 +3378,13 @@ body.admin-bar .jp-pillbar {
 	border-radius: 4px;
 }
 
+.jp-topbar a:focus-visible,
+.jp-ticker a:focus-visible,
+.jp-utility a:focus-visible,
+.jp-marquee a:focus-visible,
+.jp-trustbar-section a:focus-visible,
+.jp-footer a:focus-visible,
+.jp-regulatory a:focus-visible,
 .jp-panel-dark a:focus-visible,
 .jp-cta-band a:focus-visible,
 .jp-regulatory a:focus-visible,
@@ -3407,7 +3455,11 @@ body.admin-bar .jp-pillbar {
 .jp-trustbar-section .jp-placeholder,
 .jp-split-panel .jp-placeholder {
 	outline-color: var(--jp-status-warn-dark-bg);
-	background: rgba(245, 158, 11, .14);
+	/* No backing tint here. The warn colour has 4.73:1 on the vivid ground and
+	   nothing to spare: a 4% wash of itself behind the label already drops it
+	   to 4.49, and the 14% this carried measured 3.86. The outline is what
+	   marks the placeholder; the fill was only ever decoration. */
+	background: transparent;
 	color: var(--jp-status-warn-dark-bg);
 }
 
@@ -3419,8 +3471,8 @@ body.admin-bar .jp-pillbar {
    ========================================================================== */
 
 .jp-utility {
-	background: var(--jp-ground-deep);
-	border-bottom: 1px solid rgba(23, 83, 158, .28);
+	background: var(--jp-ground-vivid);
+	border-bottom: 1px solid var(--jp-hairline-inv);
 }
 
 .jp-utility-inner {
@@ -3491,10 +3543,10 @@ a.jp-utility-phone:hover {
 
 .jp-home-education {
 	padding: 0;
-	background-color: var(--jp-ground-deep);
+	background-color: var(--jp-ground-vivid);
 	background-image:
-		radial-gradient(ellipse at 12% 0%, rgba(23, 83, 158, .26) 0%, rgba(23, 83, 158, 0) 58%),
-		radial-gradient(ellipse at 92% 105%, rgba(16, 22, 28, .5) 0%, rgba(16, 22, 28, 0) 60%);
+		radial-gradient(ellipse at 12% 0%, rgba(255, 255, 255, .11) 0%, rgba(255, 255, 255, 0) 58%),
+		radial-gradient(ellipse at 92% 105%, rgba(255, 255, 255, .06) 0%, rgba(255, 255, 255, 0) 60%);
 }
 
 .jp-split-panel {
@@ -3557,21 +3609,21 @@ a.jp-utility-phone:hover {
 
 .jp-split-link {
 	display: inline-block;
-	background: var(--jp-accent-strong);
-	color: #fff;
+	background: var(--jp-ink-inv);
+	color: var(--jp-ground-vivid);
 	text-decoration: none;
 	font-weight: 600;
 	font-size: .92rem;
 	padding: .8rem 1.7rem;
 	border-radius: var(--jp-radius-pill);
-	border: 1px solid var(--jp-accent-strong);
+	border: 1px solid var(--jp-ink-inv);
 	transition: background-color .15s ease, border-color .15s ease;
 }
 
 .jp-split-link:hover {
-	background: transparent;
-	border-color: var(--jp-accent-on-dark);
-	color: var(--jp-accent-on-dark);
+	background: var(--jp-muted-inv);
+	border-color: var(--jp-muted-inv);
+	color: var(--jp-ground-vivid);
 }
 
 .jp-split-link:focus-visible {
@@ -3614,7 +3666,7 @@ a.jp-utility-phone:hover {
 	margin: 0 0 var(--jp-space-16);
 	padding: var(--jp-space-12) var(--jp-space-16);
 	background: var(--jp-ground-tint, var(--jp-ground-tint));
-	border: 1px solid rgba(23, 83, 158, .22);
+	border: 1px solid rgba(11, 94, 215, .22);
 	border-radius: var(--jp-radius);
 }
 
@@ -3745,7 +3797,7 @@ a.jp-utility-phone:hover {
 	color: var(--jp-ink);
 	margin: 0 0 var(--jp-space-16);
 	padding-bottom: var(--jp-space-12);
-	border-bottom: 1px solid rgba(23, 83, 158, .22);
+	border-bottom: 1px solid rgba(11, 94, 215, .22);
 }
 
 .jp-infocard-list {
@@ -3897,7 +3949,7 @@ a.jp-infocard-link:hover {
 	flex: 0 0 auto;
 	border: 0;
 	border-radius: 50%;
-	background: var(--jp-ground-ink);
+	background: var(--jp-ground-vivid);
 	color: var(--jp-paper);
 	cursor: pointer;
 	transition: background-color .15s ease;
@@ -4509,7 +4561,7 @@ a.jp-infocard-link:hover {
 .woocommerce-ResetPassword input.input-text:focus {
 	outline: none;
 	border-color: var(--jp-accent);
-	box-shadow: 0 0 0 3px rgba(23, 83, 158, .18);
+	box-shadow: 0 0 0 3px rgba(11, 94, 215, .18);
 }
 
 /* The reveal toggle ships at 22px square. It sits inside the field, so it is
