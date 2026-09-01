@@ -4268,81 +4268,15 @@ a.jp-infocard-link:hover {
 /* ==========================================================================
    Account gate
    --------------------------------------------------------------------------
-   Purchasing needs an account; browsing does not. Prices, specs, COAs and all
-   education content stay visible logged out.
+   The gate is at checkout, not at add-to-cart: browsing, prices, COAs and
+   building a cart are all open logged out. Nothing here hides a control.
+
+   What used to live in this block - a "Sign in to add" tile variant, an auth
+   CTA on the product page, and a rule hiding form.cart from logged-out
+   visitors - is gone with the add-to-cart gate it served. The surfaces that
+   matter now are the checkout account fields, styled with the rest of the
+   WooCommerce forms further down.
    ========================================================================== */
-
-/* The single-product add-to-cart is a block, so it cannot be unhooked in PHP.
-   Hiding it is presentation only - woocommerce_add_to_cart_validation refuses
-   the POST regardless of what is on screen. */
-body:not(.logged-in).single-product form.cart {
-	display: none;
-}
-
-.jp-auth-cta {
-	display: flex;
-	flex-direction: column;
-	gap: var(--jp-space-8);
-	margin: var(--jp-space-24) 0;
-	max-width: var(--jp-measure-body);
-}
-
-.woocommerce a.button.jp-auth-btn,
-.jp-auth-btn {
-	display: inline-flex;
-	box-sizing: border-box;
-	align-items: center;
-	justify-content: center;
-	align-self: flex-start;
-	background: var(--jp-accent);
-	color: #fff;
-	font-weight: 600;
-	font-size: .95rem;
-	min-height: 48px;
-	padding: .7rem 1.6rem;
-	border-radius: var(--jp-radius-pill);
-	text-decoration: none;
-	border: 1px solid var(--jp-accent);
-	transition: background-color .15s ease, border-color .15s ease;
-}
-
-.woocommerce a.button.jp-auth-btn:hover,
-.jp-auth-btn:hover {
-	background: var(--jp-accent-strong);
-	border-color: var(--jp-accent-strong);
-}
-
-.jp-auth-btn:focus-visible {
-	outline: 2px solid var(--jp-accent);
-	outline-offset: 3px;
-}
-
-.jp-auth-note {
-	font-size: .82rem;
-	color: var(--jp-muted);
-}
-
-/* Card-level equivalent: same footprint as the real add-to-cart so the grid
-   does not reflow between logged-in and logged-out. */
-.woocommerce a.button.jp-tile-add-auth,
-.jp-tile-add-auth {
-	background: var(--jp-accent);
-	color: #fff;
-	border-color: var(--jp-accent);
-}
-
-.woocommerce a.button.jp-tile-add-auth:hover,
-.jp-tile-add-auth:hover {
-	background: var(--jp-accent-strong);
-	border-color: var(--jp-accent-strong);
-}
-
-@media (max-width: 768px) {
-	.jp-auth-btn {
-		min-height: 48px;
-		width: 100%;
-	}
-}
 
 /* ==========================================================================
    Motion preferences + small screens
