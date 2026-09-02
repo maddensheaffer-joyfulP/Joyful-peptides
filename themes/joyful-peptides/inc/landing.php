@@ -238,9 +238,9 @@ add_action( 'wp_head', function () {
 	.jp-lp-brand-name{font-family:var(--jp-serif);font-size:1.05rem;font-weight:580}
 	.jp-lp-brand-name em{font-style:italic;color:var(--jp-accent)}
 	.jp-lp-hero{padding:1.75rem 1.25rem 2rem}
-	.jp-lp-hero h1{font-family:var(--jp-serif);font-weight:580;font-size:clamp(1.9rem,7.5vw,3rem);line-height:1.1;margin:0 0 .6rem;text-wrap:balance}
+	.jp-lp-hero h1{font-family:var(--jp-serif);font-weight:580;font-size:clamp(1.75rem,1.379rem + 1.52vw,2.75rem);line-height:1.15;margin:0 0 .6rem;text-wrap:balance}
 	.jp-lp-hero h1 em{font-style:italic;color:var(--jp-accent)}
-	.jp-lp-sub{font-size:1.02rem;color:var(--jp-muted);margin:0 0 1.25rem;max-width:46ch}
+	.jp-lp-sub{font-size:clamp(1.125rem,1.032rem + 0.38vw,1.375rem);color:var(--jp-muted);margin:0 0 1.25rem;max-width:46ch}
 	.jp-lp-ctas{display:flex;flex-wrap:wrap;gap:.6rem}
 	.jp-lp-btn{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;min-height:var(--jp-touch-min);
 	padding:.7rem 1.5rem;border-radius:var(--jp-radius-pill);font-weight:600;font-size:.95rem;text-decoration:none;border:1px solid var(--jp-accent)}

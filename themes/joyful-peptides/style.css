@@ -364,7 +364,10 @@ header .wp-block-navigation .wp-block-navigation-item__content:hover::after {
 
 .jp-hero-title {
 	font-family: var(--jp-serif);
-	font-size: clamp(2.7rem, 2rem + 3.4vw, 4.6rem);
+	/* The x-large step, not a clamp of its own. A hero that sized itself
+	   independently is how h1 ended up at three different sizes across three
+	   templates. */
+	font-size: var(--wp--preset--font-size--x-large);
 	font-weight: 560;
 	line-height: 1.06;
 	letter-spacing: -.02em;
@@ -1251,7 +1254,7 @@ table.jp-coa-table tr:nth-child(even) td {
 
 .jp-404-title {
 	font-family: var(--jp-serif);
-	font-size: clamp(2.2rem, 1.8rem + 2vw, 3.4rem);
+	font-size: var(--wp--preset--font-size--x-large);
 	font-weight: 560;
 	line-height: 1.1;
 	letter-spacing: -.02em;
@@ -1354,7 +1357,7 @@ table.jp-coa-table tr:nth-child(even) td {
 
 .jp-manifesto-quote {
 	font-family: var(--jp-serif);
-	font-size: clamp(2rem, 1.5rem + 2.6vw, 3.6rem);
+	font-size: var(--wp--preset--font-size--x-large);
 	font-weight: 560;
 	line-height: 1.15;
 	letter-spacing: -.02em;
@@ -1914,7 +1917,8 @@ a.jp-doc:hover {
 
 .jp-shelf-title {
 	font-family: var(--jp-serif);
-	font-size: clamp(1.25rem, 1.1rem + .6vw, 1.6rem);
+	/* A shelf heading is an h2 and now measures like one. */
+	font-size: var(--wp--preset--font-size--large);
 	font-weight: 580;
 	letter-spacing: -.01em;
 	margin: 0;
@@ -2529,7 +2533,7 @@ body.admin-bar .jp-progress {
 
 .jp-footer-signup-title {
 	font-family: var(--jp-serif);
-	font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.1rem);
+	font-size: var(--wp--preset--font-size--large);
 	font-weight: 560;
 	line-height: 1.15;
 	color: var(--jp-ink-on-glow);
@@ -3850,7 +3854,7 @@ a.jp-utility-phone:hover {
 
 .jp-infocard-title {
 	font-family: var(--jp-serif);
-	font-size: 1.15rem;
+	font-size: var(--wp--preset--font-size--lead);
 	font-weight: 580;
 	letter-spacing: -.01em;
 	color: var(--jp-ink);
@@ -4050,8 +4054,8 @@ a.jp-infocard-link:hover {
       body. */
 @media (max-width: 480px) {
 	.jp-front .jp-lead {
-		font-size: 1.25rem !important;
-		line-height: 1.45;
+		font-size: var(--wp--preset--font-size--lead) !important;
+		line-height: 1.5;
 		margin-bottom: var(--jp-space-24);
 	}
 }
@@ -4185,14 +4189,18 @@ a.jp-infocard-link:hover {
 	/* .jp-front raises specificity: the max-width:781px block later in this
 	   file also sets .jp-hero-title, and a bare selector here lost to it -
 	   measured 36.8px at 390px instead of the intended 27px. */
+	/* Was a hand-tuned clamp from the mobile pass, set when body copy was
+	   rendering at 20px. The x-large step covers 390 to 1440 on its own now,
+	   so the override would only reintroduce a second h1 size. */
 	.jp-front .jp-hero-title {
-		font-size: clamp(1.85rem, 7vw, 2.35rem);
-		line-height: 1.08;
+		font-size: var(--wp--preset--font-size--x-large);
+		line-height: 1.15;
 	}
 
+	/* Same story: this is the lead step now, not a bespoke 17px. */
 	.jp-front .jp-lead {
-		font-size: 1.0625rem !important;
-		line-height: 1.4;
+		font-size: var(--wp--preset--font-size--lead) !important;
+		line-height: 1.5;
 	}
 
 	.jp-hero {
@@ -5042,8 +5050,8 @@ body.jp-gate-open {
 	margin: 0 0 .75rem;
 	font-family: var(--jp-serif);
 	font-weight: 580;
-	font-size: clamp(1.5rem, 5vw, 2.1rem);
-	line-height: 1.15;
+	font-size: var(--wp--preset--font-size--large);
+	line-height: 1.2;
 	text-wrap: balance;
 }
 
@@ -5333,4 +5341,90 @@ body.jp-gate-open {
 	font-size: .95rem;
 	color: var(--jp-muted);
 	max-width: var(--jp-measure-body);
+}
+
+/* ==========================================================================
+   Typography scale
+   --------------------------------------------------------------------------
+   The presets themselves live in theme.json and are fluid from 390 to 1440.
+   What was actually wrong was not the clamps - they were correct - but
+   `defaultFontSizes`, which defaults to TRUE in a version 3 theme.json and
+   silently merges WordPress's own presets over the theme's for every matching
+   slug. Body was resolving to core's flat 20px, h1 to core's 2.5em, and only
+   xx-large survived because core has no such default. One line in theme.json
+   fixed the root cause; this block handles what presets cannot express.
+   ========================================================================== */
+
+/* Running text gets a measure on desktop only. On a phone the column is
+   already the viewport minus padding, and a max-width there would shorten
+   lines that are short enough. */
+@media (min-width: 782px) {
+	.wp-block-post-content p,
+	.wp-block-post-content li,
+	.entry-content > p,
+	.jp-article-body p,
+	.jp-article-body li {
+		max-width: var(--jp-measure-body);
+	}
+}
+
+/* Headings break on sense rather than on the box. */
+h1, h2, h3,
+.wp-block-post-title,
+.wp-block-heading,
+.jp-hero-title,
+.jp-lp-hero h1 {
+	text-wrap: balance;
+}
+
+/* Body copy holds 1.6 everywhere, including inside WooCommerce's own markup,
+   which ships its own line-heights. */
+.wp-block-post-content p,
+.wp-block-post-content li,
+.jp-article-body p,
+.jp-article-body li,
+.woocommerce p,
+.woocommerce li {
+	line-height: 1.6;
+}
+
+/* Intro paragraphs. This is what the lead preset is for: an opening line can
+   sit above body without every paragraph on the page being dragged up with
+   it, which is what happened while medium resolved to 20px. */
+.jp-lead,
+.jp-lp-sub,
+.jp-lp-lead {
+	font-size: var(--wp--preset--font-size--lead);
+	line-height: 1.5;
+}
+
+/* --- Spacing, brought down with the type ------------------------------
+   These were tuned when body copy was rendering at 20px. At 16-18px the same
+   gaps read as drift, so they come down proportionally. The mobile section
+   padding set by the earlier mobile pass is NOT touched - this adjusts
+   paragraph rhythm and the content-page frame only. */
+@media (max-width: 781px) {
+	.wp-block-post-content p,
+	.wp-block-post-content ul,
+	.wp-block-post-content ol,
+	.jp-article-body p {
+		margin-block: 0 var(--jp-space-16);
+	}
+
+	.wp-block-post-content h2,
+	.jp-article-body > h2 {
+		margin-block: var(--jp-space-32) var(--jp-space-8);
+	}
+
+	.wp-block-post-content h3,
+	.jp-article-body > h3 {
+		margin-block: var(--jp-space-24) var(--jp-space-8);
+	}
+
+	/* page.html frames its content with 3rem/4rem, which was proportional to
+	   20px text and is not to 16px. */
+	.page-template-default main.wp-block-group {
+		padding-top: var(--jp-space-32) !important;
+		padding-bottom: var(--jp-space-48) !important;
+	}
 }
