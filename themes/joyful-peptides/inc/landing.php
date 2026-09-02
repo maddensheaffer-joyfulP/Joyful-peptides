@@ -261,6 +261,24 @@ add_action( 'wp_head', function () {
  * carries.
  * ---------------------------------------------------------------------- */
 
+/**
+ * The landing page's secondary call to action.
+ *
+ * "See a real COA" is a promise about an artifact, so it is only offered when
+ * an artifact exists. With nothing published it becomes a link to
+ * /third-party-testing/, which describes the practice rather than promising a
+ * document - and that page is true today with an empty library.
+ *
+ * Both states are the same button treatment, so nothing about the layout moves
+ * when it flips, and it flips back on its own once a certificate is published.
+ */
+function jp_landing_secondary_cta( $coa_url ) {
+	if ( jp_has_published_coas() ) {
+		return '<a class="jp-lp-btn jp-lp-btn-secondary" href="' . esc_url( $coa_url ) . '">See a real COA</a>';
+	}
+	return '<a class="jp-lp-btn jp-lp-btn-secondary" href="' . esc_url( jp_utm_link( '/third-party-testing/' ) ) . '">How we test and publish</a>';
+}
+
 add_shortcode( 'jp_landing', function () {
 	$variant = jp_landing_variant();
 	$is_inst = ( 'institutional' === $variant );
@@ -279,11 +297,11 @@ add_shortcode( 'jp_landing', function () {
 			<p class="jp-lp-sub">Volume orders, reserved lots and documentation packages &mdash; every batch tied to an independent laboratory report you can file.</p>
 		<?php else : ?>
 			<h1>Peptides you can <em>verify.</em></h1>
-			<p class="jp-lp-sub">Every batch is tested by an independent laboratory before release, and the certificate is published against the batch number on the vial.</p>
+			<p class="jp-lp-sub">Every batch is tested by an independent laboratory before release, and the certificate <?php echo jp_has_published_coas() ? 'is published' : 'is published on release'; ?> against the batch number on the vial.</p>
 		<?php endif; ?>
 		<div class="jp-lp-ctas">
 			<a class="jp-lp-btn jp-lp-btn-primary" href="<?php echo esc_url( $catalog_url ); ?>"><?php echo $is_inst ? 'Talk to us about volume' : 'Browse the catalog'; ?></a>
-			<a class="jp-lp-btn jp-lp-btn-secondary" href="<?php echo esc_url( $coa_url ); ?>">See a real COA</a>
+			<?php echo jp_landing_secondary_cta( $coa_url ); ?>
 		</div>
 	</section>
 
@@ -361,7 +379,9 @@ add_shortcode( 'jp_landing', function () {
 		<h2>The COA library</h2>
 		<p class="jp-lp-lead">Every batch we have released, and every batch we have not. Look up any lot by its number.</p>
 		<?php echo jp_landing_coa_preview(); ?>
-		<p class="jp-lp-more"><a href="<?php echo esc_url( $coa_url ); ?>">Open the full COA library</a></p>
+		<?php if ( jp_has_published_coas() ) : ?>
+			<p class="jp-lp-more"><a href="<?php echo esc_url( $coa_url ); ?>">Open the full COA library</a></p>
+		<?php endif; ?>
 	</section>
 
 	<?php /* 5. CATALOG PREVIEW ------------------------------------------- */ ?>
@@ -422,7 +442,7 @@ add_shortcode( 'jp_landing', function () {
 			: 'Open any product, read its lot report, then decide.'; ?></p>
 		<div class="jp-lp-ctas">
 			<a class="jp-lp-btn jp-lp-btn-primary" href="<?php echo esc_url( $catalog_url ); ?>"><?php echo $is_inst ? 'Talk to us about volume' : 'Browse the catalog'; ?></a>
-			<a class="jp-lp-btn jp-lp-btn-secondary" href="<?php echo esc_url( $coa_url ); ?>">See a real COA</a>
+			<?php echo jp_landing_secondary_cta( $coa_url ); ?>
 		</div>
 	</section>
 

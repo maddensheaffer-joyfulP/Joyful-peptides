@@ -142,7 +142,7 @@
 				<h3 class="has-medium-font-size">Numbered on the label</h3>
 				<!-- /wp:heading -->
 				<!-- wp:paragraph {"fontSize":"small"} -->
-				<p class="has-small-font-size">The batch number printed on your vial matches its public record in the COA library. Check it any time.</p>
+				<p class="has-small-font-size">The batch number printed on your vial matches its public record in the COA library.[jp_if_coas] Check it any time.[/jp_if_coas]</p>
 				<!-- /wp:paragraph -->
 			</div>
 			<!-- /wp:column -->
@@ -188,7 +188,7 @@
 			<!-- /wp:heading -->
 
 			<!-- wp:paragraph -->
-			<p class="jp-lead">Every vial we ship carries a batch number on its label. Enter it in our COA library to see the independent lab's full report for that exact batch &mdash; test date, lab, purity, and the certificate itself as a downloadable PDF. Failed batches stay in the library too. That's the point.</p>
+			<p class="jp-lead">Every vial we ship carries a batch number on its label.[jp_if_coas] Enter it in our COA library to see the independent lab's full report for that exact batch[/jp_if_coas][jp_unless_coas] Each batch goes to an independent laboratory before release, and its report is published against that number[/jp_unless_coas] &mdash; test date, lab, purity, and the certificate itself as a downloadable PDF. Failed batches stay in the library too. That's the point.</p>
 			<!-- /wp:paragraph -->
 
 			<!-- wp:shortcode -->
@@ -198,7 +198,7 @@
 			<!-- wp:buttons -->
 			<div class="wp-block-buttons">
 				<!-- wp:button -->
-				<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="/coa-library/">Look up a batch</a></div>
+				<div class="wp-block-button">[jp_if_coas]<a class="wp-block-button__link wp-element-button" href="/coa-library/">Look up a batch</a>[/jp_if_coas][jp_unless_coas]<a class="wp-block-button__link wp-element-button" href="/third-party-testing/">How we test and publish</a>[/jp_unless_coas]</div>
 				<!-- /wp:button -->
 			</div>
 			<!-- /wp:buttons -->

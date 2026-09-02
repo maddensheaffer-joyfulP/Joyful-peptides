@@ -1,7 +1,11 @@
 <!-- wp:html -->
 <div class="jp-topbar">
 	<span class="jp-topbar-note">FOR IN VITRO RESEARCH USE ONLY &mdash; NOT FOR HUMAN OR VETERINARY USE</span>
-	<a class="jp-topbar-link" href="/coa-library/">VERIFY A BATCH &rarr;</a>
+	<!-- Renders only when a certificate exists to look up. When it does not,
+	     this slot is empty on purpose - the masthead does not need to say
+	     anything here, and a substitute CTA would just be a different
+	     promise. Returns by itself once a real batch is published. -->
+	[jp_if_coas]<a class="jp-topbar-link" href="/coa-library/">VERIFY A BATCH &rarr;</a>[/jp_if_coas]
 </div>
 <!-- /wp:html -->
 

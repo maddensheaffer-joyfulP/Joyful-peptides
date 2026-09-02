@@ -612,6 +612,66 @@ function jp_batch_coa_url( $batch_number ) {
 }
 
 /* Public lookup table: put [jp_coa_library] on any page. */
+/* -------------------------------------------------------------------------
+ * Is there anything to look up?
+ *
+ * One question, asked in one place, so the site is structurally unable to
+ * invite a visitor to go and read a certificate that does not exist. The same
+ * principle as the landing page's COA preview: the guard is the data, not a
+ * person remembering to edit copy.
+ *
+ * A batch ROW is not enough. The test is a batch with a certificate URL,
+ * because what these elements promise is the document, not the record of a
+ * lot. A row with no PDF behind it would satisfy a naive count and still send
+ * someone to an empty-handed page.
+ *
+ * The ~28 policy statements elsewhere on the site are deliberately NOT gated
+ * on this. "Every batch is tested before release" describes what happens to
+ * everything we ship and is true with an empty library; "look up your batch
+ * number" is a promise about right now, and is not.
+ * ---------------------------------------------------------------------- */
+
+function jp_has_published_coas() {
+	static $cached = null;
+	if ( null !== $cached ) {
+		return $cached;
+	}
+
+	$found = get_posts( array(
+		'post_type'      => 'jp_batch',
+		'post_status'    => 'publish',
+		'posts_per_page' => 1,
+		'fields'         => 'ids',
+		'no_found_rows'  => true,
+		'meta_query'     => array(
+			array(
+				'key'     => '_jp_coa_url',
+				'value'   => '',
+				'compare' => '!=',
+			),
+		),
+	) );
+
+	$cached = ! empty( $found );
+	return $cached;
+}
+
+/**
+ * [jp_if_coas]...[/jp_if_coas]   renders only when a certificate exists.
+ * [jp_unless_coas]...[/jp_unless_coas]  renders only when none does.
+ *
+ * These exist so block templates - which cannot hold a condition - can carry
+ * one. Both return automatically the moment a real batch with a certificate is
+ * published; nothing needs editing.
+ */
+add_shortcode( 'jp_if_coas', function ( $atts, $content = null ) {
+	return jp_has_published_coas() ? do_shortcode( (string) $content ) : '';
+} );
+
+add_shortcode( 'jp_unless_coas', function ( $atts, $content = null ) {
+	return jp_has_published_coas() ? '' : do_shortcode( (string) $content );
+} );
+
 /**
  * [jp_coa_library] - the full public batch table.
  *
