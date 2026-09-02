@@ -167,17 +167,6 @@ add_action( 'wp_head', function () {
 .jp-attestation label{display:flex;gap:.6rem;align-items:flex-start;font-size:.92rem;line-height:1.5}
 .jp-attestation input{margin-top:.25rem}
 .jp-asr-note{font-size:.85rem;color:#4A5A68;margin:0 0 .75rem;padding-bottom:.75rem;border-bottom:1px dashed rgba(18,24,31,.15)}
-#jp-age-gate{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:rgba(18,24,31,.97);padding:1.5rem}
-.jp-age-card{background:#F7F9FB;max-width:520px;width:100%;padding:2.25rem 2rem;border-radius:3px;border-top:4px solid #076069;text-align:center}
-.jp-age-card h2{font-family:ui-serif,Georgia,"Times New Roman",serif;font-size:1.5rem;margin:0 0 1rem;color:#12181F}
-.jp-age-card p{font-size:.95rem;line-height:1.6;color:#22303D;margin:0 0 1rem}
-.jp-age-card .jp-age-fine{font-size:.8rem;color:#4A5A68}
-.jp-age-buttons{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:1.25rem}
-.jp-age-buttons button{cursor:pointer;font-size:1rem;font-weight:600;padding:.8rem 1.6rem;border-radius:2px;border:none}
-#jp-age-enter{background:#076069;color:#fff}
-#jp-age-enter:hover{background:#05474E}
-#jp-age-exit{background:transparent;color:#12181F;border:1px solid rgba(18,24,31,.35)}
-#jp-age-exit:hover{background:#EDF0F3}
 </style>
 	<?php
 } );
@@ -832,47 +821,141 @@ add_filter( 'woocommerce_checkout_fields', function ( $fields ) {
 } );
 
 /* -------------------------------------------------------------------------
- * Age gate Level 1 (entry): full-screen splash on first visit. Click-to-agree
- * (21+ and research-use-only), remembered for 30 days in the browser.
- * Logged-in users skip it - they have already attested at registration.
+ * Entry gate. A full-screen door on first visit: 21+ and research-use-only,
+ * both confirmed explicitly, remembered for 30 days.
+ *
+ * This is a processor-facing good-faith control. It is NOT the evidence -
+ * the checkout attestation is what records a timestamp, a text version and a
+ * date of birth against the order, and nothing here touches that.
+ *
+ * CLIENT-SIDE ONLY, and deliberately so. The server renders the whole page
+ * underneath; the gate is painted over it after the fact. Crawlers, the COA
+ * library and every education page stay fully indexable, because a gate that
+ * blocked content server-side would take the public batch records offline -
+ * which is the one thing this site exists to publish.
  * ---------------------------------------------------------------------- */
 
 add_action( 'wp_footer', function () {
+	/* Logged-in buyers already attested at checkout; the door is for arrivals. */
 	if ( is_user_logged_in() ) {
 		return;
 	}
 	?>
-	<div id="jp-age-gate" role="dialog" aria-modal="true" aria-labelledby="jp-age-title">
-		<div class="jp-age-card">
-			<h2 id="jp-age-title">Age &amp; research verification</h2>
-			<p>This site sells chemicals supplied <strong>for in vitro research use only</strong>. To enter, confirm that you are <strong>at least 21 years of age</strong> and that you understand these products are <strong>not for human or veterinary use</strong> and are not intended to diagnose, treat, cure, or prevent any disease.</p>
-			<p class="jp-age-fine">By clicking Enter you agree to our <a href="/terms-of-service/">Terms of Service</a> and <a href="/ruo-policy/">RUO Policy</a>. Ordering additionally requires a research account, a per-order attestation, and age verification at checkout.</p>
+	<div id="jp-age-gate" role="dialog" aria-modal="true" aria-labelledby="jp-age-title" hidden>
+		<div class="jp-age-card" role="document">
+			<span class="jp-brand jp-age-brand">
+				<span class="jp-brand-mark" aria-hidden="true"></span>
+				<span class="jp-brand-name">Joyful&nbsp;<em>Peptides</em></span>
+			</span>
+
+			<h2 id="jp-age-title">This site supplies chemicals for laboratory research use only.</h2>
+
+			<div class="jp-age-checks">
+				<!-- The input is nested inside the label, so no for= attribute: nesting
+				     is association enough and carrying both is redundant. -->
+				<label class="jp-age-check">
+					<input type="checkbox" id="jp-age-21">
+					<span>I am 21 years of age or older</span>
+				</label>
+				<label class="jp-age-check">
+					<input type="checkbox" id="jp-age-ruo">
+					<span>I understand these products are for in-vitro research use only &mdash; not for human or veterinary use</span>
+				</label>
+			</div>
+
 			<div class="jp-age-buttons">
-				<button type="button" id="jp-age-enter">I am 21+ and agree &mdash; Enter</button>
-				<button type="button" id="jp-age-exit">Exit</button>
+				<button type="button" id="jp-age-enter" disabled>Enter</button>
+				<button type="button" id="jp-age-leave">Leave</button>
 			</div>
 		</div>
 	</div>
 	<script>
 	(function () {
-		var KEY = 'jpAgeGateOK';
+		var NAME = 'jp_entry_ok';
 		var gate = document.getElementById('jp-age-gate');
 		if (!gate) { return; }
-		try {
-			var saved = JSON.parse(window.localStorage.getItem(KEY) || 'null');
-			if (saved && saved.exp > Date.now()) { gate.remove(); return; }
-		} catch (e) {}
-		document.documentElement.style.overflow = 'hidden';
-		document.getElementById('jp-age-enter').addEventListener('click', function () {
-			try {
-				window.localStorage.setItem(KEY, JSON.stringify({ exp: Date.now() + 30 * 86400000 }));
-			} catch (e) {}
+
+		function hasCookie() {
+			return document.cookie.split('; ').indexOf(NAME + '=1') !== -1;
+		}
+		function setCookie() {
+			var d = new Date();
+			d.setTime(d.getTime() + 30 * 864e5);
+			document.cookie = NAME + '=1; expires=' + d.toUTCString() +
+				'; path=/; SameSite=Lax' + (location.protocol === 'https:' ? '; Secure' : '');
+		}
+
+		if (hasCookie()) { gate.remove(); return; }
+
+		var root  = document.documentElement;
+		var body  = document.body;
+		var c21   = document.getElementById('jp-age-21');
+		var cruo  = document.getElementById('jp-age-ruo');
+		var enter = document.getElementById('jp-age-enter');
+		var leave = document.getElementById('jp-age-leave');
+
+		gate.hidden = false;
+		/* A class, not an inline style. The mini-cart drawer writes
+		   body.style.overflow on its own open/close and was clearing the lock
+		   out from under us - measured: html stayed hidden, body did not. The
+		   class is in the stylesheet and carries !important, so nothing else
+		   scribbling on inline styles can unlock the page. */
+		root.classList.add('jp-gate-open');
+		body.classList.add('jp-gate-open');
+
+		function sync() { enter.disabled = !(c21.checked && cruo.checked); }
+		c21.addEventListener('change', sync);
+		cruo.addEventListener('change', sync);
+		sync();
+
+		enter.addEventListener('click', function () {
+			if (enter.disabled) { return; }
+			setCookie();
 			gate.remove();
-			document.documentElement.style.overflow = '';
+			root.classList.remove('jp-gate-open');
+			body.classList.remove('jp-gate-open');
 		});
-		document.getElementById('jp-age-exit').addEventListener('click', function () {
-			window.location.href = 'https://www.google.com';
+
+		/* Leave actually leaves. */
+		leave.addEventListener('click', function () {
+			window.location.replace('about:blank');
 		});
+
+		/* Focus trap. The gate is the only thing reachable while it is up:
+		   Tab cycles inside it, Escape is swallowed, and focus that escapes by
+		   any other route is pulled back. */
+		var FOCUSABLE = 'input:not([disabled]), button:not([disabled]), a[href]';
+		function items() {
+			return Array.prototype.slice.call(gate.querySelectorAll(FOCUSABLE));
+		}
+		gate.addEventListener('keydown', function (e) {
+			if (e.key === 'Escape' || e.key === 'Esc') {
+				e.preventDefault();
+				e.stopPropagation();
+				return;
+			}
+			if (e.key !== 'Tab') { return; }
+			var f = items();
+			if (!f.length) { return; }
+			var first = f[0], last = f[f.length - 1];
+			if (e.shiftKey && document.activeElement === first) {
+				e.preventDefault(); last.focus();
+			} else if (!e.shiftKey && document.activeElement === last) {
+				e.preventDefault(); first.focus();
+			}
+		});
+		/* focusin, not focus: focus does not bubble, and refocusing
+		   synchronously inside a focus handler is ignored - measured, focus
+		   escaped to the masthead link. Deferring puts it back. */
+		document.addEventListener('focusin', function (e) {
+			if (!gate.contains(e.target)) {
+				window.setTimeout(function () {
+					if (document.body.contains(gate)) { c21.focus(); }
+				}, 0);
+			}
+		});
+
+		c21.focus();
 	})();
 	</script>
 	<?php
