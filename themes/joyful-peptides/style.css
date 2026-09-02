@@ -5001,3 +5001,324 @@ body.jp-gate-open {
 		flex: 1 1 100%;
 	}
 }
+
+/* ==========================================================================
+   Landing page (/research)
+   --------------------------------------------------------------------------
+   Paid traffic, mostly phones. The hero's rules are duplicated inline in
+   inc/landing.php as critical CSS so the first screen paints without waiting
+   for this file; everything from the proof strip down lives here.
+
+   Same tokens as the rest of the site. Nothing here is a new colour.
+   ========================================================================== */
+
+.jp-lp {
+	max-width: 74rem;
+	margin-inline: auto;
+}
+
+/* The brand lockup is a link back to the site root, not body copy. */
+.jp-lp-brand,
+.jp-lp-brand:hover {
+	text-decoration: none;
+	color: var(--jp-ink);
+}
+
+.jp-lp-section {
+	padding: 2.5rem 1.25rem;
+	border-top: 1px solid var(--jp-hairline);
+}
+
+.jp-lp-kicker {
+	margin: 0 0 .5rem;
+	font-family: var(--jp-mono);
+	font-size: .62rem;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+	color: var(--jp-accent);
+}
+
+.jp-lp h2 {
+	margin: 0 0 .75rem;
+	font-family: var(--jp-serif);
+	font-weight: 580;
+	font-size: clamp(1.5rem, 5vw, 2.1rem);
+	line-height: 1.15;
+	text-wrap: balance;
+}
+
+.jp-lp h3 {
+	margin: 0 0 .35rem;
+	font-family: var(--jp-serif);
+	font-weight: 580;
+	font-size: 1.05rem;
+}
+
+.jp-lp p {
+	max-width: var(--jp-measure-body);
+}
+
+.jp-lp-lead {
+	color: var(--jp-muted);
+	margin-bottom: 1.25rem;
+}
+
+/* --- 2. Proof strip ---------------------------------------------------- */
+.jp-lp-proof {
+	background: var(--jp-ground-glow);
+	background-image: var(--jp-glow-band);
+	padding: 1.75rem 1.25rem;
+}
+
+.jp-lp-proof-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 1.1rem;
+}
+
+.jp-lp-proof-list li {
+	display: grid;
+	grid-template-columns: 28px 1fr;
+	grid-template-rows: auto auto;
+	column-gap: .75rem;
+	align-items: start;
+}
+
+.jp-lp-proof-icon {
+	grid-row: 1 / span 2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	color: var(--jp-accent);
+}
+
+/* The icon helper emits a bare <svg> with no dimensions of its own. */
+.jp-lp-proof-icon svg {
+	width: 22px;
+	height: 22px;
+	stroke: currentColor;
+	fill: none;
+}
+
+.jp-lp-proof-list strong {
+	font-family: var(--jp-serif);
+	font-weight: 580;
+	font-size: 1rem;
+}
+
+.jp-lp-proof-list span:not(.jp-lp-proof-icon) {
+	font-size: .88rem;
+	color: var(--jp-muted-on-glow);
+	line-height: 1.5;
+}
+
+/* --- 3. Steps ---------------------------------------------------------- */
+.jp-lp-steps {
+	list-style: none;
+	margin: 0 0 1.5rem;
+	padding: 0;
+	display: grid;
+	gap: 1.25rem;
+}
+
+.jp-lp-steps li {
+	padding-left: 2.6rem;
+	position: relative;
+}
+
+.jp-lp-step-n {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 1.9rem;
+	height: 1.9rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	background: var(--jp-accent);
+	color: #fff;
+	font-family: var(--jp-mono);
+	font-size: .78rem;
+	font-weight: 700;
+}
+
+.jp-lp-steps p {
+	margin: 0;
+	font-size: .93rem;
+	color: var(--jp-muted);
+}
+
+/* The honest-limits note, and the institutional terms block. */
+.jp-lp-note {
+	padding: 1.1rem 1.25rem;
+	background: var(--jp-surface);
+	border: 1px solid var(--jp-hairline);
+	border-radius: var(--jp-radius);
+}
+
+.jp-lp-note p {
+	margin: 0 0 .55rem;
+	font-size: .92rem;
+}
+
+.jp-lp-note p:last-child {
+	margin-bottom: 0;
+}
+
+.jp-lp-terms {
+	list-style: none;
+	margin: .75rem 0 0;
+	padding: 0;
+	display: grid;
+	gap: .4rem;
+	font-size: .92rem;
+}
+
+/* --- 4. COA preview ---------------------------------------------------- */
+.jp-lp-coa-wrap {
+	overflow-x: auto;
+	border: 1px solid var(--jp-hairline);
+	border-radius: var(--jp-radius);
+}
+
+.jp-lp-coa-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: .86rem;
+}
+
+.jp-lp-coa-table th {
+	text-align: left;
+	background: var(--jp-surface);
+	font-weight: 600;
+	padding: .7rem .8rem;
+	white-space: nowrap;
+}
+
+.jp-lp-coa-table td {
+	padding: .7rem .8rem;
+	border-top: 1px solid var(--jp-hairline);
+}
+
+.jp-lp-coa-purity {
+	font-family: var(--jp-mono);
+	font-size: .8rem;
+	color: var(--jp-muted);
+}
+
+.jp-lp-coa-empty {
+	padding: 1.1rem 1.25rem;
+	background: var(--jp-surface);
+	border: 1px solid var(--jp-hairline);
+	border-radius: var(--jp-radius);
+	font-size: .93rem;
+	color: var(--jp-muted);
+}
+
+/* --- 5. Catalog preview ------------------------------------------------ */
+.jp-lp-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--jp-space-12);
+	margin-bottom: 1rem;
+}
+
+@media (min-width: 782px) {
+	.jp-lp-grid {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}
+
+.jp-lp-more {
+	margin: 0;
+	font-size: .9rem;
+}
+
+.jp-lp-more a {
+	color: var(--jp-accent);
+	font-weight: 600;
+}
+
+/* --- 6. RUO ------------------------------------------------------------ */
+.jp-lp-ruo-block p {
+	font-size: .9rem;
+	color: var(--jp-muted);
+	margin: 0 0 .7rem;
+}
+
+.jp-lp-ruo-lead {
+	font-family: var(--jp-mono);
+	font-size: .8rem !important;
+	letter-spacing: .04em;
+	text-transform: uppercase;
+	color: var(--jp-ink) !important;
+}
+
+.jp-lp-fine {
+	font-size: .8rem !important;
+	line-height: 1.55;
+}
+
+/* --- 7. FAQ ------------------------------------------------------------ */
+.jp-lp-faq details {
+	border-top: 1px solid var(--jp-hairline);
+	padding: .85rem 0;
+}
+
+.jp-lp-faq details:last-child {
+	border-bottom: 1px solid var(--jp-hairline);
+}
+
+.jp-lp-faq summary {
+	cursor: pointer;
+	font-weight: 600;
+	font-size: .95rem;
+	min-height: var(--jp-touch-min);
+	display: flex;
+	align-items: center;
+}
+
+.jp-lp-faq p {
+	margin: .5rem 0 0;
+	font-size: .92rem;
+	color: var(--jp-muted);
+}
+
+/* --- 8. Final CTA ------------------------------------------------------ */
+.jp-lp-final {
+	padding: 2.5rem 1.25rem 3rem;
+	background: var(--jp-ground-glow);
+	background-image: var(--jp-glow-band);
+	border-top: 1px solid var(--jp-hairline);
+}
+
+.jp-lp-final h2 {
+	margin-bottom: .5rem;
+}
+
+.jp-lp-final p {
+	color: var(--jp-muted-on-glow);
+	margin: 0 0 1.25rem;
+}
+
+@media (min-width: 782px) {
+	.jp-lp-section,
+	.jp-lp-proof,
+	.jp-lp-final {
+		padding-inline: 2rem;
+	}
+
+	.jp-lp-proof-list {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1.75rem;
+	}
+
+	.jp-lp-steps {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}

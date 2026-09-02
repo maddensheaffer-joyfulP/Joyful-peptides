@@ -840,6 +840,21 @@ add_action( 'wp_footer', function () {
 	if ( is_user_logged_in() ) {
 		return;
 	}
+
+	/* The /research landing page is exempt, and only that page.
+	   It is paid-traffic entry: a visitor arriving from an ad has not chosen
+	   this site yet, and a door thrown up before they have read a sentence
+	   costs the click without telling them anything. The page itself sells
+	   nothing - it carries the RUO statement, the terms of sale and the age
+	   condition in plain text, and every route off it leads somewhere the gate
+	   still guards. The gate fires the moment they click through to the shop or
+	   a product, which is the first point at which buying is possible.
+
+	   The checkout attestation is untouched and remains the record of evidence.
+	   Documented in HANDOFF.md. */
+	if ( function_exists( 'jp_is_landing' ) && jp_is_landing() ) {
+		return;
+	}
 	?>
 	<div id="jp-age-gate" role="dialog" aria-modal="true" aria-labelledby="jp-age-title" aria-describedby="jp-age-checks" hidden>
 		<div class="jp-age-card" role="document">
