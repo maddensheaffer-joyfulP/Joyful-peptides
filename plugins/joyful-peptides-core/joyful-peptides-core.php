@@ -841,7 +841,7 @@ add_action( 'wp_footer', function () {
 		return;
 	}
 	?>
-	<div id="jp-age-gate" role="dialog" aria-modal="true" aria-labelledby="jp-age-title" hidden>
+	<div id="jp-age-gate" role="dialog" aria-modal="true" aria-labelledby="jp-age-title" aria-describedby="jp-age-checks" hidden>
 		<div class="jp-age-card" role="document">
 			<span class="jp-brand jp-age-brand">
 				<span class="jp-brand-mark" aria-hidden="true"></span>
@@ -850,7 +850,7 @@ add_action( 'wp_footer', function () {
 
 			<h2 id="jp-age-title">This site supplies chemicals for laboratory research use only.</h2>
 
-			<div class="jp-age-checks">
+			<div class="jp-age-checks" id="jp-age-checks">
 				<!-- The input is nested inside the label, so no for= attribute: nesting
 				     is association enough and carrying both is redundant. -->
 				<label class="jp-age-check">
@@ -914,6 +914,19 @@ add_action( 'wp_footer', function () {
 			gate.remove();
 			root.classList.remove('jp-gate-open');
 			body.classList.remove('jp-gate-open');
+			releaseBackdrop();
+			/* Land on the content, not back on <body>: a keyboard or screen
+			   reader user carries on from the top of the page they just
+			   unlocked. tabindex is removed again so it never becomes a tab
+			   stop of its own. */
+			var landing = document.querySelector('main') ||
+				document.querySelector('.wp-site-blocks') || body;
+			landing.setAttribute('tabindex', '-1');
+			landing.focus({ preventScroll: true });
+			landing.addEventListener('blur', function handler() {
+				landing.removeAttribute('tabindex');
+				landing.removeEventListener('blur', handler);
+			});
 		});
 
 		/* Leave actually leaves. */
@@ -955,7 +968,42 @@ add_action( 'wp_footer', function () {
 			}
 		});
 
-		c21.focus();
+		/* While the door is shut, the page behind it is not there as far as
+		   assistive tech is concerned. Without this a screen-reader user can
+		   still browse the whole document with a virtual cursor - the visual
+		   overlay means nothing to them, and aria-modal alone is not honoured
+		   everywhere. inert also removes it from the tab order, which backs up
+		   the keydown trap rather than replacing it. */
+		var backdropped = [];
+		Array.prototype.forEach.call(document.body.children, function (el) {
+			if (el === gate || el.tagName === 'SCRIPT' || el.tagName === 'STYLE') { return; }
+			backdropped.push([el, el.getAttribute('aria-hidden')]);
+			el.setAttribute('aria-hidden', 'true');
+			el.inert = true;
+		});
+		function releaseBackdrop() {
+			backdropped.forEach(function (pair) {
+				if (pair[1] === null) { pair[0].removeAttribute('aria-hidden'); }
+				else { pair[0].setAttribute('aria-hidden', pair[1]); }
+				pair[0].inert = false;
+			});
+			backdropped = [];
+		}
+
+		/* Focus has to be re-asserted, not just set once. This script runs while
+		   the document is still parsing, and the browser hands focus back to
+		   <body> when loading finishes - measured: the gate opened with focus on
+		   body and the first checkbox never received it. Setting it again after
+		   paint and after load survives that. */
+		function focusFirst() {
+			if (document.body.contains(gate) && !gate.contains(document.activeElement)) {
+				c21.focus();
+			}
+		}
+		focusFirst();
+		requestAnimationFrame(function () { requestAnimationFrame(focusFirst); });
+		document.addEventListener('DOMContentLoaded', focusFirst);
+		window.addEventListener('load', focusFirst);
 	})();
 	</script>
 	<?php
