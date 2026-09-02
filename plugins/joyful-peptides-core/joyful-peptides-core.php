@@ -612,22 +612,43 @@ function jp_batch_coa_url( $batch_number ) {
 }
 
 /* Public lookup table: put [jp_coa_library] on any page. */
-add_shortcode( 'jp_coa_library', function () {
+/**
+ * [jp_coa_library] - the full public batch table.
+ *
+ * Takes ONE attribute:
+ *   limit  integer, default 0 (no limit). [jp_coa_library limit="4"]
+ *
+ * It previously took none at all, silently, so a limit passed to it did
+ * nothing and looked like it worked. If you want a short preview with a
+ * certificate-gated row filter, use jp_landing_coa_preview() instead - this
+ * shortcode lists every published batch whether or not a COA file exists.
+ */
+add_shortcode( 'jp_coa_library', function ( $atts ) {
+	$atts  = shortcode_atts( array( 'limit' => 0 ), $atts, 'jp_coa_library' );
+	$limit = max( 0, (int) $atts['limit'] );
+
 	$batches = get_posts( array(
 		'post_type'      => 'jp_batch',
 		'post_status'    => 'publish',
-		'posts_per_page' => -1,
+		'posts_per_page' => $limit > 0 ? $limit : -1,
 		'orderby'        => 'date',
 		'order'          => 'DESC',
 	) );
 
 	ob_start();
 
-	echo '<div class="jp-coa-filter"><label for="jp-coa-search" class="screen-reader-text">Filter by batch number or product</label>';
-	echo '<input type="text" id="jp-coa-search" placeholder="Type a batch number or product name to filter&hellip;" /></div>';
+	/* The filter is only drawn when there is something to filter. A search box
+	   over an empty table invites the visitor to look for a record that cannot
+	   be there. */
+	if ( $batches ) {
+		echo '<div class="jp-coa-filter"><label for="jp-coa-search" class="screen-reader-text">Filter by batch number or product</label>';
+		echo '<input type="text" id="jp-coa-search" placeholder="Type a batch number or product name to filter&hellip;" /></div>';
+	}
 
 	if ( ! $batches ) {
-		echo '<p>No batch records have been published yet.</p>';
+		/* States the position and what will change it. No apology, no
+		   placeholder row, and nothing that looks like a record. */
+		echo '<p class="jp-coa-empty">No batches published yet. Every batch we ship will appear here with its certificate.</p>';
 	} else {
 		echo '<div class="jp-coa-table-wrap"><table class="jp-coa-table" id="jp-coa-table">';
 		echo '<thead><tr><th>Batch</th><th>Product</th><th>Test date</th><th>Lab</th><th>Result</th><th>Purity</th><th>COA</th></tr></thead><tbody>';

@@ -5322,3 +5322,15 @@ body.jp-gate-open {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 }
+
+/* The COA library with nothing in it yet. Reads as a statement of position,
+   not as a broken table. */
+.jp-coa-empty {
+	padding: var(--jp-space-24);
+	background: var(--jp-surface);
+	border: 1px solid var(--jp-hairline);
+	border-radius: var(--jp-radius);
+	font-size: .95rem;
+	color: var(--jp-muted);
+	max-width: var(--jp-measure-body);
+}
